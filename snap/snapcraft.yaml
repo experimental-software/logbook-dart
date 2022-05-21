@@ -1,0 +1,31 @@
+name: logbook
+version: 0.0.4
+summary: TBD
+description: TBD
+
+confinement: devmode
+base: core18
+grade: stable
+
+plugs:
+  file-system-access:
+    interface: system-files
+    read:
+      - /home
+      - /tmp
+    write:
+      - /home
+      - /tmp
+
+apps:
+  logbook:
+    command: logbook
+    extensions: [flutter-stable]
+    plugs:
+      - file-system-access
+
+parts:
+  logbook:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart

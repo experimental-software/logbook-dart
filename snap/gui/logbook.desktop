@@ -1,0 +1,7 @@
+[Desktop Entry]
+Icon=${SNAP}/meta/gui/logo.png
+Exec=logbook
+Version=0.0.4
+Type=Application
+Name=Engineering Logbook
+Terminal=false
