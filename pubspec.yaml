@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  system: ^1.0.0
   test: ^1.21.1
 
 dev_dependencies:

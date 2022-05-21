@@ -1,6 +1,8 @@
 import 'package:engineering_logbook/core/log_entry.dart';
 import 'package:flutter/material.dart';
 
+import 'util/system.dart';
+
 void main() => runApp(const EngineeringLogbookApp());
 
 class EngineeringLogbookApp extends StatelessWidget {
@@ -122,16 +124,16 @@ class _HomepageState extends State<Homepage> {
     ];
 
     return matchingLogEntries
-        .map((p) => DataRow(
+        .map((logEntry) => DataRow(
               onSelectChanged: (_) {},
               cells: [
                 DataCell(SizedBox(
                   width: widthDateTimeColumn,
-                  child: Text(p.dateTime.toIso8601String()),
+                  child: Text(logEntry.dateTime.toIso8601String()),
                 )),
                 DataCell(SizedBox(
                   width: widthTitleColumn,
-                  child: Text(p.title),
+                  child: Text(logEntry.title),
                 )),
                 DataCell(
                   SizedBox(
@@ -140,15 +142,21 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.edit),
-                            onPressed: () {},
+                            onPressed: () {
+                              System.openInEditor("/tmp");
+                            },
                           ),
                           IconButton(
                             icon: const Icon(Icons.folder),
-                            onPressed: () {},
+                            onPressed: () {
+                              System.openInExplorer("/tmp");
+                            },
                           ),
                           IconButton(
                             icon: const Icon(Icons.copy),
-                            onPressed: () {},
+                            onPressed: () {
+                              System.copyToClipboard("/tmp");
+                            },
                           ),
                           const SizedBox(width: 30),
                           IconButton(
