@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:engineering_logbook/core/log_entry.dart';
+import 'package:engineering_logbook/core/search.dart';
 import 'package:flutter/material.dart';
 
 import 'util/system.dart';
@@ -27,6 +30,14 @@ class _HomepageState extends State<Homepage> {
   final TextEditingController _searchTermController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
+  late Future<List<LogEntry>> _logEntries;
+
+  @override
+  void initState() {
+    _logEntries = search(Directory('/Users/jmewes/doc/Notizen'), '');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +53,20 @@ class _HomepageState extends State<Homepage> {
           children: [
             _buildSearchRow(),
             const SizedBox(height: 20),
-            _buildLogEntryTable(),
+            FutureBuilder<List<LogEntry>>(
+                future: _logEntries,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return _buildLogEntryTable(snapshot.data!);
+                  } else {
+                    return const SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  // TODO Handle error case
+                }),
           ],
         ),
       ),
@@ -72,7 +96,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _buildLogEntryTable() {
+  Widget _buildLogEntryTable(List<LogEntry> logEntries) {
     return Flexible(
       child: Row(
         children: [
@@ -97,7 +121,7 @@ class _HomepageState extends State<Homepage> {
                       label: Text('Actions'),
                     ),
                   ],
-                  rows: _buildTableRows(context),
+                  rows: _buildTableRows(context, logEntries),
                 ),
               ),
             ),
@@ -107,23 +131,17 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  List<DataRow> _buildTableRows(BuildContext context) {
+  List<DataRow> _buildTableRows(
+    BuildContext context,
+    List<LogEntry> logEntries,
+  ) {
     var deviceInfo = MediaQuery.of(context);
     const widthDateTimeColumn = 220.0;
     const widthActionsColumn = 400.0;
     final widthTitleColumn =
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
 
-    var matchingLogEntries = <LogEntry>[
-      LogEntry(
-          dateTime: DateTime.now(),
-          title:
-              "Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 "),
-      LogEntry(dateTime: DateTime.now(), title: "Beispiel 2"),
-      LogEntry(dateTime: DateTime.now(), title: "Beispiel 3"),
-    ];
-
-    return matchingLogEntries
+    return logEntries
         .map((logEntry) => DataRow(
               onSelectChanged: (_) {},
               cells: [
