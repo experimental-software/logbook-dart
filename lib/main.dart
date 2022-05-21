@@ -32,8 +32,13 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
-    _logEntries = search(System.baseDir, '');
+    _updateLogEntryList();
     super.initState();
+  }
+
+  void _updateLogEntryList() {
+    _logEntries = search(System.baseDir, _searchTermController.text);
+    setState(() {});
   }
 
   @override
@@ -52,19 +57,18 @@ class _HomepageState extends State<Homepage> {
             _buildSearchRow(),
             const SizedBox(height: 20),
             FutureBuilder<List<LogEntry>>(
-                future: _logEntries,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return _buildLogEntryTable(snapshot.data!);
-                  } else {
-                    return const SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  // TODO Handle error case
-                }),
+              future: _logEntries,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.hasData) {
+                  return _buildLogEntryTable(snapshot.data!);
+                } else {
+                  return _buildLogEntryTable([]);
+                }
+              }
+            ),
           ],
         ),
       ),
@@ -85,7 +89,10 @@ class _HomepageState extends State<Homepage> {
                 hintText: 'Search log entries...',
                 suffixIcon: Icon(Icons.search),
               ),
-              onChanged: (value) async {},
+              onSubmitted: (query) {
+                _updateLogEntryList();
+                setState(() {});
+              },
               autofocus: true,
             ),
           ),

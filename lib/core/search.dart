@@ -30,7 +30,9 @@ Future<List<LogEntry>> search(Directory dir, String query) async {
             continue;
           }
           final title = line.substring(2);
-          result.add(LogEntry(title: title, dateTime: dateTime));
+          if (isSearchResult(title, query)) {
+            result.add(LogEntry(title: title, dateTime: dateTime));
+          }
           break;
         }
       }
@@ -39,7 +41,7 @@ Future<List<LogEntry>> search(Directory dir, String query) async {
   return result;
 }
 
-bool match(String text, String query) {
+bool isSearchResult(String text, String query) {
   if (query.trim() == '') {
     return true;
   }
