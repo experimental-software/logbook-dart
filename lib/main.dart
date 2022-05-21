@@ -1,3 +1,4 @@
+import 'package:engineering_logbook/core/log_entry.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const EngineeringLogbookApp());
@@ -22,6 +23,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final TextEditingController _searchTermController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +39,15 @@ class _HomepageState extends State<Homepage> {
         child: Column(
           children: [
             _buildSearchRow(),
+            const SizedBox(height: 20),
+            _buildLogEntryTable(),
           ],
         ),
       ),
     );
   }
 
-  Row _buildSearchRow() {
+  Widget _buildSearchRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -66,9 +70,103 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
+  Widget _buildLogEntryTable() {
+    return Flexible(
+      child: Row(
+        children: [
+          Expanded(
+            child: Scrollbar(
+              thumbVisibility: true,
+              thickness: 8,
+              controller: _scrollController,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                controller: _scrollController,
+                child: DataTable(
+                  showCheckboxColumn: false,
+                  columns: const <DataColumn>[
+                    DataColumn(
+                      label: Text('Date/Time'),
+                    ),
+                    DataColumn(
+                      label: Text('Titel'),
+                    ),
+                    DataColumn(
+                      label: Text('Actions'),
+                    ),
+                  ],
+                  rows: _buildTableRows(context),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<DataRow> _buildTableRows(BuildContext context) {
+    var deviceInfo = MediaQuery.of(context);
+    const widthDateTimeColumn = 220.0;
+    const widthActionsColumn = 400.0;
+    final widthTitleColumn =
+        deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
+
+    var matchingLogEntries = <LogEntry>[
+      LogEntry(
+          dateTime: DateTime.now(),
+          title:
+              "Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 Beispiel 1 "),
+      LogEntry(dateTime: DateTime.now(), title: "Beispiel 2"),
+      LogEntry(dateTime: DateTime.now(), title: "Beispiel 3"),
+    ];
+
+    return matchingLogEntries
+        .map((p) => DataRow(
+              onSelectChanged: (_) {},
+              cells: [
+                DataCell(SizedBox(
+                  width: widthDateTimeColumn,
+                  child: Text(p.dateTime.toIso8601String()),
+                )),
+                DataCell(SizedBox(
+                  width: widthTitleColumn,
+                  child: Text(p.title),
+                )),
+                DataCell(
+                  SizedBox(
+                      width: widthActionsColumn,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.folder),
+                            onPressed: () {},
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () {},
+                          ),
+                          const SizedBox(width: 30),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {},
+                          ),
+                        ],
+                      )),
+                ),
+              ],
+            ))
+        .toList();
+  }
+
   @override
   void dispose() {
     _searchTermController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 }
