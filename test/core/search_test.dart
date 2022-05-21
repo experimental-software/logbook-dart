@@ -1,17 +1,18 @@
 import 'dart:io';
 
 import 'package:engineering_logbook/core/search.dart';
+import 'package:engineering_logbook/util/system.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('should find log entries', () async {
-    var result = await search(Directory('/Users/jmewes/doc/Notizen'), "*");
+    var result = await search(System.baseDir, "*");
 
     for (var logEntry in result) {
       print('${logEntry.dateTime.toIso8601String()} - ${logEntry.title}');
     }
 
-    //expect(results, isNotEmpty);
+    expect(result, isNotEmpty);
   });
 
   group('match', () {
@@ -30,6 +31,12 @@ void main() {
     test('false for unknown word', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = 'blue';
+      expect(match(s, q), equals(false));
+    });
+
+    test('false for non-alphabetic query', () {
+      const s = 'The brown fox jumps over the lazy dog.';
+      const q = '*';
       expect(match(s, q), equals(false));
     });
 

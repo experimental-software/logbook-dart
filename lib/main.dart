@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:engineering_logbook/core/log_entry.dart';
 import 'package:engineering_logbook/core/search.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +32,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
-    _logEntries = search(Directory('/Users/jmewes/doc/Notizen'), '');
+    _logEntries = search(System.baseDir, '');
     super.initState();
   }
 

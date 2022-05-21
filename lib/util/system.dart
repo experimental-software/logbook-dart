@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:system/system.dart' as sys;
 
@@ -14,5 +16,15 @@ class System {
 
   static void copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
+  }
+
+  static Directory get baseDir {
+    if (Platform.isMacOS) {
+      return Directory('/Users/jmewes/doc/Notizen');
+    }
+    if (Platform.isLinux) {
+      return Directory('/home/janux/doc/Notizen');
+    }
+    throw "Unsupported OS: ${Platform.operatingSystem}";
   }
 }
