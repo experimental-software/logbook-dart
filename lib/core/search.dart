@@ -63,11 +63,11 @@ bool isSearchResult(String text, String query) {
   }
   final normalizedText = text.toLowerCase();
   final normalizedQuery = query.toLowerCase();
-  var words = normalizedQuery.split(" ");
-  for (var word in words) {
-    if (normalizedText.contains(word)) {
-      return true;
+  var queryTokens = normalizedQuery.split(' ');
+  for (var token in queryTokens) {
+    if (!normalizedText.contains(token)) {
+      return false;
     }
   }
-  return false;
+  return true;
 }
