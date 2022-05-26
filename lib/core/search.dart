@@ -8,14 +8,25 @@ Future<List<LogEntry>> search(Directory dir, String query) async {
   final result = <LogEntry>[];
   Stream<FileSystemEntity> entityList = dir.list(recursive: true);
   await for (FileSystemEntity entity in entityList) {
-    if (entity.path.endsWith("index.md")) {
+    if (!entity.path.endsWith('.md')) {
+      continue;
+    }
+    var parentDirectoryName = entity.parent.path;
+    final timeAndSlugMatcher = RegExp(r'.*/\d{2}.\d{2}_(.*)');
+    var timeAndSlugMatch = timeAndSlugMatcher.firstMatch(parentDirectoryName);
+    if (timeAndSlugMatch == null) {
+      continue;
+    }
+    var slug = timeAndSlugMatch.group(1)!;
+
+    if (entity.path.endsWith('index.md') || entity.path.endsWith('$slug.md')) {
       final file = File(entity.path);
       Stream<String> lines = file
           .openRead()
           .transform(utf8.decoder)
           .transform(const LineSplitter());
       await for (var line in lines) {
-        if (line.startsWith("# ")) {
+        if (line.startsWith('# ')) {
           final regex = RegExp(r'.*(\d{4})/(\d{2})/(\d{2})/(\d{2})\.(\d{2}).*');
           final match = regex.firstMatch(entity.path);
           late DateTime dateTime;

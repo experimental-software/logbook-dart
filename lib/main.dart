@@ -3,6 +3,7 @@ import 'package:engineering_logbook/core/search.dart';
 import 'package:flutter/material.dart';
 
 import 'util/system.dart';
+import 'widgets/create_log_dialog.dart';
 
 void main() => runApp(const EngineeringLogbookApp());
 
@@ -13,6 +14,7 @@ class EngineeringLogbookApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Homepage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -46,7 +48,10 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(title: const Text('Engineering Logbook')),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          await _showCreateLogDialog(context);
+          _updateLogEntryList();
+        },
         tooltip: 'Add log entry',
         child: const Icon(Icons.add),
       ),
@@ -192,6 +197,13 @@ class _HomepageState extends State<Homepage> {
               ],
             ))
         .toList();
+  }
+
+  // TODO Does this work without the "context" argument?
+  Future<void> _showCreateLogDialog(BuildContext context) async {
+    await showDialog(context: context, builder: (context) {
+      return const CreateLogDialog();
+    });
   }
 
   @override
