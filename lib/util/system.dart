@@ -7,11 +7,17 @@ class System {
   System._();
 
   static void openInExplorer(String directory) {
-    sys.System.invoke("open $directory");
+    sys.System.invoke('open $directory');
   }
 
   static void openInEditor(String directory) {
-    sys.System.invoke("atom $directory");
+    if (Platform.isMacOS) {
+      sys.System.invoke(
+          '/Applications/Atom.app/Contents/MacOS/atom $directory');
+    }
+    if (Platform.isLinux) {
+      sys.System.invoke('atom $directory');
+    }
   }
 
   static void copyToClipboard(String text) {
@@ -19,7 +25,7 @@ class System {
   }
 
   static Future<void> delete(String file) async {
-     await File(file).delete(recursive: true);
+    await File(file).delete(recursive: true);
   }
 
   static Directory get baseDir {
@@ -29,6 +35,6 @@ class System {
     if (Platform.isLinux) {
       return Directory('/home/janux/doc/Notizen');
     }
-    throw "Unsupported OS: ${Platform.operatingSystem}";
+    throw 'Unsupported OS: ${Platform.operatingSystem}';
   }
 }

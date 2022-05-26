@@ -1,5 +1,15 @@
 # Engineering Logbook
 
+## Usage
+
+### macOS
+
+**Run with console output**
+
+```
+/Applications/engineering_logbook.app/Contents/MacOS/engineering_logbook
+```
+
 ## Maintenance
 
 ### Build
