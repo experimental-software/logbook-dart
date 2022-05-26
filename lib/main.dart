@@ -197,14 +197,14 @@ class _HomepageState extends State<Homepage> {
                                     'Do you really want to delete this log entry?\n\n${logEntry.directory}'),
                                 actions: <Widget>[
                                   TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context),
+                                    onPressed: () => Navigator.pop(context),
                                     child: const Text('Cancel'),
                                   ),
                                   TextButton(
-                                    onPressed: () async {
-                                      await System.delete(logEntry.directory);
-                                      _updateLogEntryList();
+                                    onPressed: () {
+                                      logEntries.remove(logEntry);
+                                      setState(() {});
+                                      System.delete(logEntry.directory);
                                       Navigator.pop(context);
                                     },
                                     child: const Text('OK'),
