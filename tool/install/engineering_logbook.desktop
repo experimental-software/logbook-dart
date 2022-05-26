@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Engineering Logbook
+Icon=/home/janux/.local/share/ExperimentalSoftware/icons/test-tube.png
+Exec=/home/janux/bin/engineering_logbook/engineering_logbook
+Version=1.0
+Type=Application
+Terminal=false
