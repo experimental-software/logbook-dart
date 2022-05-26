@@ -18,6 +18,10 @@ class System {
     Clipboard.setData(ClipboardData(text: text));
   }
 
+  static Future<void> delete(String file) async {
+     await File(file).delete(recursive: true);
+  }
+
   static Directory get baseDir {
     if (Platform.isMacOS) {
       return Directory('/Users/jmewes/doc/Notizen');

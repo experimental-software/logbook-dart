@@ -171,25 +171,28 @@ class _HomepageState extends State<Homepage> {
                           IconButton(
                             icon: const Icon(Icons.edit),
                             onPressed: () {
-                              System.openInEditor("/tmp");
+                              System.openInEditor(logEntry.directory);
                             },
                           ),
                           IconButton(
                             icon: const Icon(Icons.folder),
                             onPressed: () {
-                              System.openInExplorer("/tmp");
+                              System.openInExplorer(logEntry.directory);
                             },
                           ),
                           IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {
-                              System.copyToClipboard("/tmp");
+                              System.copyToClipboard(logEntry.directory);
                             },
                           ),
                           const SizedBox(width: 30),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () {},
+                            onPressed: () async {
+                              await System.delete(logEntry.directory);
+                              _updateLogEntryList();
+                            },
                           ),
                         ],
                       )),
