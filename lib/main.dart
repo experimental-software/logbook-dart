@@ -47,6 +47,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Engineering Logbook')),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await _showCreateLogDialog(context);
@@ -72,7 +73,7 @@ class _HomepageState extends State<Homepage> {
                 } else {
                   return _buildLogEntryTable([]);
                 }
-              }
+              },
             ),
           ],
         ),
@@ -147,7 +148,7 @@ class _HomepageState extends State<Homepage> {
   ) {
     var deviceInfo = MediaQuery.of(context);
     const widthDateTimeColumn = 220.0;
-    const widthActionsColumn = 400.0;
+    const widthActionsColumn = 360.0;
     final widthTitleColumn =
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
 
@@ -186,13 +187,31 @@ class _HomepageState extends State<Homepage> {
                               System.copyToClipboard(logEntry.directory);
                             },
                           ),
-                          const SizedBox(width: 30),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () async {
-                              await System.delete(logEntry.directory);
-                              _updateLogEntryList();
-                            },
+                            onPressed: () => showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text('Confirmation'),
+                                content: Text(
+                                    'Do you really want to delete this log entry?\n\n${logEntry.directory}'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      await System.delete(logEntry.directory);
+                                      _updateLogEntryList();
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       )),
@@ -204,9 +223,11 @@ class _HomepageState extends State<Homepage> {
 
   // TODO Does this work without the "context" argument?
   Future<void> _showCreateLogDialog(BuildContext context) async {
-    await showDialog(context: context, builder: (context) {
-      return const CreateLogDialog();
-    });
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return const CreateLogDialog();
+        });
   }
 
   @override
