@@ -158,7 +158,7 @@ class _HomepageState extends State<Homepage> {
               cells: [
                 DataCell(SizedBox(
                   width: widthDateTimeColumn,
-                  child: Text(logEntry.dateTime.toIso8601String()),
+                  child: Text(_formatTime(logEntry.dateTime)),
                 )),
                 DataCell(SizedBox(
                   width: widthTitleColumn,
@@ -236,4 +236,14 @@ class _HomepageState extends State<Homepage> {
     _scrollController.dispose();
     super.dispose();
   }
+}
+
+String _formatTime(DateTime t) {
+  var year = t.year.toString();
+  var month = t.month.toString().padLeft(2, '0');
+  var day = t.day.toString().padLeft(2, '0');
+  var hour = t.hour.toString().padLeft(2, '0');
+  var minute = t.minute.toString().padLeft(2, '0');
+
+  return '$year-$month-$day $hour:$minute';
 }
