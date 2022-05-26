@@ -38,6 +38,7 @@ Future<List<LogEntry>> search(Directory dir, String query) async {
       }
     }
   }
+  result.sort((a, b) => b.dateTime.compareTo(a.dateTime));
   return result;
 }
 
