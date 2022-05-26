@@ -18,8 +18,9 @@ Future<LogEntry> createLogEntry({
   var hour = now.hour.toString().padLeft(2, '0');
   var minute = now.minute.toString().padLeft(2, '0');
 
-  var logEntryPath =
-      '${baseDir.path}/$year/$month/$day/$hour.${minute}_$slug/$slug.md';
+  var logEntryDirectory =
+      '${baseDir.path}/$year/$month/$day/$hour.${minute}_$slug';
+  var logEntryPath = '$logEntryDirectory/$slug.md';
 
   var logEntryFile = await File(logEntryPath).create(recursive: true);
   var sink = logEntryFile.openWrite();
@@ -29,7 +30,7 @@ Future<LogEntry> createLogEntry({
   await sink.flush();
   await sink.close();
 
-  return LogEntry(dateTime: now, title: title);
+  return LogEntry(dateTime: now, title: title, directory: logEntryDirectory);
 }
 
 String slugify(String s) {

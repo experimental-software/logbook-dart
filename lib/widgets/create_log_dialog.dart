@@ -1,10 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../core/writer.dart';
 
 class CreateLogDialog extends StatefulWidget {
-
-  const CreateLogDialog({Key? key})
-      : super(key: key);
+  const CreateLogDialog({Key? key}) : super(key: key);
 
   @override
   State<CreateLogDialog> createState() => _CreateLogDialogState();
@@ -73,7 +74,11 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
             var title = _titleController.text;
             var description = _descriptionController.text;
 
-            await createLogEntry(title: title, description: description);
+            var logEntry = await createLogEntry(
+              title: title,
+              description: description,
+            );
+            Clipboard.setData(ClipboardData(text: logEntry.directory));
 
             Navigator.pop(context);
           },

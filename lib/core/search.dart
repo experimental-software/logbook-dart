@@ -42,7 +42,11 @@ Future<List<LogEntry>> search(Directory dir, String query) async {
           }
           final title = line.substring(2);
           if (isSearchResult(title, query)) {
-            result.add(LogEntry(title: title, dateTime: dateTime));
+            result.add(LogEntry(
+              title: title,
+              dateTime: dateTime,
+              directory: entity.parent.path,
+            ));
           }
           break;
         }
