@@ -6,11 +6,11 @@ import 'package:system/system.dart' as sys;
 class System {
   System._();
 
-  static void openInExplorer(String directory) {
+  static Future<void> openInExplorer(String directory) async {
     sys.System.invoke('open $directory');
   }
 
-  static void openInEditor(String directory) {
+  static Future<void> openInEditor(String directory) async {
     if (Platform.isMacOS) {
       sys.System.invoke(
           '/Applications/Atom.app/Contents/MacOS/atom $directory');
@@ -20,7 +20,7 @@ class System {
     }
   }
 
-  static void copyToClipboard(String text) {
+  static Future<void> copyToClipboard(String text) async {
     Clipboard.setData(ClipboardData(text: text));
   }
 
