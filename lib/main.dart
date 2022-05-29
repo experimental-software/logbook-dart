@@ -32,6 +32,8 @@ class _HomepageState extends State<Homepage> {
 
   late Future<List<LogEntry>> _logEntries;
 
+  final Set<LogEntry> _markedForDeletion = {};
+
   @override
   void initState() {
     _updateLogEntryList();
@@ -121,14 +123,28 @@ class _HomepageState extends State<Homepage> {
                 controller: _scrollController,
                 child: DataTable(
                   showCheckboxColumn: false,
-                  columns: const <DataColumn>[
+                  columns: <DataColumn>[
                     DataColumn(
+                      label: _markedForDeletion.isNotEmpty ? IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          for (var logEntry in _markedForDeletion) {
+                            logEntries.remove(logEntry);
+                            System.delete(logEntry.directory);
+                          }
+                          _markedForDeletion.clear();
+                          _updateLogEntryList();
+                          setState(() {});
+                        },
+                      ) : const Text(''),
+                    ),
+                    const DataColumn(
                       label: Text('Date/Time'),
                     ),
-                    DataColumn(
+                    const DataColumn(
                       label: Text('Titel'),
                     ),
-                    DataColumn(
+                    const DataColumn(
                       label: Text('Actions'),
                     ),
                   ],
@@ -148,7 +164,7 @@ class _HomepageState extends State<Homepage> {
   ) {
     var deviceInfo = MediaQuery.of(context);
     const widthDateTimeColumn = 220.0;
-    const widthActionsColumn = 360.0;
+    const widthActionsColumn = 400.0;
     final widthTitleColumn =
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
 
@@ -156,6 +172,16 @@ class _HomepageState extends State<Homepage> {
         .map((logEntry) => DataRow(
               onSelectChanged: (_) {},
               cells: [
+                DataCell(
+                  MarkDeletedCheckbox(
+                    key: ValueKey(logEntry.dateTime),
+                    markedForDeletion: _markedForDeletion,
+                    logEntry: logEntry,
+                    notifyParent: () {
+                      setState(() {});
+                    },
+                  ),
+                ),
                 DataCell(SizedBox(
                   width: widthDateTimeColumn,
                   child: Text(_formatTime(logEntry.dateTime)),
@@ -186,32 +212,6 @@ class _HomepageState extends State<Homepage> {
                             onPressed: () {
                               System.copyToClipboard(logEntry.directory);
                             },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () => showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                title: const Text('Confirmation'),
-                                content: Text(
-                                    'Do you really want to delete this log entry?\n\n${logEntry.directory}'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      logEntries.remove(logEntry);
-                                      setState(() {});
-                                      System.delete(logEntry.directory);
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ),
-                            ),
                           ),
                         ],
                       )),
@@ -246,4 +246,50 @@ String _formatTime(DateTime t) {
   var minute = t.minute.toString().padLeft(2, '0');
 
   return '$year-$month-$day $hour:$minute';
+}
+
+class MarkDeletedCheckbox extends StatefulWidget {
+  final LogEntry logEntry;
+  final Set<LogEntry> markedForDeletion;
+  final Function notifyParent;
+
+  const MarkDeletedCheckbox({
+    Key? key,
+    required this.markedForDeletion,
+    required this.logEntry,
+    required this.notifyParent,
+  }) : super(
+          key: key,
+        );
+
+  @override
+  State<MarkDeletedCheckbox> createState() => _MarkDeletedCheckboxState();
+}
+
+class _MarkDeletedCheckboxState extends State<MarkDeletedCheckbox> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      key: ValueKey(widget.logEntry.dateTime.toIso8601String()),
+      value: isChecked,
+      onChanged: (bool? value) {
+        if (value == null) {
+          return;
+        }
+
+        if (value) {
+          widget.markedForDeletion.add(widget.logEntry);
+        } else {
+          widget.markedForDeletion.remove(widget.logEntry);
+        }
+
+        setState(() {
+          isChecked = value;
+          widget.notifyParent();
+        });
+      },
+    );
+  }
 }
