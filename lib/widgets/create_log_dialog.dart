@@ -1,8 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../core/writer.dart';
+import '../util/system.dart';
 
 class CreateLogDialog extends StatefulWidget {
   const CreateLogDialog({Key? key}) : super(key: key);
@@ -14,6 +14,9 @@ class CreateLogDialog extends StatefulWidget {
 class _CreateLogDialogState extends State<CreateLogDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
+  bool shouldOpenEditor = true;
+  bool shouldOpenDirectory = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,33 +60,76 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
 
   Widget _buildButtons() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.teal,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancel'),
+        Row(
+          children: [
+            Row(
+              children: [
+                Checkbox(
+                  value: shouldOpenEditor,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      shouldOpenEditor = value!;
+                    });
+                  },
+                ),
+                const Text('Open editor'),
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: shouldOpenDirectory,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      shouldOpenDirectory = value!;
+                    });
+                  },
+                ),
+                const Text('Open directory'),
+              ],
+            ),
+          ],
         ),
-        const SizedBox(width: 15),
-        ElevatedButton(
-          onPressed: () async {
-            var title = _titleController.text;
-            var description = _descriptionController.text;
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.teal,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            const SizedBox(width: 15),
+            ElevatedButton(
+              onPressed: () {
+                var title = _titleController.text;
+                var description = _descriptionController.text;
 
-            var logEntry = await createLogEntry(
-              title: title,
-              description: description,
-            );
-            Clipboard.setData(ClipboardData(text: logEntry.directory));
+                createLogEntry(
+                  title: title,
+                  description: description,
+                ).then((logEntry) {
+                  Clipboard.setData(ClipboardData(text: logEntry.directory));
 
-            Navigator.pop(context);
-          },
-          child: const Text('Save'),
-        )
+                  if (shouldOpenEditor) {
+                    System.openInEditor(logEntry.directory);
+                  }
+                  if (shouldOpenDirectory) {
+                    System.openDirectory(logEntry.directory);
+                  }
+                });
+
+                Navigator.pop(context);
+              },
+              child: const Text('Save'),
+            )
+          ],
+        ),
       ],
     );
   }

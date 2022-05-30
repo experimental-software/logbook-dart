@@ -204,7 +204,7 @@ class _HomepageState extends State<Homepage> {
                           IconButton(
                             icon: const Icon(Icons.folder),
                             onPressed: () {
-                              System.openInExplorer(logEntry.directory);
+                              System.openDirectory(logEntry.directory);
                             },
                           ),
                           IconButton(

@@ -6,14 +6,14 @@ import 'package:system/system.dart' as sys;
 class System {
   System._();
 
-  static Future<void> openInExplorer(String directory) async {
+  static Future<void> openDirectory(String directory) async {
     sys.System.invoke('open $directory');
   }
 
   static Future<void> openInEditor(String directory) async {
     if (Platform.isMacOS) {
       sys.System.invoke(
-          '/Applications/Atom.app/Contents/MacOS/atom $directory');
+          '/Applications/Atom.app/Contents/MacOS/atom $directory &');
     }
     if (Platform.isLinux) {
       sys.System.invoke('atom $directory');
