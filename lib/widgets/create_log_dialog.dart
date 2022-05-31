@@ -106,11 +106,11 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
             ),
             const SizedBox(width: 15),
             ElevatedButton(
-              onPressed: () async {
+              onPressed: () {
                 var title = _titleController.text;
                 var description = _descriptionController.text;
 
-                await createLogEntry(
+                createLogEntry(
                   title: title,
                   description: description,
                 ).then((logEntry) {
@@ -122,9 +122,9 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   if (shouldOpenDirectory) {
                     System.openDirectory(logEntry.directory);
                   }
+                }).then((_) {
+                  Navigator.pop(context);
                 });
-
-                Navigator.pop(context);
               },
               child: const Text('Save'),
             )
