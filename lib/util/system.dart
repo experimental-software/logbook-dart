@@ -32,6 +32,12 @@ class System {
     final Directory archivedDirectory = Directory(archivedDirectoryPath);
     await archivedDirectory.create(recursive: true);
     await Directory(directory).rename(archivedDirectoryPath);
+
+    final Directory originalDirectory = Directory(directory);
+    final Directory originalParentDirectory = originalDirectory.parent;
+    if (await originalParentDirectory.list().isEmpty) {
+      await originalParentDirectory.delete();
+    }
   }
 
   static Directory get baseDir {
