@@ -12,8 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_markdown: ^0.6.10+2
   system: ^1.0.0
   test: ^1.21.1
+  url_launcher: ^6.1.2
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:logbook/core/log_entry.dart';
 import 'package:logbook/core/search.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/details/index.dart';
 import 'util/system.dart';
 import 'widgets/create_log_dialog.dart';
 
@@ -205,7 +206,22 @@ class _HomepageState extends State<Homepage> {
 
     return logEntries
         .map((logEntry) => DataRow(
-              onSelectChanged: (_) {},
+              onSelectChanged: (value) {
+                if (value == null || !value) {
+                  return;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailsPage(
+                      logEntry: logEntry,
+                      notifyParent: () {
+                        _updateLogEntryList();
+                      },
+                    ),
+                  ),
+                );
+              },
               cells: [
                 DataCell(
                   MarkDeletedCheckbox(

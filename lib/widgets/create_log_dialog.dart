@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:logbook/pages/details/index.dart';
 
 import '../core/writer.dart';
 import '../util/system.dart';
@@ -15,7 +16,8 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  bool shouldOpenEditor = true;
+  bool shouldOpenDetails = true;
+  bool shouldOpenEditor = false;
   bool shouldOpenDirectory = false;
 
   @override
@@ -64,6 +66,19 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
       children: [
         Row(
           children: [
+            Row(
+              children: [
+                Checkbox(
+                  value: shouldOpenDetails,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      shouldOpenDetails = value!;
+                    });
+                  },
+                ),
+                const Text('Open details'),
+              ],
+            ),
             Row(
               children: [
                 Checkbox(
@@ -119,11 +134,23 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   if (shouldOpenEditor) {
                     System.openInEditor(logEntry.directory);
                   }
+
                   if (shouldOpenDirectory) {
                     System.openDirectory(logEntry.directory);
                   }
-                }).then((_) {
+
                   Navigator.pop(context);
+
+                  if (shouldOpenDetails) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailsPage(
+                          logEntry: logEntry,
+                        ),
+                      ),
+                    );
+                  }
                 });
               },
               child: const Text('Save'),
