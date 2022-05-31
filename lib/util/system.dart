@@ -24,8 +24,14 @@ class System {
     Clipboard.setData(ClipboardData(text: text));
   }
 
-  static Future<void> delete(String file) async {
-    await File(file).delete(recursive: true);
+  static Future<void> archive(String directory) async {
+    var archivedDirectoryPath = directory.replaceFirst(
+      baseDir.path,
+      archiveDir.path,
+    );
+    final Directory archivedDirectory = Directory(archivedDirectoryPath);
+    await archivedDirectory.create(recursive: true);
+    await Directory(directory).rename(archivedDirectoryPath);
   }
 
   static Directory get baseDir {
@@ -34,6 +40,16 @@ class System {
     }
     if (Platform.isLinux) {
       return Directory('/home/janux/doc/Notizen');
+    }
+    throw 'Unsupported OS: ${Platform.operatingSystem}';
+  }
+
+  static Directory get archiveDir {
+    if (Platform.isMacOS) {
+      return Directory('/Users/jmewes/doc/Archiv');
+    }
+    if (Platform.isLinux) {
+      return Directory('/home/janux/doc/Archiv');
     }
     throw 'Unsupported OS: ${Platform.operatingSystem}';
   }

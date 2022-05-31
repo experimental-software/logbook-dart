@@ -41,7 +41,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   void _updateLogEntryList() {
-    _logEntries = search(System.baseDir, _searchTermController.text);
+    _logEntries = search(System.baseDir, _searchTermController.text.trim());
     setState(() {});
   }
 
@@ -127,14 +127,13 @@ class _HomepageState extends State<Homepage> {
                     DataColumn(
                       label: _markedForDeletion.isNotEmpty ? IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () {
+                        onPressed: () async {
                           for (var logEntry in _markedForDeletion) {
                             logEntries.remove(logEntry);
-                            System.delete(logEntry.directory);
+                            await System.archive(logEntry.directory);
                           }
                           _markedForDeletion.clear();
                           _updateLogEntryList();
-                          setState(() {});
                         },
                       ) : const Text(''),
                     ),
