@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:engineering_logbook/core/search.dart';
-import 'package:engineering_logbook/util/system.dart';
+import 'package:logbook/core/search.dart';
+import 'package:logbook/util/system.dart';
 import 'package:test/test.dart';
 
 void main() {

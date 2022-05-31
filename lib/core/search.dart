@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:engineering_logbook/core/log_entry.dart';
+import 'package:logbook/core/log_entry.dart';
 
 Future<List<LogEntry>> search(Directory dir, String query) async {
   final result = <LogEntry>[];

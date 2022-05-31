@@ -4,8 +4,8 @@ set -e
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-INSTALLED_APP_PATH=/Applications/engineering_logbook.app
-BUILT_APP_PATH=./build/macos/Build/Products/Release/engineering_logbook.app
+INSTALLED_APP_PATH=/Applications/logbook.app
+BUILT_APP_PATH=./build/macos/Build/Products/Release/logbook.app
 
 function create_backup() {
   if [[ -d $INSTALLED_APP_PATH ]]; then

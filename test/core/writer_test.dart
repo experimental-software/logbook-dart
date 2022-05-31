@@ -1,4 +1,4 @@
-import 'package:engineering_logbook/core/writer.dart';
+import 'package:logbook/core/writer.dart';
 import 'package:test/test.dart';
 
 void main() {

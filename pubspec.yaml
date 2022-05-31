@@ -1,7 +1,7 @@
-name: engineering_logbook
+name: logbook
 description: Note taking utility for software engineers.
 
-publish_to: 'none' 
+publish_to: 'none'
 
 version: 1.0.0+1
 

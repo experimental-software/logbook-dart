@@ -1,4 +1,21 @@
-# Engineering Logbook
+# Logbook
+
+The logbook project provides a desktop application for chronological note taking.
+
+## Introduction
+
+### Unique value proposition
+
+- The simplicity of the tool enables maximum focus on subject to be worked on.
+- Supports work which requires intensive learning on the job.
+
+### Alternative projects
+
+- [Engineering Notebook](http://www.bookfactory.com/engineering-notebooks/engineering-notebooks.html)
+- [QOwnNote](https://www.qownnotes.org)
+- [Emacs OrgMode](https://orgmode.org)
+- [Evernote](https://evernote.com)
+- [Roam Research](https://roamresearch.com)
 
 ## Usage
 
@@ -7,7 +24,7 @@
 **Run with console output**
 
 ```
-/Applications/engineering_logbook.app/Contents/MacOS/engineering_logbook
+/Applications/logbook.app/Contents/MacOS/logbook
 ```
 
 ## Maintenance
@@ -27,4 +44,5 @@ find . -name "*.app"
 - https://github.com/bonddim/action-lxd-init
 - https://github.com/whywaita/setup-lxd
 - https://github.com/marketplace/actions/upload-files-to-a-github-release
+
 

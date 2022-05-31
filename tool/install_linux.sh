@@ -5,14 +5,14 @@ set -e
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 function create_backup() {
-  if [[ -d ~/bin/engineering_logbook ]]; then
-    mv ~/bin/engineering_logbook ~/bin/engineering_logbook.bak
+  if [[ -d ~/bin/logbook ]]; then
+    mv ~/bin/logbook ~/bin/logbook.bak
   fi
 }
 
 function delete_backup() {
-  if [[ -d ~/bin/engineering_logbook.bak ]]; then
-    rm -rf ~/bin/engineering_logbook.bak
+  if [[ -d ~/bin/logbook.bak ]]; then
+    rm -rf ~/bin/logbook.bak
   fi
 }
 
@@ -24,12 +24,12 @@ create_backup
 cd $SCRIPT_DIR/..
 flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
 flutter build linux
-cp -r ./build/linux/x64/release/bundle ~/bin/engineering_logbook
+cp -r ./build/linux/x64/release/bundle ~/bin/logbook
 
 # Create desktop entry
 mkdir -p ~/.local/share/ExperimentalSoftware/icons || echo ""
 cp $SCRIPT_DIR/resources/test-tube.png ~/.local/share/ExperimentalSoftware/icons/
-cp $SCRIPT_DIR/resources/engineering_logbook.desktop ~/.local/share/applications/
+cp $SCRIPT_DIR/resources/logbook.desktop ~/.local/share/applications/
 
 # Remove backup files
 delete_backup
@@ -40,5 +40,5 @@ echo "-------------------------------------------------------------"
 echo "Created installation"
 echo "-------------------------------------------------------------"
 echo
-cat ~/.local/share/applications/engineering_logbook.desktop
+cat ~/.local/share/applications/logbook.desktop
 echo

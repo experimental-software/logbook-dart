@@ -1,14 +1,14 @@
-import 'package:engineering_logbook/core/log_entry.dart';
-import 'package:engineering_logbook/core/search.dart';
+import 'package:logbook/core/log_entry.dart';
+import 'package:logbook/core/search.dart';
 import 'package:flutter/material.dart';
 
 import 'util/system.dart';
 import 'widgets/create_log_dialog.dart';
 
-void main() => runApp(const EngineeringLogbookApp());
+void main() => runApp(const LogbookApp());
 
-class EngineeringLogbookApp extends StatelessWidget {
-  const EngineeringLogbookApp({Key? key}) : super(key: key);
+class LogbookApp extends StatelessWidget {
+  const LogbookApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
