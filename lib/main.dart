@@ -129,8 +129,13 @@ class _HomepageState extends State<Homepage> {
                               icon: const Icon(Icons.delete),
                               onPressed: () async {
                                 for (var logEntry in _markedForDeletion) {
-                                  logEntries.remove(logEntry);
-                                  await System.archive(logEntry.directory);
+                                  try {
+                                    await System.archive(logEntry.directory);
+                                    logEntries.remove(logEntry);
+                                  } catch (e) {
+                                    _showErrorDialog(context, e);
+                                    rethrow;
+                                  }
                                 }
                                 _markedForDeletion.clear();
                                 _updateLogEntryList();
@@ -155,6 +160,36 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _showErrorDialog(BuildContext context, Object e) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: SingleChildScrollView(
+            child: TextFormField(
+              initialValue: e.toString(),
+              keyboardType: TextInputType.multiline,
+              maxLines: 10,
+              minLines: 10,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Continue'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -24,16 +24,19 @@ class System {
     Clipboard.setData(ClipboardData(text: text));
   }
 
-  static Future<void> archive(String directory) async {
-    var archivedDirectoryPath = directory.replaceFirst(
+  static Future<void> archive(String originalDirectoryPath) async {
+    final Directory originalDirectory = Directory(originalDirectoryPath);
+    if (!originalDirectory.existsSync()) {
+      return;
+    }
+    var archivedDirectoryPath = originalDirectoryPath.replaceFirst(
       baseDir.path,
       archiveDir.path,
     );
     final Directory archivedDirectory = Directory(archivedDirectoryPath);
     await archivedDirectory.create(recursive: true);
-    await Directory(directory).rename(archivedDirectoryPath);
+    await originalDirectory.rename(archivedDirectoryPath);
 
-    final Directory originalDirectory = Directory(directory);
     final Directory originalParentDirectory = originalDirectory.parent;
     if (await originalParentDirectory.list().isEmpty) {
       await originalParentDirectory.delete();
