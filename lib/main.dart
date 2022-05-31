@@ -49,7 +49,6 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Engineering Logbook')),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await _showCreateLogDialog(context);
@@ -125,17 +124,19 @@ class _HomepageState extends State<Homepage> {
                   showCheckboxColumn: false,
                   columns: <DataColumn>[
                     DataColumn(
-                      label: _markedForDeletion.isNotEmpty ? IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () async {
-                          for (var logEntry in _markedForDeletion) {
-                            logEntries.remove(logEntry);
-                            await System.archive(logEntry.directory);
-                          }
-                          _markedForDeletion.clear();
-                          _updateLogEntryList();
-                        },
-                      ) : const Text(''),
+                      label: _markedForDeletion.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () async {
+                                for (var logEntry in _markedForDeletion) {
+                                  logEntries.remove(logEntry);
+                                  await System.archive(logEntry.directory);
+                                }
+                                _markedForDeletion.clear();
+                                _updateLogEntryList();
+                              },
+                            )
+                          : const Text(''),
                     ),
                     const DataColumn(
                       label: Text('Date/Time'),
@@ -223,10 +224,11 @@ class _HomepageState extends State<Homepage> {
   // TODO Does this work without the "context" argument?
   Future<void> _showCreateLogDialog(BuildContext context) async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return const CreateLogDialog();
-        });
+      context: context,
+      builder: (context) {
+        return const CreateLogDialog();
+      },
+    );
   }
 
   @override

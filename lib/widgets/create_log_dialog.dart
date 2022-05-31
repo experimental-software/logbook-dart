@@ -106,11 +106,11 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
             ),
             const SizedBox(width: 15),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 var title = _titleController.text;
                 var description = _descriptionController.text;
 
-                createLogEntry(
+                await createLogEntry(
                   title: title,
                   description: description,
                 ).then((logEntry) {
