@@ -19,7 +19,7 @@ Future<List<LogEntry>> search(Directory dir, String query) async {
     }
     var slug = timeAndSlugMatch.group(1)!;
 
-    if (entity.path.endsWith('index.md') || entity.path.endsWith('$slug.md')) {
+    if (entity.path.endsWith('$slug.md')) {
       final file = File(entity.path);
       Stream<String> lines = file
           .openRead()
