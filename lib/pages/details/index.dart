@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:logbook/core/log_entry.dart';
+import 'package:logbook/pages/details/create_note_dialog.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../util/system.dart';
@@ -114,8 +115,10 @@ class _DetailsPageState extends State<DetailsPage> {
     return Row(
       children: [
         ElevatedButton(
-          onPressed: _fetchData,
-          child: const Text('Reload'),
+          onPressed: () async {
+            await _showCreateNoteDialog(context);
+          },
+          child: const Text('Add note'),
         ),
         const SizedBox(width: 20),
         ElevatedButton(
@@ -138,6 +141,11 @@ class _DetailsPageState extends State<DetailsPage> {
           },
           child: const Text('Copy to clipboard'),
         ),
+        const SizedBox(width: 20),
+        ElevatedButton(
+          onPressed: _fetchData,
+          child: const Text('Reload'),
+        ),
         const SizedBox(width: 500),
         ElevatedButton(
           onPressed: () {
@@ -157,6 +165,15 @@ class _DetailsPageState extends State<DetailsPage> {
       context: context,
       builder: (context) {
         return CreateLogDialog(notifyParent: widget.notifyParent);
+      },
+    );
+  }
+
+  Future<void> _showCreateNoteDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return CreateNoteDialog(parent: widget.logEntry);
       },
     );
   }
