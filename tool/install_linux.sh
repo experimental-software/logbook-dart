@@ -16,14 +16,18 @@ function delete_backup() {
   fi
 }
 
+if [[ ! -d ~/bin ]]; then
+  mkdir ~/bin
+fi
+
 # Clear existing installation
 delete_backup
 create_backup
 
 # Compile binaries
 cd $SCRIPT_DIR/..
-flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
-flutter build linux
+fvm flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
+fvm flutter build linux
 cp -r ./build/linux/x64/release/bundle ~/bin/logbook
 
 # Create desktop entry
