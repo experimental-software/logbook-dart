@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:logbook/core/search.dart';
 import 'package:logbook/util/system.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('should find log entries', () async {
-    var result = await search(System.baseDir, "test");
+    var result = await search(System.baseDir, 'test');
 
     for (var logEntry in result) {
       print('${logEntry.dateTime.toIso8601String()} - ${logEntry.title}');

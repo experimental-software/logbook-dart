@@ -263,7 +263,9 @@ class _HomepageState extends State<Homepage> {
     await showDialog(
       context: context,
       builder: (context) {
-        return const CreateLogDialog();
+        return CreateLogDialog(notifyParent: () {
+          _updateLogEntryList();
+        });
       },
     );
   }
