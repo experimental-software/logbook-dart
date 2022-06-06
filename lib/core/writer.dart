@@ -37,19 +37,27 @@ Future<Directory> createNoteEntry({
   required String title,
   required String description,
   required Directory baseDir,
+  required bool shouldGenerateId,
 }) async {
-  var now = DateTime.now();
-
   var slug = slugify(title);
 
-  var year = now.year.toString();
-  var month = now.month.toString().padLeft(2, '0');
-  var day = now.day.toString().padLeft(2, '0');
-  var hour = now.hour.toString().padLeft(2, '0');
-  var minute = now.minute.toString().padLeft(2, '0');
+  int numberOfDirectoriesInParent = 0;
+  final Directory parentDirectory = Directory(baseDir.path);
+  for (var f in parentDirectory.listSync()) {
+    var name = f.path.split('/').last;
+    if (!name.contains('.')) {
+      numberOfDirectoriesInParent++;
+    }
+  }
 
-  var noteEntryDirectory =
-      '${baseDir.path}/$year-$month-$day-$hour.${minute}_$slug';
+  late String noteEntryDirectory;
+  if (shouldGenerateId) {
+    var id = (numberOfDirectoriesInParent + 1).toString().padLeft(3, '0');
+    noteEntryDirectory = '${baseDir.path}/${id}_$slug';
+  } else {
+    noteEntryDirectory = '${baseDir.path}/$slug';
+  }
+
   var logEntryPath = '$noteEntryDirectory/index.md';
 
   var logEntryFile = await File(logEntryPath).create(recursive: true);
