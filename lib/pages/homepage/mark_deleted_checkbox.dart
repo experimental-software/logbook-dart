@@ -13,8 +13,8 @@ class MarkDeletedCheckbox extends StatefulWidget {
     required this.logEntry,
     required this.notifyParent,
   }) : super(
-    key: key,
-  );
+          key: key,
+        );
 
   @override
   State<MarkDeletedCheckbox> createState() => _MarkDeletedCheckboxState();
