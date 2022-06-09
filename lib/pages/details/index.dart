@@ -176,6 +176,7 @@ class _DetailsPageState extends State<DetailsPage> {
       builder: (context) {
         return CreateNoteDialog(parent: widget.logEntry);
       },
+      barrierDismissible: false,
     );
   }
 }
