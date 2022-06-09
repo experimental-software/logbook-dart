@@ -267,6 +267,7 @@ class _HomepageState extends State<Homepage> {
           _updateLogEntryList();
         });
       },
+      barrierDismissible: false,
     );
   }
 

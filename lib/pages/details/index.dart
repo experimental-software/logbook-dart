@@ -166,6 +166,7 @@ class _DetailsPageState extends State<DetailsPage> {
       builder: (context) {
         return CreateLogDialog(notifyParent: widget.notifyParent);
       },
+      barrierDismissible: false,
     );
   }
 
