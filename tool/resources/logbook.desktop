@@ -5,3 +5,9 @@ Exec=/home/janux/bin/logbook/logbook
 Version=1.0
 Type=Application
 Terminal=false
+Actions=new-instance;
+
+[Desktop Action new-instance]
+Name=New instance
+Exec=/home/janux/bin/logbook/logbook
+Icon=/home/janux/.local/share/ExperimentalSoftware/icons/test-tube.png
