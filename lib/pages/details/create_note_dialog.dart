@@ -29,7 +29,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Text('Add log entry'),
+      title: const Text('Add note to log entry'),
       children: [
         SizedBox(
           width: 900,
