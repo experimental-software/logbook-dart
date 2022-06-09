@@ -16,7 +16,7 @@ class System {
           '/Applications/Atom.app/Contents/MacOS/atom $directory &');
     }
     if (Platform.isLinux) {
-      sys.System.invoke('atom $directory');
+      sys.System.invoke('code $directory');
     }
   }
 
