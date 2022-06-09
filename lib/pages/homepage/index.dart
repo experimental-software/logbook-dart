@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/log_entry.dart';
 import '../../core/search.dart';
 import '../../util/system.dart';
-import '../../widgets/create_log_dialog.dart';
+import 'create_log_dialog.dart';
 import '../details/index.dart';
 import 'mark_deleted_checkbox.dart';
 

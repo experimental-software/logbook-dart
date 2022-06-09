@@ -7,7 +7,7 @@ import 'package:logbook/pages/details/create_note_dialog.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../util/system.dart';
-import '../../widgets/create_log_dialog.dart';
+import '../homepage/create_log_dialog.dart';
 
 class DetailsPage extends StatefulWidget {
   final LogEntry logEntry;
