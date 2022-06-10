@@ -11,7 +11,7 @@ The logbook project provides a desktop application for chronological note taking
 
 ### Alternative projects
 
-- [Engineering Notebook](http://www.bookfactory.com/engineering-notebooks/engineering-notebooks.html)
+- [Engineering Notebook](https://www.youtube.com/watch?v=xaFqpd7lNM4)
 - [QOwnNote](https://www.qownnotes.org)
 - [Emacs OrgMode](https://orgmode.org)
 - [Evernote](https://evernote.com)
