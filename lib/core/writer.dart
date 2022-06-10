@@ -52,8 +52,8 @@ Future<Directory> createNoteEntry({
 
   late String noteEntryDirectory;
   if (shouldGenerateId) {
-    var id = (numberOfDirectoriesInParent + 1).toString().padLeft(3, '0');
-    noteEntryDirectory = '${baseDir.path}/${id}_$slug';
+    var id = (numberOfDirectoriesInParent + 1).toString().padLeft(2, '0');
+    noteEntryDirectory = '${baseDir.path}/${id}0_$slug';
   } else {
     noteEntryDirectory = '${baseDir.path}/$slug';
   }
