@@ -13,7 +13,7 @@ class System {
   static Future<void> openInEditor(String directory) async {
     if (Platform.isMacOS) {
       sys.System.invoke(
-          '/Applications/Atom.app/Contents/MacOS/atom $directory &');
+          '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron $directory &');
     }
     if (Platform.isLinux) {
       sys.System.invoke('code $directory');
