@@ -50,10 +50,10 @@ void main() {
       expect(isSearchResult(s, q), equals(true));
     });
 
-    test('true for known and unknown word', () {
+    test('false for known and unknown word', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = 'cat fox';
-      expect(isSearchResult(s, q), equals(true));
+      expect(isSearchResult(s, q), equals(false));
     });
   });
 }
