@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logbook/pages/details/index.dart';
 import 'package:routemaster/routemaster.dart';
 
 import '../core/log_entry.dart';

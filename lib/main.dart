@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:logbook/pages/details/index.dart';
 import 'package:routemaster/routemaster.dart';
@@ -13,9 +11,8 @@ final routes = RouteMap(
     '/': (_) => const MaterialPage(child: Homepage()),
     '/log-entry/:dir': (info) {
       return MaterialPage(
-          child: AsyncDetailsPage(
-            encodedDir: info.pathParameters['dir']!),
-          );
+        child: AsyncDetailsPage(encodedDir: info.pathParameters['dir']!),
+      );
     },
   },
 );

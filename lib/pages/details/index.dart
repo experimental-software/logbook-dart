@@ -116,15 +116,19 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: !canGoBack ? null : () {
-                  Routemaster.of(context).history.back();
-              },
+              onPressed: !canGoBack
+                  ? null
+                  : () {
+                      Routemaster.of(context).history.back();
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward),
-              onPressed: !canGoForward ? null : () {
-                Routemaster.of(context).history.forward();
-              },
+              onPressed: !canGoForward
+                  ? null
+                  : () {
+                      Routemaster.of(context).history.forward();
+                    },
             ),
           ],
         ),

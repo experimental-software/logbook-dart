@@ -50,16 +50,16 @@ Future<LogEntry> open(Directory dir) async {
           }
           final title = line.substring(2);
           return LogEntry(
-              title: title,
-              dateTime: dateTime,
-              directory: entity.parent.path,
-            );
-          }
-          break;
+            title: title,
+            dateTime: dateTime,
+            directory: entity.parent.path,
+          );
         }
+        break;
       }
     }
-    throw 'Failed to find log entry in dir';
+  }
+  throw 'Failed to find log entry in dir';
 }
 
 String encodePath(String path) {
