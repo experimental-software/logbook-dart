@@ -60,7 +60,34 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Row(
+          children: [
+            const SizedBox(width: 10),
+            IconButton(
+              icon: const Icon(Icons.list),
+              onPressed: () {
+                print('Button pressed.');
+              },
+            ),
+            // const SizedBox(width: 20),
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                print('Button pressed.');
+              },
+            ),
+            // const SizedBox(width: 20),
+            IconButton(
+              icon: const Icon(Icons.arrow_forward),
+              onPressed: () {
+                print('Button pressed.');
+              },
+            ),
+          ],
+
+        ),
         title: Text(widget.logEntry.title),
+        leadingWidth: 150,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
