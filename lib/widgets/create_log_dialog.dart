@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logbook/pages/details/index.dart';
+import 'package:routemaster/routemaster.dart';
 
+import '../core/log_entry.dart';
 import '../core/writer.dart';
 import '../util/system.dart';
 
@@ -133,7 +135,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                 createLogEntry(
                   title: title,
                   description: description,
-                ).then((logEntry) {
+                ).then((logEntry) async {
                   Clipboard.setData(ClipboardData(text: logEntry.directory));
 
                   if (shouldOpenEditor) {
@@ -147,15 +149,19 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   Navigator.pop(context);
 
                   if (shouldOpenDetails) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailsPage(
-                          logEntry: logEntry,
-                          notifyParent: widget.notifyParent,
-                        ),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => DetailsPage(
+                    //       logEntry: logEntry,
+                    //       notifyParent: widget.notifyParent,
+                    //     ),
+                    //   ),
+                    // );
+                    var dir = encodePath(logEntry.directory);
+                    print("hello: ${dir}");
+
+                    Routemaster.of(context).push('/log-entry/$dir');
                   }
                 });
               },

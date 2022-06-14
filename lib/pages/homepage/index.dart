@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../../core/log_entry.dart';
 import '../../core/search.dart';
@@ -35,8 +38,37 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+    var canGoBack = Routemaster.of(context).history.canGoBack;
+    var canGoForward = Routemaster.of(context).history.canGoForward;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Engineering Logbook')),
+      appBar: AppBar(
+        title: const Text('Engineering Logbook'),
+        leadingWidth: 150,
+        leading: Row(
+          children: [
+            const SizedBox(width: 10),
+            const IconButton(
+              icon: Icon(Icons.list),
+              onPressed: null,
+            ),
+            // const SizedBox(width: 20),
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: !canGoBack ? null : () {
+                Routemaster.of(context).history.back();
+              },
+            ),
+            // const SizedBox(width: 20),
+            IconButton(
+              icon: const Icon(Icons.arrow_forward),
+              onPressed: !canGoForward ? null : () {
+                Routemaster.of(context).history.forward();
+              },
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await _showCreateLogDialog(context);
@@ -197,17 +229,19 @@ class _HomepageState extends State<Homepage> {
                 if (value == null || !value) {
                   return;
                 }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailsPage(
-                      logEntry: logEntry,
-                      notifyParent: () {
-                        _updateLogEntryList();
-                      },
-                    ),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => DetailsPage(
+                //       logEntry: logEntry,
+                //       notifyParent: () {
+                //         _updateLogEntryList();
+                //       },
+                //     ),
+                //   ),
+                // );
+                var dir = encodePath(logEntry.directory);
+                Routemaster.of(context).push('/log-entry/$dir');
               },
               cells: [
                 DataCell(

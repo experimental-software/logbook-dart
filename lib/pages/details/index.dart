@@ -1,13 +1,85 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:logbook/core/log_entry.dart';
 import 'package:logbook/pages/details/create_note_dialog.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../util/system.dart';
 import '../../widgets/create_log_dialog.dart';
+
+class AsyncDetailsPageWrapper extends StatelessWidget {
+  final String encodedDir;
+
+  const AsyncDetailsPageWrapper({required this.encodedDir, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (context) {
+        return AsyncDetailsPage(encodedDir: encodedDir);
+      }
+    );
+  }
+}
+
+
+class AsyncDetailsPage extends StatefulWidget {
+  final String encodedDir;
+
+  AsyncDetailsPage({required this.encodedDir}) : super(key: UniqueKey()) {
+    print("AsyncDetailsPage");
+  }
+
+  @override
+  State<AsyncDetailsPage> createState() => _AsyncDetailsPageState();
+
+
+}
+
+class _AsyncDetailsPageState extends State<AsyncDetailsPage> {
+  late Future<LogEntry> _logEntry;
+
+  @override
+  void initState() {
+    print("Init state");
+    _fetchData();
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    print("didChangeDeps");
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<LogEntry>(
+      future: _logEntry,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return DetailsPage(logEntry: snapshot.data!, notifyParent: () {});
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  void _fetchData() async {
+
+    var path = utf8.decode(base64.decode(widget.encodedDir));
+    var dir = Directory(path);
+    print("fetching data: $dir");
+
+    _logEntry = open(dir);
+    setState(() {});
+  }
+}
 
 class DetailsPage extends StatefulWidget {
   final LogEntry logEntry;
@@ -58,6 +130,9 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var canGoBack = Routemaster.of(context).history.canGoBack;
+    var canGoForward = Routemaster.of(context).history.canGoForward;
+
     return Scaffold(
       appBar: AppBar(
         leading: Row(
@@ -66,25 +141,24 @@ class _DetailsPageState extends State<DetailsPage> {
             IconButton(
               icon: const Icon(Icons.list),
               onPressed: () {
-                print('Button pressed.');
+                Routemaster.of(context).push('/');
               },
             ),
             // const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                print('Button pressed.');
+              onPressed: !canGoBack ? null : () {
+                  Routemaster.of(context).history.back();
               },
             ),
             // const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.arrow_forward),
-              onPressed: () {
-                print('Button pressed.');
+              onPressed: !canGoForward ? null : () {
+                Routemaster.of(context).history.forward();
               },
             ),
           ],
-
         ),
         title: Text(widget.logEntry.title),
         leadingWidth: 150,
