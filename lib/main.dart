@@ -28,6 +28,7 @@ class LogbookApp extends StatelessWidget {
     return MaterialApp.router(
       routerDelegate: RoutemasterDelegate(routesBuilder: (context) => routes),
       routeInformationParser: const RoutemasterParser(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

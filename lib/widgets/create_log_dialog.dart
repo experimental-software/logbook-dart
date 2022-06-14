@@ -137,7 +137,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   title: title,
                   description: description,
                 ).then((logEntry) async {
-                  buttonClickedTimes.value = buttonClickedTimes.value + 1;
+                  newLogEntryAdded.value = newLogEntryAdded.value + 1;
 
                   Clipboard.setData(ClipboardData(text: logEntry.directory));
 
@@ -152,18 +152,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   Navigator.pop(context);
 
                   if (shouldOpenDetails) {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => DetailsPage(
-                    //       logEntry: logEntry,
-                    //       notifyParent: widget.notifyParent,
-                    //     ),
-                    //   ),
-                    // );
                     var dir = encodePath(logEntry.directory);
-                    print("hello: ${dir}");
-
                     Routemaster.of(context).push('/log-entry/$dir');
                   }
                 });

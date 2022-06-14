@@ -114,14 +114,12 @@ class _DetailsPageState extends State<DetailsPage> {
                 Routemaster.of(context).push('/');
               },
             ),
-            // const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: !canGoBack ? null : () {
                   Routemaster.of(context).history.back();
               },
             ),
-            // const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.arrow_forward),
               onPressed: !canGoForward ? null : () {

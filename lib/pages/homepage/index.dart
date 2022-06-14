@@ -7,7 +7,7 @@ import '../../util/system.dart';
 import '../../widgets/create_log_dialog.dart';
 import 'mark_deleted_checkbox.dart';
 
-ValueNotifier<int> buttonClickedTimes = ValueNotifier(0);
+ValueNotifier<int> newLogEntryAdded = ValueNotifier(0);
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
-    buttonClickedTimes.addListener(() {
+    newLogEntryAdded.addListener(() {
       _updateLogEntryList();
     });
 
@@ -55,7 +55,6 @@ class _HomepageState extends State<Homepage> {
               icon: Icon(Icons.list),
               onPressed: null,
             ),
-            // const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: !canGoBack
@@ -64,7 +63,6 @@ class _HomepageState extends State<Homepage> {
                       Routemaster.of(context).history.back();
                     },
             ),
-            // const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.arrow_forward),
               onPressed: !canGoForward
@@ -236,17 +234,6 @@ class _HomepageState extends State<Homepage> {
                 if (value == null || !value) {
                   return;
                 }
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => DetailsPage(
-                //       logEntry: logEntry,
-                //       notifyParent: () {
-                //         _updateLogEntryList();
-                //       },
-                //     ),
-                //   ),
-                // );
                 var dir = encodePath(logEntry.directory);
                 Routemaster.of(context).push('/log-entry/$dir');
               },
