@@ -11,33 +11,13 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../util/system.dart';
 import '../../widgets/create_log_dialog.dart';
 
-class AsyncDetailsPageWrapper extends StatelessWidget {
-  final String encodedDir;
-
-  const AsyncDetailsPageWrapper({required this.encodedDir, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return AsyncDetailsPage(encodedDir: encodedDir);
-      }
-    );
-  }
-}
-
-
 class AsyncDetailsPage extends StatefulWidget {
   final String encodedDir;
 
-  AsyncDetailsPage({required this.encodedDir}) : super(key: UniqueKey()) {
-    print("AsyncDetailsPage");
-  }
+  AsyncDetailsPage({required this.encodedDir}) : super(key: UniqueKey());
 
   @override
   State<AsyncDetailsPage> createState() => _AsyncDetailsPageState();
-
-
 }
 
 class _AsyncDetailsPageState extends State<AsyncDetailsPage> {
@@ -45,15 +25,8 @@ class _AsyncDetailsPageState extends State<AsyncDetailsPage> {
 
   @override
   void initState() {
-    print("Init state");
     _fetchData();
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    print("didChangeDeps");
-    super.didChangeDependencies();
   }
 
   @override
@@ -71,11 +44,8 @@ class _AsyncDetailsPageState extends State<AsyncDetailsPage> {
   }
 
   void _fetchData() async {
-
     var path = utf8.decode(base64.decode(widget.encodedDir));
     var dir = Directory(path);
-    print("fetching data: $dir");
-
     _logEntry = open(dir);
     setState(() {});
   }

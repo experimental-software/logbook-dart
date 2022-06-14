@@ -12,9 +12,8 @@ final routes = RouteMap(
   routes: {
     '/': (_) => const MaterialPage(child: Homepage()),
     '/log-entry/:dir': (info) {
-      print("called nav to ${info.pathParameters['dir']!}");
       return MaterialPage(
-          child: AsyncDetailsPageWrapper(
+          child: AsyncDetailsPage(
             encodedDir: info.pathParameters['dir']!),
           );
     },

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -7,8 +5,9 @@ import '../../core/log_entry.dart';
 import '../../core/search.dart';
 import '../../util/system.dart';
 import '../../widgets/create_log_dialog.dart';
-import '../details/index.dart';
 import 'mark_deleted_checkbox.dart';
+
+ValueNotifier<int> buttonClickedTimes = ValueNotifier(0);
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -27,6 +26,10 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
+    buttonClickedTimes.addListener(() {
+      _updateLogEntryList();
+    });
+
     _updateLogEntryList();
     super.initState();
   }
@@ -55,16 +58,20 @@ class _HomepageState extends State<Homepage> {
             // const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.arrow_back),
-              onPressed: !canGoBack ? null : () {
-                Routemaster.of(context).history.back();
-              },
+              onPressed: !canGoBack
+                  ? null
+                  : () {
+                      Routemaster.of(context).history.back();
+                    },
             ),
             // const SizedBox(width: 20),
             IconButton(
               icon: const Icon(Icons.arrow_forward),
-              onPressed: !canGoForward ? null : () {
-                Routemaster.of(context).history.forward();
-              },
+              onPressed: !canGoForward
+                  ? null
+                  : () {
+                      Routemaster.of(context).history.forward();
+                    },
             ),
           ],
         ),

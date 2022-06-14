@@ -5,6 +5,7 @@ import 'package:routemaster/routemaster.dart';
 
 import '../core/log_entry.dart';
 import '../core/writer.dart';
+import '../pages/homepage/index.dart';
 import '../util/system.dart';
 
 class CreateLogDialog extends StatefulWidget {
@@ -136,6 +137,8 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   title: title,
                   description: description,
                 ).then((logEntry) async {
+                  buttonClickedTimes.value = buttonClickedTimes.value + 1;
+
                   Clipboard.setData(ClipboardData(text: logEntry.directory));
 
                   if (shouldOpenEditor) {
