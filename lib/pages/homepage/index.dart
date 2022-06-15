@@ -7,7 +7,7 @@ import '../../util/system.dart';
 import '../../widgets/create_log_dialog.dart';
 import 'mark_deleted_checkbox.dart';
 
-ValueNotifier<int> newLogEntryAdded = ValueNotifier(0);
+ValueNotifier<int> logEntriesChanged = ValueNotifier(0);
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
-    newLogEntryAdded.addListener(() {
+    logEntriesChanged.addListener(() {
       _updateLogEntryList();
     });
 
@@ -46,7 +46,7 @@ class _HomepageState extends State<Homepage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Engineering Logbook'),
+        title: const Text('Logbook'),
         leadingWidth: 150,
         leading: Row(
           children: [
@@ -291,9 +291,7 @@ class _HomepageState extends State<Homepage> {
     await showDialog(
       context: context,
       builder: (context) {
-        return CreateLogDialog(notifyParent: () {
-          _updateLogEntryList();
-        });
+        return const CreateLogDialog();
       },
       barrierDismissible: false,
     );

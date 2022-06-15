@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../util/system.dart';
 import '../../widgets/create_log_dialog.dart';
+import '../homepage/index.dart';
 
 class AsyncDetailsPage extends StatefulWidget {
   final String encodedDir;
@@ -35,7 +36,7 @@ class _AsyncDetailsPageState extends State<AsyncDetailsPage> {
       future: _logEntry,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return DetailsPage(logEntry: snapshot.data!, notifyParent: () {});
+          return DetailsPage(logEntry: snapshot.data!);
         } else {
           return const CircularProgressIndicator();
         }
@@ -53,12 +54,10 @@ class _AsyncDetailsPageState extends State<AsyncDetailsPage> {
 
 class DetailsPage extends StatefulWidget {
   final LogEntry logEntry;
-  final Function notifyParent;
 
   const DetailsPage({
     Key? key,
     required this.logEntry,
-    required this.notifyParent,
   }) : super(key: key);
 
   @override
@@ -138,7 +137,7 @@ class _DetailsPageState extends State<DetailsPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await _showCreateLogDialog(context);
-          widget.notifyParent();
+          logEntriesChanged.value = logEntriesChanged.value + 1;
         },
         tooltip: 'Add log entry',
         child: const Icon(Icons.add),
@@ -224,7 +223,7 @@ class _DetailsPageState extends State<DetailsPage> {
           onPressed: () {
             System.archive(widget.logEntry.directory).then((_) {
               Navigator.pop(context);
-              widget.notifyParent();
+              logEntriesChanged.value = logEntriesChanged.value + 1;
             });
           },
           child: const Text('Archive'),
@@ -237,7 +236,7 @@ class _DetailsPageState extends State<DetailsPage> {
     await showDialog(
       context: context,
       builder: (context) {
-        return CreateLogDialog(notifyParent: widget.notifyParent);
+        return const CreateLogDialog();
       },
       barrierDismissible: false,
     );

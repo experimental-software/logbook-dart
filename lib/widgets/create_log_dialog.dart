@@ -8,11 +8,9 @@ import '../pages/homepage/index.dart';
 import '../util/system.dart';
 
 class CreateLogDialog extends StatefulWidget {
-  final Function notifyParent;
 
   const CreateLogDialog({
     Key? key,
-    required this.notifyParent,
   }) : super(key: key);
 
   @override
@@ -136,7 +134,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   title: title,
                   description: description,
                 ).then((logEntry) async {
-                  newLogEntryAdded.value = newLogEntryAdded.value + 1;
+                  logEntriesChanged.value = logEntriesChanged.value + 1;
 
                   Clipboard.setData(ClipboardData(text: logEntry.directory));
 
