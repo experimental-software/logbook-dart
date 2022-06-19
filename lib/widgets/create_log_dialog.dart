@@ -6,11 +6,8 @@ import '../core/writer.dart';
 import '../util/system.dart';
 
 class CreateLogDialog extends StatefulWidget {
-  final Function notifyParent;
-
   const CreateLogDialog({
     Key? key,
-    required this.notifyParent,
   }) : super(key: key);
 
   @override
@@ -152,7 +149,6 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                       MaterialPageRoute(
                         builder: (context) => DetailsPage(
                           logEntry: logEntry,
-                          notifyParent: widget.notifyParent,
                         ),
                       ),
                     );
