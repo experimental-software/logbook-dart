@@ -88,19 +88,31 @@ class _DetailsPageState extends State<DetailsPage> {
                   var data = snapshot.data!;
                   data = data.replaceFirst(RegExp(r'^#.*'), '');
 
+                  if (data.trim().isEmpty) {
+                    return Container();
+                  }
+
                   return Expanded(
-                    child: Markdown(
-                      styleSheet: MarkdownStyleSheet(
-                        h1Align: WrapAlignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 0, 20, 70),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black)
+                        ),
+                        child: Markdown(
+                          styleSheet: MarkdownStyleSheet(
+                            h1Align: WrapAlignment.center,
+                          ),
+                          // shrinkWrap: false,
+                          selectable: true,
+                          onTapLink: (text, url, title) {
+                            if (url != null) {
+                              launchUrlString(url);
+                            }
+                          },
+                          data: data,
+                        ),
                       ),
-                      // shrinkWrap: false,
-                      selectable: true,
-                      onTapLink: (text, url, title) {
-                        if (url != null) {
-                          launchUrlString(url);
-                        }
-                      },
-                      data: data,
                     ),
                   );
                 }),
@@ -113,6 +125,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget _buildActionButtons(BuildContext context) {
     return Row(
       children: [
+        const SizedBox(width: 30),
         ElevatedButton(
           onPressed: () async {
             await _showCreateNoteDialog(context);
@@ -145,16 +158,21 @@ class _DetailsPageState extends State<DetailsPage> {
           onPressed: _fetchData,
           child: const Text('Reload'),
         ),
-        const SizedBox(width: 500),
-        ElevatedButton(
-          onPressed: () {
-            System.archive(widget.logEntry.directory).then((_) {
-              Navigator.pop(context);
-              logEntriesChanged.value += 1;
-            });
-          },
-          child: const Text('Archive'),
-        ),
+        Expanded(child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                System.archive(widget.logEntry.directory).then((_) {
+                  Navigator.pop(context);
+                  logEntriesChanged.value += 1;
+                });
+              },
+              child: const Text('Archive'),
+            ),
+            const SizedBox(width: 20),
+          ],
+        ))
       ],
     );
   }
@@ -163,7 +181,7 @@ class _DetailsPageState extends State<DetailsPage> {
     await showDialog(
       context: context,
       builder: (context) {
-        return CreateLogDialog();
+        return const CreateLogDialog();
       },
       barrierDismissible: false,
     );
