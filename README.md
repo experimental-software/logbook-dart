@@ -16,6 +16,7 @@ The logbook project provides a desktop application for chronological note taking
 - [Emacs OrgMode](https://orgmode.org)
 - [Evernote](https://evernote.com)
 - [Roam Research](https://roamresearch.com)
+- [Quiver](https://yliansoft.com/)
 
 ## Usage
 
