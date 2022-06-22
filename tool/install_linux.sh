@@ -33,7 +33,7 @@ cp -r ./build/linux/x64/release/bundle ~/bin/logbook
 
 # Create desktop entry
 mkdir -p ~/.local/share/ExperimentalSoftware/icons || echo ""
-cp $SCRIPT_DIR/resources/test-tube.png ~/.local/share/ExperimentalSoftware/icons/
+cp $SCRIPT_DIR/resources/app_icon_256.png ~/.local/share/ExperimentalSoftware/icons/
 cp $SCRIPT_DIR/resources/logbook.desktop ~/.local/share/applications/
 
 # Remove backup files

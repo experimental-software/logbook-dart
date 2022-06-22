@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Logbook
-Icon=/home/janux/.local/share/ExperimentalSoftware/icons/test-tube.png
+Icon=/home/janux/.local/share/ExperimentalSoftware/icons/app_icon_256.png
 Exec=/home/janux/bin/logbook/logbook
 Version=1.0
 Type=Application
@@ -10,4 +10,4 @@ Actions=new-instance;
 [Desktop Action new-instance]
 Name=New instance
 Exec=/home/janux/bin/logbook/logbook
-Icon=/home/janux/.local/share/ExperimentalSoftware/icons/test-tube.png
+Icon=/home/janux/.local/share/ExperimentalSoftware/icons/app_icon_256.png
