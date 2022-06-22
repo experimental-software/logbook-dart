@@ -42,7 +42,7 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Engineering Logbook')),
+      appBar: AppBar(title: const Text('Logbook')),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await _showCreateLogDialog(context);
