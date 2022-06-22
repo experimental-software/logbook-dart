@@ -69,55 +69,53 @@ class _DetailsPageState extends State<DetailsPage> {
         tooltip: 'Add log entry',
         child: const Icon(Icons.add),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          children: [
-            _buildActionButtons(context),
-            const SizedBox(height: 30),
-            FutureBuilder<String>(
-                future: _contents,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const CircularProgressIndicator();
-                  }
-                  if (snapshot.connectionState != ConnectionState.done) {
-                    return const CircularProgressIndicator();
-                  }
+      body: Column(
+        children: [
+          const SizedBox(height: 15),
+          _buildActionButtons(context),
+          const SizedBox(height: 15),
+          FutureBuilder<String>(
+              future: _contents,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const CircularProgressIndicator();
+                }
 
-                  var data = snapshot.data!;
-                  data = data.replaceFirst(RegExp(r'^#.*'), '');
+                var data = snapshot.data!;
+                data = data.replaceFirst(RegExp(r'^#.*'), '');
 
-                  if (data.trim().isEmpty) {
-                    return Container();
-                  }
+                if (data.trim().isEmpty) {
+                  return Container();
+                }
 
-                  return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(25, 0, 20, 70),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 87),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black)
+                      ),
+                      child: Markdown(
+                        styleSheet: MarkdownStyleSheet(
+                          h1Align: WrapAlignment.center,
                         ),
-                        child: Markdown(
-                          styleSheet: MarkdownStyleSheet(
-                            h1Align: WrapAlignment.center,
-                          ),
-                          // shrinkWrap: false,
-                          selectable: true,
-                          onTapLink: (text, url, title) {
-                            if (url != null) {
-                              launchUrlString(url);
-                            }
-                          },
-                          data: data,
-                        ),
+                        // shrinkWrap: false,
+                        selectable: true,
+                        onTapLink: (text, url, title) {
+                          if (url != null) {
+                            launchUrlString(url);
+                          }
+                        },
+                        data: data,
                       ),
                     ),
-                  );
-                }),
-          ],
-        ),
+                  ),
+                );
+              }),
+        ],
       ),
     );
   }
@@ -125,35 +123,35 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget _buildActionButtons(BuildContext context) {
     return Row(
       children: [
-        const SizedBox(width: 30),
+        const SizedBox(width: 15),
         ElevatedButton(
           onPressed: () async {
             await _showCreateNoteDialog(context);
           },
           child: const Text('Add note'),
         ),
-        const SizedBox(width: 20),
+        const SizedBox(width: 15),
         ElevatedButton(
           onPressed: () {
             System.openInEditor(widget.logEntry.directory);
           },
           child: const Text('Open editor'),
         ),
-        const SizedBox(width: 20),
+        const SizedBox(width: 15),
         ElevatedButton(
           onPressed: () {
             System.openDirectory(widget.logEntry.directory);
           },
           child: const Text('Open directory'),
         ),
-        const SizedBox(width: 20),
+        const SizedBox(width: 15),
         ElevatedButton(
           onPressed: () {
             System.copyToClipboard(widget.logEntry.directory);
           },
           child: const Text('Copy to clipboard'),
         ),
-        const SizedBox(width: 20),
+        const SizedBox(width: 15),
         ElevatedButton(
           onPressed: _fetchData,
           child: const Text('Reload'),
@@ -170,7 +168,7 @@ class _DetailsPageState extends State<DetailsPage> {
               },
               child: const Text('Archive'),
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 15),
           ],
         ))
       ],

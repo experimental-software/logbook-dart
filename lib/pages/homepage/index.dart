@@ -52,11 +52,11 @@ class _HomepageState extends State<Homepage> {
         child: const Icon(Icons.add),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.all(30),
         child: Column(
           children: [
             _buildSearchRow(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             FutureBuilder<List<LogEntry>>(
               future: _logEntries,
               builder: (context, snapshot) {
