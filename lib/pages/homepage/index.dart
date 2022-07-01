@@ -192,8 +192,8 @@ class _HomepageState extends State<Homepage> {
     List<LogEntry> logEntries,
   ) {
     var deviceInfo = MediaQuery.of(context);
-    const widthDateTimeColumn = 220.0;
-    const widthActionsColumn = 400.0;
+    const widthDateTimeColumn = 140.0;
+    const widthActionsColumn = 412.0;
     final widthTitleColumn =
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
 
