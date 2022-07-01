@@ -7,6 +7,7 @@ void main() {
     var result = await search(System.baseDir, 'test');
 
     for (var logEntry in result) {
+      // ignore: avoid_print
       print('${logEntry.dateTime.toIso8601String()} - ${logEntry.title}');
     }
 

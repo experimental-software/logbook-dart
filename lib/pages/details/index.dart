@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:logbook/core/log_entry.dart';
-import 'package:logbook/pages/details/create_note_dialog.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../util/system.dart';
+import '../../core/log_entry.dart';
 import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
+import 'action_buttons.dart';
+import 'reload_bloc/reload_bloc.dart';
 
 class DetailsPage extends StatefulWidget {
   final LogEntry logEntry;
@@ -57,121 +58,73 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.logEntry.title),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await _showCreateLogDialog(context);
-          logEntriesChanged.value += 1;
+    return BlocProvider(
+      create: (context) => ReloadBloc(),
+      child: BlocListener<ReloadBloc, ReloadState>(
+        listener: (context, state) {
+          _fetchData();
         },
-        tooltip: 'Add log entry',
-        child: const Icon(Icons.add),
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 15),
-          _buildActionButtons(context),
-          const SizedBox(height: 15),
-          FutureBuilder<String>(
-              future: _contents,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const CircularProgressIndicator();
-                }
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(widget.logEntry.title),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              await _showCreateLogDialog(context);
+              logEntriesChanged.value += 1;
+            },
+            tooltip: 'Add log entry',
+            child: const Icon(Icons.add),
+          ),
+          body: Column(
+            children: [
+              const SizedBox(height: 15),
+              ActionButtons(logEntry: widget.logEntry),
+              const SizedBox(height: 15),
+              FutureBuilder<String>(
+                  future: _contents,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const CircularProgressIndicator();
+                    }
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const CircularProgressIndicator();
+                    }
 
-                var data = snapshot.data!;
-                data = data.replaceFirst(RegExp(r'^#.*'), '');
+                    var data = snapshot.data!;
+                    data = data.replaceFirst(RegExp(r'^#.*'), '');
 
-                if (data.trim().isEmpty) {
-                  return Container();
-                }
+                    if (data.trim().isEmpty) {
+                      return Container();
+                    }
 
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 87),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)
-                      ),
-                      child: Markdown(
-                        styleSheet: MarkdownStyleSheet(
-                          h1Align: WrapAlignment.center,
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 87),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black)),
+                          child: Markdown(
+                            styleSheet: MarkdownStyleSheet(
+                              h1Align: WrapAlignment.center,
+                            ),
+                            // shrinkWrap: false,
+                            selectable: true,
+                            onTapLink: (text, url, title) {
+                              if (url != null) {
+                                launchUrlString(url);
+                              }
+                            },
+                            data: data,
+                          ),
                         ),
-                        // shrinkWrap: false,
-                        selectable: true,
-                        onTapLink: (text, url, title) {
-                          if (url != null) {
-                            launchUrlString(url);
-                          }
-                        },
-                        data: data,
                       ),
-                    ),
-                  ),
-                );
-              }),
-        ],
+                    );
+                  }),
+            ],
+          ),
+        ),
       ),
-    );
-  }
-
-  Widget _buildActionButtons(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 15),
-        ElevatedButton(
-          onPressed: () async {
-            await _showCreateNoteDialog(context);
-          },
-          child: const Text('Add note'),
-        ),
-        const SizedBox(width: 15),
-        ElevatedButton(
-          onPressed: () {
-            System.openInEditor(widget.logEntry.directory);
-          },
-          child: const Text('Open editor'),
-        ),
-        const SizedBox(width: 15),
-        ElevatedButton(
-          onPressed: () {
-            System.openDirectory(widget.logEntry.directory);
-          },
-          child: const Text('Open directory'),
-        ),
-        const SizedBox(width: 15),
-        ElevatedButton(
-          onPressed: () {
-            System.copyToClipboard(widget.logEntry.directory);
-          },
-          child: const Text('Copy to clipboard'),
-        ),
-        const SizedBox(width: 15),
-        ElevatedButton(
-          onPressed: _fetchData,
-          child: const Text('Reload'),
-        ),
-        Expanded(child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                System.archive(widget.logEntry.directory).then((_) {
-                  Navigator.pop(context);
-                  logEntriesChanged.value += 1;
-                });
-              },
-              child: const Text('Archive'),
-            ),
-            const SizedBox(width: 15),
-          ],
-        ))
-      ],
     );
   }
 
@@ -180,16 +133,6 @@ class _DetailsPageState extends State<DetailsPage> {
       context: context,
       builder: (context) {
         return const CreateLogDialog();
-      },
-      barrierDismissible: false,
-    );
-  }
-
-  Future<void> _showCreateNoteDialog(BuildContext context) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return CreateNoteDialog(parent: widget.logEntry);
       },
       barrierDismissible: false,
     );
