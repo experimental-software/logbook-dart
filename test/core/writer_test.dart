@@ -51,4 +51,18 @@ void main() {
       );
     });
   });
+
+  group('parseIndexFromDirectory', () {
+    test('return value', () {
+      var name = '005_example-dir';
+      var result = WriterUtils.parseIndexFromDirectory(name);
+      expect(result, equals(5));
+    });
+
+    test('return null', () {
+      var name = 'example-dir';
+      var result = WriterUtils.parseIndexFromDirectory(name);
+      expect(result, isNull);
+    });
+  });
 }
