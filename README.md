@@ -18,6 +18,14 @@ The logbook project provides a desktop application for chronological note taking
 - [Roam Research](https://roamresearch.com)
 - [Quiver](https://yliansoft.com/)
 
+## Setup
+
+Given that Dart/Flutter have been installed using FVM, the Logbook can be installed on Linux and macOS like this:
+
+```
+./install.sh
+```
+
 ## Usage
 
 ### macOS
