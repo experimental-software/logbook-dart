@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logbook/pages/details/index.dart';
-
-import '../core/writer.dart';
-import '../util/system.dart';
+import 'package:logbook_core/logbook_core.dart';
 
 class CreateLogDialog extends StatefulWidget {
   const CreateLogDialog({

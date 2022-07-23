@@ -1,5 +1,8 @@
-import 'package:logbook_cli/logbook_cli.dart' as logbook_cli;
+import 'package:args/command_runner.dart';
+import 'package:logbook_cli/search.dart';
 
-void main(List<String> arguments) {
-  print('Hello world: ${logbook_cli.calculate()}!');
+void main(List<String> args) {
+  CommandRunner('logbook', 'A markdown-based engineering logbook.')
+    ..addCommand(SearchCommand())
+    ..run(args);
 }

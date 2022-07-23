@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../core/log_entry.dart';
+import 'package:logbook_core/logbook_core.dart';
 
 class MarkDeletedCheckbox extends StatefulWidget {
   final LogEntry logEntry;

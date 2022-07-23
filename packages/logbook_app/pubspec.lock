@@ -386,7 +386,7 @@ packages:
     source: hosted
     version: "1.1.0"
   system:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: system
       url: "https://pub.dartlang.org"
@@ -484,7 +484,7 @@ packages:
     source: hosted
     version: "3.0.1"
   uuid:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: uuid
       url: "https://pub.dartlang.org"

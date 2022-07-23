@@ -9,6 +9,7 @@ executables:
   logbook: logbook_cli
 
 dependencies:
+  args: ^2.3.1
   logbook_core:
     path: ../logbook_core
 

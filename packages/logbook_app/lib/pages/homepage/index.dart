@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:logbook_core/logbook_core.dart';
 
-import '../../core/log_entry.dart';
-import '../../core/search.dart';
-import '../../util/system.dart';
 import '../../widgets/create_log_dialog.dart';
 import '../details/index.dart';
 import 'mark_deleted_checkbox.dart';
@@ -251,7 +250,9 @@ class _HomepageState extends State<Homepage> {
                           IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {
-                              System.copyToClipboard(logEntry.directory);
+                              Clipboard.setData(ClipboardData(
+                                text: logEntry.directory,
+                              ));
                             },
                           ),
                         ],

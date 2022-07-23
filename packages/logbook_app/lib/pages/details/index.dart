@@ -5,7 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../core/log_entry.dart';
+import 'package:logbook_core/logbook_core.dart';
+
 import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
 import 'action_buttons.dart';

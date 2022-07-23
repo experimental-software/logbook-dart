@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:logbook/util/system.dart';
+import 'package:logbook_core/src/system.dart';
 import 'package:uuid/uuid.dart';
 
 import 'log_entry.dart';

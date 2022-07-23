@@ -1,8 +1,6 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
 library logbook_core;
 
-export 'src/logbook_core_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/log_entry.dart';
+export 'src/search.dart';
+export 'src/system.dart';
+export 'src/writer.dart';

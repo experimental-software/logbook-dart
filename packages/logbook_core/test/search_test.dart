@@ -1,5 +1,5 @@
-import 'package:logbook/core/search.dart';
-import 'package:logbook/util/system.dart';
+import 'package:logbook_core/src/search.dart';
+import 'package:logbook_core/src/system.dart';
 import 'package:test/test.dart';
 
 void main() {

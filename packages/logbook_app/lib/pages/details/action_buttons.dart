@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/log_entry.dart';
-import '../../util/system.dart';
+import 'package:logbook_core/logbook_core.dart';
+
 import '../../widgets/buttons.dart';
 import '../homepage/index.dart';
 import 'create_note_dialog.dart';
@@ -32,7 +33,7 @@ class ActionButtons extends StatelessWidget {
         }),
         const SizedBox(width: 15),
         PrimaryButton('Copy to clipboard', onPressed: () {
-          System.copyToClipboard(logEntry.directory);
+          Clipboard.setData(ClipboardData(text: logEntry.directory));
         }),
         const SizedBox(width: 15),
         PrimaryButton('Reload', onPressed: () {

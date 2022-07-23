@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:logbook/core/writer.dart';
+import 'package:logbook_core/src/writer.dart';
 import 'package:test/test.dart';
 
 void main() {

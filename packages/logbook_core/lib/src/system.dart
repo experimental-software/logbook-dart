@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:system/system.dart' as sys;
 
 class System {
@@ -18,10 +17,6 @@ class System {
     if (Platform.isLinux) {
       sys.System.invoke('code $directory');
     }
-  }
-
-  static Future<void> copyToClipboard(String text) async {
-    Clipboard.setData(ClipboardData(text: text));
   }
 
   static Future<void> archive(String originalDirectoryPath) async {
