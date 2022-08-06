@@ -32,7 +32,7 @@ class SearchCommand extends Command {
     } else {
       logEntries = await search(System.baseDir, searchTerm);
     }
-    for (var logEntry in logEntries) {
+    for (var logEntry in logEntries.reversed) {
       print(logEntry.directory);
     }
   }
