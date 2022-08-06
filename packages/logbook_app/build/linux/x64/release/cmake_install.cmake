@@ -37,6 +37,11 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
+# Set default install directory permissions.
+if(NOT DEFINED CMAKE_OBJDUMP)
+  set(CMAKE_OBJDUMP "/usr/bin/objdump")
+endif()
+
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
   
   file(REMOVE_RECURSE "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/")
@@ -58,7 +63,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMP
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle" TYPE EXECUTABLE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/intermediates_do_not_run/logbook")
+  file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle" TYPE EXECUTABLE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/intermediates_do_not_run/logbook")
   if(EXISTS "$ENV{DESTDIR}/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/logbook" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/logbook")
     file(RPATH_CHANGE
@@ -80,7 +85,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMP
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data" TYPE FILE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/linux/flutter/ephemeral/icudtl.dat")
+  file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data" TYPE FILE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/linux/flutter/ephemeral/icudtl.dat")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -92,7 +97,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMP
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib" TYPE FILE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/linux/flutter/ephemeral/libflutter_linux_gtk.so")
+  file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib" TYPE FILE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/linux/flutter/ephemeral/libflutter_linux_gtk.so")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -104,7 +109,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMP
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib" TYPE FILE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/plugins/url_launcher_linux/liburl_launcher_linux_plugin.so")
+  file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib" TYPE FILE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/plugins/url_launcher_linux/liburl_launcher_linux_plugin.so")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -122,7 +127,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMP
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data" TYPE DIRECTORY FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/build//flutter_assets")
+  file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data" TYPE DIRECTORY FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/build//flutter_assets")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -134,7 +139,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMP
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib" TYPE FILE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/lib/libapp.so")
+  file(INSTALL DESTINATION "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib" TYPE FILE FILES "/home/janux/src/experimental-software/logbook/packages/logbook_app/build/lib/libapp.so")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)

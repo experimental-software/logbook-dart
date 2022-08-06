@@ -1,13 +1,13 @@
 # Logbook
 
-The logbook project provides a desktop application for chronological note taking.
+The logbook project provides a desktop and command-line application for chronological note taking.
 
 ## Introduction
 
 ### Unique value proposition
 
-- The simplicity of the tool enables maximum focus on subject to be worked on.
-- Supports work which requires intensive learning on the job.
+- The simplicity of the tool enables to focus on subject to be worked on.
+- It has been built to support work which requires intensive learning on the job.
 
 ### Alternative projects
 
@@ -45,4 +45,3 @@ Given `lcov` has been install via Homebrew or Apt, the test coverage report can 
 ```
 ./tool/create_test_coverage_report.sh
 ```
-

@@ -25,7 +25,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 CMAKE_BUILD_TYPE:STRING=Release
 
 //CXX compiler
-CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/clang++
+CMAKE_CXX_COMPILER:STRING=/usr/bin/clang++
 
 //LLVM archiver
 CMAKE_CXX_COMPILER_AR:FILEPATH=/usr/lib/llvm-10/bin/llvm-ar
@@ -49,7 +49,7 @@ CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
 CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 
 //Path to a program.
-CMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND
+CMAKE_DLLTOOL:FILEPATH=/home/linuxbrew/.linuxbrew/bin/dlltool
 
 //Flags used by the linker during all build types.
 CMAKE_EXE_LINKER_FLAGS:STRING=
@@ -181,6 +181,9 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //No help, variable specified on the command line.
 FLUTTER_TARGET_PLATFORM:UNINITIALIZED=linux-x64
 
+//Arguments to supply to pkg-config
+PKG_CONFIG_ARGN:STRING=
+
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 
@@ -236,10 +239,16 @@ pkgcfg_lib_GTK_pangocairo-1.0:FILEPATH=/usr/lib/x86_64-linux-gnu/libpangocairo-1
 runner_BINARY_DIR:STATIC=/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release
 
 //Value Computed by CMake
+runner_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
 runner_SOURCE_DIR:STATIC=/home/janux/src/experimental-software/logbook/packages/logbook_app/linux
 
 //Value Computed by CMake
 url_launcher_linux_BINARY_DIR:STATIC=/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/plugins/url_launcher_linux
+
+//Value Computed by CMake
+url_launcher_linux_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 url_launcher_linux_SOURCE_DIR:STATIC=/home/janux/src/experimental-software/logbook/packages/logbook_app/linux/flutter/ephemeral/.plugin_symlinks/url_launcher_linux/linux
@@ -258,9 +267,9 @@ CMAKE_CACHEFILE_DIR:INTERNAL=/home/janux/src/experimental-software/logbook/packa
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
-CMAKE_CACHE_MINOR_VERSION:INTERNAL=16
+CMAKE_CACHE_MINOR_VERSION:INTERNAL=22
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=1
 //Path to CMake executable.
 CMAKE_COMMAND:INTERNAL=/usr/bin/cmake
 //Path to cpack program executable.
@@ -343,7 +352,7 @@ CMAKE_RANLIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_READELF
 CMAKE_READELF-ADVANCED:INTERNAL=1
 //Path to CMake installation.
-CMAKE_ROOT:INTERNAL=/usr/share/cmake-3.16
+CMAKE_ROOT:INTERNAL=/usr/share/cmake-3.22
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
 CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG
@@ -375,7 +384,7 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding PkgConfig
-FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v0.29.1()]
+FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v0.29.2()]
 GIO_CFLAGS:INTERNAL=-pthread;-I/usr/include/libmount;-I/usr/include/blkid;-I/usr/include/glib-2.0;-I/usr/lib/x86_64-linux-gnu/glib-2.0/include
 GIO_CFLAGS_I:INTERNAL=
 GIO_CFLAGS_OTHER:INTERNAL=-pthread
@@ -481,6 +490,8 @@ GTK_gtk+-3.0_INCLUDEDIR:INTERNAL=
 GTK_gtk+-3.0_LIBDIR:INTERNAL=
 GTK_gtk+-3.0_PREFIX:INTERNAL=
 GTK_gtk+-3.0_VERSION:INTERNAL=
+//ADVANCED property for variable: PKG_CONFIG_ARGN
+PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 __pkg_config_arguments_GIO:INTERNAL=REQUIRED;IMPORTED_TARGET;gio-2.0

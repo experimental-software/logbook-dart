@@ -2,9 +2,9 @@
 /home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data/icudtl.dat
 /home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib/libflutter_linux_gtk.so
 /home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib/liburl_launcher_linux_plugin.so
-/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data/flutter_assets/NOTICES.Z
 /home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data/flutter_assets/version.json
 /home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data/flutter_assets/AssetManifest.json
 /home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data/flutter_assets/NOTICES.Z
 /home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/data/flutter_assets/FontManifest.json
 /home/janux/src/experimental-software/logbook/packages/logbook_app/build/linux/x64/release/bundle/lib/libapp.so
