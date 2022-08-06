@@ -1,6 +1,7 @@
 name: logbook_cli
 description: Provides access on miscellaneous logbook functionality.
 version: 0.1.0
+publish_to: none
 
 environment:
   sdk: '>=2.17.1 <3.0.0'

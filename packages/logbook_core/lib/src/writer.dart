@@ -13,7 +13,8 @@ Future<LogEntry> createLogEntry({
   var baseDir = System.baseDir;
   var slug = slugify(title);
 
-  var logEntryDirectory = await WriterUtils.createLogEntryDirectory(baseDir, now, slug);
+  var logEntryDirectory =
+      await WriterUtils.createLogEntryDirectory(baseDir, now, slug);
   var logEntryPath = '${logEntryDirectory.path}/$slug.md';
 
   var logEntryFile = await File(logEntryPath).create();
@@ -85,10 +86,10 @@ class WriterUtils {
   }
 
   static Future<Directory> createLogEntryDirectory(
-      Directory baseDir,
-      DateTime time,
-      String slug,
-      ) async {
+    Directory baseDir,
+    DateTime time,
+    String slug,
+  ) async {
     var year = time.year.toString();
     var month = time.month.toString().padLeft(2, '0');
     var day = time.day.toString().padLeft(2, '0');
