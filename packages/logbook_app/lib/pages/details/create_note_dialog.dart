@@ -21,7 +21,6 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  bool shouldGenerateId = true;
   bool shouldOpenEditor = false;
   bool shouldOpenDirectory = false;
 
@@ -74,19 +73,6 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
             Row(
               children: [
                 Checkbox(
-                  value: shouldGenerateId,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldGenerateId = value!;
-                    });
-                  },
-                ),
-                const Text('Generate ID'),
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
                   value: shouldOpenEditor,
                   onChanged: (bool? value) {
                     setState(() {
@@ -134,7 +120,6 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                   title: title,
                   description: description,
                   baseDir: Directory(widget.parent.directory),
-                  shouldGenerateId: shouldGenerateId,
                 ).then((noteEntryDirectory) {
                   if (shouldOpenEditor) {
                     System.openInEditor(noteEntryDirectory.path);

@@ -35,26 +35,23 @@ Future<Directory> createNoteEntry({
   required String title,
   required String description,
   required Directory baseDir,
-  required bool shouldGenerateId,
 }) async {
   var slug = slugify(title);
 
-  int numberOfDirectoriesInParent = 0;
+  int biggestExistingIndex = 0;
   final Directory parentDirectory = Directory(baseDir.path);
   for (var f in parentDirectory.listSync()) {
     var name = f.path.split('/').last;
-    if (!name.contains('.')) {
-      numberOfDirectoriesInParent++;
+    var index = WriterUtils.parseIndexFromDirectory(name);
+    if (index != null && index > biggestExistingIndex) {
+      biggestExistingIndex = index;
     }
   }
 
   late String noteEntryDirectory;
-  if (shouldGenerateId) {
-    var id = (numberOfDirectoriesInParent + 1).toString().padLeft(2, '0');
-    noteEntryDirectory = '${baseDir.path}/${id}0_$slug';
-  } else {
-    noteEntryDirectory = '${baseDir.path}/$slug';
-  }
+
+  var id = (biggestExistingIndex + 1).toString().padLeft(3, '0');
+  noteEntryDirectory = '${baseDir.path}/${id}_$slug';
 
   var logEntryPath = '$noteEntryDirectory/index.md';
 
@@ -77,6 +74,16 @@ String slugify(String s) {
 }
 
 class WriterUtils {
+  static int? parseIndexFromDirectory(String name) {
+    final regex = RegExp(r'^(\d+)_.*');
+    final match = regex.firstMatch(name);
+    if (match == null) {
+      return null;
+    } else {
+      return int.parse(match.group(1)!);
+    }
+  }
+
   static Future<Directory> createLogEntryDirectory(
       Directory baseDir,
       DateTime time,
