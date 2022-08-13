@@ -5,6 +5,8 @@ import 'package:system/system.dart' as sys;
 class System {
   System._();
 
+  static Directory? _baseDir;
+
   static Future<void> openDirectory(String directory) async {
     sys.System.invoke('open $directory');
   }
@@ -39,6 +41,9 @@ class System {
   }
 
   static Directory get baseDir {
+    if (_baseDir != null) {
+      return _baseDir!;
+    }
     if (Platform.isMacOS) {
       return Directory('/Users/jmewes/doc/Notizen');
     }
@@ -46,6 +51,10 @@ class System {
       return Directory('/home/janux/doc/Notizen');
     }
     throw 'Unsupported OS: ${Platform.operatingSystem}';
+  }
+
+  static set baseDir(Directory baseDir) {
+    _baseDir = baseDir;
   }
 
   static Directory get archiveDir {

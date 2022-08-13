@@ -6,6 +6,17 @@ import 'package:logbook_core/src/log_entry.dart';
 
 Future<List<LogEntry>> search(Directory dir, String query) async {
   final result = <LogEntry>[];
+  result.add(
+    LogEntry(
+      dateTime: DateTime.now(),
+      title: 'Example log entry',
+      directory:
+          '/home/janux/doc/Notizen/2022/08/09/20.30_uom-fr-immer-mit-meister-nchste-feedback-rune',
+    ),
+  );
+
+  return result;
+
   Stream<FileSystemEntity> entityList = dir.list(recursive: true);
   await for (FileSystemEntity entity in entityList) {
     if (!entity.path.endsWith('.md')) {
