@@ -27,6 +27,7 @@ create_backup
 cd $SCRIPT_DIR/..
 flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
 flutter pub get
+flutter test
 flutter build macos --no-tree-shake-icons
 cp -r $BUILT_APP_PATH $INSTALLED_APP_PATH
 rm -rf build/
