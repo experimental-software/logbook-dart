@@ -4,7 +4,8 @@ import 'package:test/test.dart';
 
 void main() {
   test('should find log entries', () async {
-    var result = await search(System.baseDir, 'test');
+    var searchService = SearchService();
+    var result = await searchService.search(System.baseDir, 'test');
 
     for (var logEntry in result) {
       // ignore: avoid_print

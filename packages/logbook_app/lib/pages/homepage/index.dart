@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logbook_core/logbook_core.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../widgets/create_log_dialog.dart';
 import '../details/index.dart';
@@ -16,11 +17,11 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final SearchService searchService = GetIt.I.get();
   final TextEditingController _searchTermController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   late Future<List<LogEntry>> _logEntries;
-
   final Set<LogEntry> _markedForDeletion = {};
 
   @override
@@ -34,7 +35,8 @@ class _HomepageState extends State<Homepage> {
   }
 
   void _updateLogEntryList() {
-    _logEntries = search(System.baseDir, _searchTermController.text.trim());
+    var searchTerm = _searchTermController.text.trim();
+    _logEntries = searchService.search(System.baseDir, searchTerm);
     setState(() {});
   }
 

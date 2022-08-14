@@ -1,7 +1,10 @@
 import 'package:args/command_runner.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 class SearchCommand extends Command {
+  final SearchService searchService = GetIt.I.get();
+
   @override
   final name = 'search';
 
@@ -28,9 +31,9 @@ class SearchCommand extends Command {
     }
     List logEntries;
     if (results['archive']) {
-      logEntries = await search(System.archiveDir, searchTerm);
+      logEntries = await searchService.search(System.archiveDir, searchTerm);
     } else {
-      logEntries = await search(System.baseDir, searchTerm);
+      logEntries = await searchService.search(System.baseDir, searchTerm);
     }
     for (var logEntry in logEntries.reversed) {
       print(logEntry.directory);
