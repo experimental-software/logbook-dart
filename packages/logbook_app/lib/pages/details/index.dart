@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:logbook_core/logbook_core.dart';
+
 
 import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
@@ -31,6 +33,36 @@ class _DetailsPageState extends State<DetailsPage> {
   void initState() {
     _fetchData();
     super.initState();
+    RawKeyboard.instance.addListener(_handleKeyDown);
+  }
+
+  void _handleKeyDown(RawKeyEvent value) async {
+    if (value is RawKeyDownEvent) {
+      var character = value.character;
+      if (character == null) {
+        return;
+      }
+      character = character.toUpperCase();
+      switch (character) {
+        case 'T':
+          print('TODO: Open notes dialog');
+          break;
+        case 'E':
+          System.openInEditor(widget.logEntry.directory);
+          break;
+        case 'D':
+          System.openDirectory(widget.logEntry.directory);
+          break;
+        case 'R':
+          break;
+        case 'N':
+          await showCreateNoteDialog(context, widget.logEntry);
+          break;
+        case 'C':
+          Clipboard.setData(ClipboardData(text: widget.logEntry.directory));
+          break;
+      }
+    }
   }
 
   void _fetchData() {
