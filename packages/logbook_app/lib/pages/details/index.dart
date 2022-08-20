@@ -13,6 +13,7 @@ import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
 import 'action_buttons.dart';
 import 'reload_bloc/reload_bloc.dart';
+import 'select_note_dialog.dart';
 
 class DetailsPage extends StatefulWidget {
   final LogEntry logEntry;
@@ -45,7 +46,7 @@ class _DetailsPageState extends State<DetailsPage> {
       character = character.toUpperCase();
       switch (character) {
         case 'T':
-          print('TODO: Open notes dialog');
+          await showSelectNoteDialog(context, widget.logEntry);
           break;
         case 'E':
           System.openInEditor(widget.logEntry.directory);
