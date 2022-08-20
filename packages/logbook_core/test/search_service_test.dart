@@ -64,12 +64,10 @@ void main() {
   });
 
   group('notes', () {
-
+    var writeService = WriteService();
+    var searchService = SearchService();
 
     test('find notes in log entry', () async {
-      var writeService = WriteService();
-      var searchService = SearchService();
-
       System.baseDir = await Directory.systemTemp.createTemp();
       var logEntry = await writeService.createLogEntry(
         title: 'Example log entry',
