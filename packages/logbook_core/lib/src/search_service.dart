@@ -98,6 +98,8 @@ class SearchService {
         ),
       );
     }
+
+    result.sort((a, b) => a.index.compareTo(b.index));
     return result;
   }
 }

@@ -13,7 +13,7 @@ import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
 import 'action_buttons.dart';
 import 'reload_bloc/reload_bloc.dart';
-import 'select_note_dialog.dart';
+import 'select_note_dialog/index.dart';
 
 class DetailsPage extends StatefulWidget {
   final LogEntry logEntry;
@@ -39,6 +39,10 @@ class _DetailsPageState extends State<DetailsPage> {
 
   void _handleKeyDown(RawKeyEvent value) async {
     if (value is RawKeyDownEvent) {
+      if (!value.isControlPressed) {
+        return;
+      }
+
       var character = value.character;
       if (character == null) {
         return;
