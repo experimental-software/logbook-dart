@@ -12,6 +12,18 @@ class WriteService {
   }) {
     return _createLogEntry(title: title, description: description);
   }
+
+  Future<Directory> createNoteEntry({
+    required String title,
+    required String description,
+    required Directory baseDir,
+  }) {
+    return _createNoteEntry(
+      title: title,
+      description: description,
+      baseDir: baseDir,
+    );
+  }
 }
 
 Future<LogEntry> createLogEntry({
@@ -49,6 +61,18 @@ Future<LogEntry> _createLogEntry({
 }
 
 Future<Directory> createNoteEntry({
+  required String title,
+  required String description,
+  required Directory baseDir,
+}) {
+  return _createNoteEntry(
+    title: title,
+    description: description,
+    baseDir: baseDir,
+  );
+}
+
+Future<Directory> _createNoteEntry({
   required String title,
   required String description,
   required Directory baseDir,

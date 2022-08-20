@@ -10,3 +10,14 @@ class UpdatedEvent extends ReloadEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class NoteSelected extends ReloadEvent {
+  final String id = const Uuid().v4();
+
+  final Note note;
+
+  NoteSelected(this.note);
+
+  @override
+  List<Object?> get props => [id];
+}

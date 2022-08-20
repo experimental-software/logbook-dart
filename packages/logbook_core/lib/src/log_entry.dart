@@ -9,3 +9,16 @@ class LogEntry {
     required this.directory,
   });
 }
+
+/// Notes are details within log entries.
+class Note {
+  final int index;
+  final String title;
+  final String directory;
+
+  Note({
+    required this.index,
+    required this.title,
+    required this.directory,
+  });
+}

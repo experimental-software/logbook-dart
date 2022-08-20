@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-
 import 'package:logbook_core/logbook_core.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
@@ -25,21 +24,22 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  late Future<String> _contents;
+  late Future<String> _noteText;
 
   @override
   void initState() {
-    _fetchData();
+    _fetchNoteText();
     super.initState();
   }
 
-  void _fetchData() {
-    _contents = _readContents();
+  void _fetchNoteText({Directory? noteDirectory}) {
+    _noteText = _readNoteText(
+      noteDirectory ??= Directory(widget.logEntry.directory),
+    );
     setState(() {});
   }
 
-  Future<String> _readContents() async {
-    var dir = Directory(widget.logEntry.directory);
+  Future<String> _readNoteText(Directory dir) async {
     var files = dir.listSync();
 
     final timeAndSlugMatcher = RegExp(r'.*/\d{2}.\d{2}_(.*)');
@@ -62,8 +62,10 @@ class _DetailsPageState extends State<DetailsPage> {
     return BlocProvider(
       create: (context) => ReloadBloc(),
       child: BlocListener<ReloadBloc, ReloadState>(
-        listener: (context, state) {
-          _fetchData();
+        listener: (context, ReloadState state) {
+          if (state is Loading) {
+            _fetchNoteText(noteDirectory: state.noteDirectory);
+          }
         },
         child: Scaffold(
           appBar: AppBar(
@@ -83,45 +85,47 @@ class _DetailsPageState extends State<DetailsPage> {
               ActionButtons(logEntry: widget.logEntry),
               const SizedBox(height: 15),
               FutureBuilder<String>(
-                  future: _contents,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const CircularProgressIndicator();
-                    }
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return const CircularProgressIndicator();
-                    }
+                future: _noteText,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  }
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const CircularProgressIndicator();
+                  }
 
-                    var data = snapshot.data!;
-                    data = data.replaceFirst(RegExp(r'^#.*'), '');
+                  var data = snapshot.data!;
+                  data = data.replaceFirst(RegExp(r'^#.*'), '');
 
-                    if (data.trim().isEmpty) {
-                      return Container();
-                    }
+                  if (data.trim().isEmpty) {
+                    return Container();
+                  }
 
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 87),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black)),
-                          child: Markdown(
-                            styleSheet: MarkdownStyleSheet(
-                              h1Align: WrapAlignment.center,
-                            ),
-                            // shrinkWrap: false,
-                            selectable: true,
-                            onTapLink: (text, url, title) {
-                              if (url != null) {
-                                launchUrlString(url);
-                              }
-                            },
-                            data: data,
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 87),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Markdown(
+                          styleSheet: MarkdownStyleSheet(
+                            h1Align: WrapAlignment.center,
                           ),
+                          // shrinkWrap: false,
+                          selectable: true,
+                          onTapLink: (text, url, title) {
+                            if (url != null) {
+                              launchUrlString(url);
+                            }
+                          },
+                          data: data,
                         ),
                       ),
-                    );
-                  }),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
