@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:logbook_core/logbook_core.dart';
 
-
 import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
 import 'action_buttons.dart';
@@ -32,7 +31,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   void initState() {
-    _fetchData();
+    _fetchData(null);
     super.initState();
     RawKeyboard.instance.addListener(_handleKeyDown);
   }
@@ -70,13 +69,13 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
-  void _fetchData() {
-    _contents = _readContents();
+  void _fetchData(Directory? dir) {
+    _contents = _readContents(dir);
     setState(() {});
   }
 
-  Future<String> _readContents() async {
-    var dir = Directory(widget.logEntry.directory);
+  Future<String> _readContents(Directory? dir) async {
+    dir ??= Directory(widget.logEntry.directory);
     var files = dir.listSync();
 
     final timeAndSlugMatcher = RegExp(r'.*/\d{2}.\d{2}_(.*)');
@@ -99,8 +98,10 @@ class _DetailsPageState extends State<DetailsPage> {
     return BlocProvider(
       create: (context) => ReloadBloc(),
       child: BlocListener<ReloadBloc, ReloadState>(
-        listener: (context, state) {
-          _fetchData();
+        listener: (context, ReloadState state) {
+            if (state is Loading) {
+              _fetchData(state.noteDirectory);
+            }
         },
         child: Scaffold(
           appBar: AppBar(

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:logbook_core/logbook_core.dart';
 import 'package:get_it/get_it.dart';
 
+import '../reload_bloc/reload_bloc.dart';
+
 class SelectNoteDialog extends StatefulWidget {
   final LogEntry parent;
+  final ReloadBloc reloadBloc;
 
   const SelectNoteDialog({
     Key? key,
     required this.parent,
+    required this.reloadBloc,
   }) : super(key: key);
 
   @override
@@ -93,54 +98,58 @@ class _SelectNoteDialogState extends State<SelectNoteDialog> {
         deviceInfo.size.width - widthIndexColumn - widthActionsColumn;
 
     return notes
-        .map((note) =>
-        DataRow(
-          onSelectChanged: (value) {
-            if (value == null || !value) {
-              return;
-            }
-            // TODO Trigger bloc event
-          },
-          cells: [
-            DataCell(SizedBox(
-              width: widthIndexColumn,
-              child: Text(note.index.toString()),
-            )),
-            DataCell(SizedBox(
-              width: widthTitleColumn,
-              child: Text(note.title),
-            )),
-            DataCell(
-              SizedBox(
-                  width: widthActionsColumn,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          System.openInEditor(note.directory);
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.folder),
-                        onPressed: () {
-                          System.openDirectory(note.directory);
-                        },
-                      ),
-                    ],
-                  )),
-            ),
-          ],
-        ))
+        .map((note) => DataRow(
+              onSelectChanged: (value) {
+                if (value == null || !value) {
+                  return;
+                }
+                widget.reloadBloc.add(NoteSelected(note));
+                Navigator.pop(context);
+              },
+              cells: [
+                DataCell(SizedBox(
+                  width: widthIndexColumn,
+                  child: Text(note.index.toString()),
+                )),
+                DataCell(SizedBox(
+                  width: widthTitleColumn,
+                  child: Text(note.title),
+                )),
+                DataCell(
+                  SizedBox(
+                      width: widthActionsColumn,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () {
+                              System.openInEditor(note.directory);
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.folder),
+                            onPressed: () {
+                              System.openDirectory(note.directory);
+                            },
+                          ),
+                        ],
+                      )),
+                ),
+              ],
+            ))
         .toList();
   }
 }
 
-Future<void> showSelectNoteDialog(BuildContext context, LogEntry logEntry) async {
+Future<void> showSelectNoteDialog(
+    BuildContext context, LogEntry logEntry) async {
+
+  final ReloadBloc reloadBloc = context.read<ReloadBloc>();
+
   await showDialog(
     context: context,
     builder: (context) {
-      return SelectNoteDialog(parent: logEntry);
+      return SelectNoteDialog(parent: logEntry, reloadBloc: reloadBloc);
     },
     barrierDismissible: true,
   );
