@@ -1,18 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-
 import 'package:logbook_core/logbook_core.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
 import 'action_buttons.dart';
 import 'reload_bloc/reload_bloc.dart';
-import 'select_note_dialog/index.dart';
 
 class DetailsPage extends StatefulWidget {
   final LogEntry logEntry;
@@ -65,9 +62,9 @@ class _DetailsPageState extends State<DetailsPage> {
       create: (context) => ReloadBloc(),
       child: BlocListener<ReloadBloc, ReloadState>(
         listener: (context, ReloadState state) {
-            if (state is Loading) {
-              _fetchData(state.noteDirectory);
-            }
+          if (state is Loading) {
+            _fetchData(state.noteDirectory);
+          }
         },
         child: Scaffold(
           appBar: AppBar(
