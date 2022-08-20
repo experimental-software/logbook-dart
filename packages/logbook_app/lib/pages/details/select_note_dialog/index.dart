@@ -124,12 +124,14 @@ class _SelectNoteDialogState extends State<SelectNoteDialog> {
                             icon: const Icon(Icons.edit),
                             onPressed: () {
                               System.openInEditor(note.directory);
+                              Navigator.pop(context);
                             },
                           ),
                           IconButton(
                             icon: const Icon(Icons.folder),
                             onPressed: () {
                               System.openDirectory(note.directory);
+                              Navigator.pop(context);
                             },
                           ),
                         ],

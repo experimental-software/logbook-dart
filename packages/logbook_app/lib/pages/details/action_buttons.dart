@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logbook/pages/details/select_note_dialog/index.dart';
 
 import 'package:logbook_core/logbook_core.dart';
 
@@ -22,6 +23,10 @@ class ActionButtons extends StatelessWidget {
         const SizedBox(width: 15),
         PrimaryButton('➕ Add note', onPressed: () async {
           await showCreateNoteDialog(context, logEntry);
+        }),
+        const SizedBox(width: 15),
+        PrimaryButton('🫙️ Open notes', onPressed: () async {
+          await showSelectNoteDialog(context, logEntry);
         }),
         const SizedBox(width: 15),
         PrimaryButton('🖊️ Open editor', onPressed: () {
