@@ -33,12 +33,13 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   void _fetchNoteText({Directory? noteDirectory}) {
-    _noteText = _readNoteText(noteDirectory);
+    _noteText = _readNoteText(
+      noteDirectory ??= Directory(widget.logEntry.directory),
+    );
     setState(() {});
   }
 
-  Future<String> _readNoteText(Directory? dir) async {
-    dir ??= Directory(widget.logEntry.directory);
+  Future<String> _readNoteText(Directory dir) async {
     var files = dir.listSync();
 
     final timeAndSlugMatcher = RegExp(r'.*/\d{2}.\d{2}_(.*)');
