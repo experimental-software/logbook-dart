@@ -21,34 +21,34 @@ class ActionButtons extends StatelessWidget {
     return Row(
       children: [
         const SizedBox(width: 15),
-        PrimaryButton('➕ Add note', onPressed: () async {
+        PrimaryButton(icon: Icons.add, 'Add note', onPressed: () async {
           await showCreateNoteDialog(context, logEntry);
         }),
         const SizedBox(width: 15),
-        PrimaryButton('🫙️ Open notes', onPressed: () async {
+        PrimaryButton(icon: Icons.format_list_numbered, 'Open notes', onPressed: () async {
           await showSelectNoteDialog(context, logEntry);
         }),
         const SizedBox(width: 15),
-        PrimaryButton('🖊️ Open editor', onPressed: () {
+        PrimaryButton(icon: Icons.edit, 'Open editor', onPressed: () {
           System.openInEditor(logEntry.directory);
         }),
         const SizedBox(width: 15),
-        PrimaryButton('📁 Open directory', onPressed: () {
+        PrimaryButton(icon: Icons.folder, 'Open directory', onPressed: () {
           System.openDirectory(logEntry.directory);
         }),
         const SizedBox(width: 15),
-        PrimaryButton('📋 Copy to clipboard', onPressed: () {
+        PrimaryButton(icon: Icons.content_copy, 'Copy to clipboard', onPressed: () {
           Clipboard.setData(ClipboardData(text: logEntry.directory));
         }),
         const SizedBox(width: 15),
-        PrimaryButton('↩️Reload', onPressed: () {
+        PrimaryButton(icon: Icons.refresh, 'Reload', onPressed: () {
           reloadBloc.add(UpdatedEvent());
         }),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              PrimaryButton('🗑️ Archive', onPressed: () async {
+              PrimaryButton(icon: Icons.delete, 'Archive', onPressed: () async {
                 System.archive(logEntry.directory).then((_) {
                   Navigator.pop(context);
                   logEntriesChanged.value += 1;
@@ -63,7 +63,8 @@ class ActionButtons extends StatelessWidget {
   }
 }
 
-Future<void> showCreateNoteDialog(BuildContext context, LogEntry logEntry) async {
+Future<void> showCreateNoteDialog(
+    BuildContext context, LogEntry logEntry) async {
   await showDialog(
     context: context,
     builder: (context) {
