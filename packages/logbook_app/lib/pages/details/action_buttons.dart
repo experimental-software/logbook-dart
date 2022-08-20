@@ -25,7 +25,8 @@ class ActionButtons extends StatelessWidget {
           await showCreateNoteDialog(context, logEntry);
         }),
         const SizedBox(width: 15),
-        PrimaryButton(icon: Icons.format_list_numbered, 'Open notes', onPressed: () async {
+        PrimaryButton(icon: Icons.format_list_numbered, 'Open notes',
+            onPressed: () async {
           await showSelectNoteDialog(context, logEntry);
         }),
         const SizedBox(width: 15),
@@ -37,7 +38,8 @@ class ActionButtons extends StatelessWidget {
           System.openDirectory(logEntry.directory);
         }),
         const SizedBox(width: 15),
-        PrimaryButton(icon: Icons.content_copy, 'Copy to clipboard', onPressed: () {
+        PrimaryButton(icon: Icons.content_copy, 'Copy to clipboard',
+            onPressed: () {
           Clipboard.setData(ClipboardData(text: logEntry.directory));
         }),
         const SizedBox(width: 15),
@@ -61,15 +63,4 @@ class ActionButtons extends StatelessWidget {
       ],
     );
   }
-}
-
-Future<void> showCreateNoteDialog(
-    BuildContext context, LogEntry logEntry) async {
-  await showDialog(
-    context: context,
-    builder: (context) {
-      return CreateNoteDialog(parent: logEntry);
-    },
-    barrierDismissible: false,
-  );
 }

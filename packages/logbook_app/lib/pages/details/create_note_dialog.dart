@@ -146,3 +146,16 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
     super.dispose();
   }
 }
+
+Future<void> showCreateNoteDialog(
+  BuildContext context,
+  LogEntry logEntry,
+) async {
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return CreateNoteDialog(parent: logEntry);
+    },
+    barrierDismissible: false,
+  );
+}
