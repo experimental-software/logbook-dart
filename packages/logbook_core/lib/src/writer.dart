@@ -5,7 +5,23 @@ import 'package:uuid/uuid.dart';
 
 import 'log_entry.dart';
 
+class WriteService {
+  Future<LogEntry> createLogEntry({
+    required String title,
+    String description = '',
+  }) {
+    return _createLogEntry(title: title, description: description);
+  }
+}
+
 Future<LogEntry> createLogEntry({
+  required String title,
+  required String description,
+}) {
+  return _createLogEntry(title: title, description: description);
+}
+
+Future<LogEntry> _createLogEntry({
   required String title,
   required String description,
 }) async {

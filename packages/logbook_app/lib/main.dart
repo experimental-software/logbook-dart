@@ -6,6 +6,7 @@ import 'pages/homepage/index.dart';
 
 void main() {
   GetIt.I.registerSingleton(SearchService());
+  GetIt.I.registerSingleton(WriteService());
 
   runApp(const LogbookApp());
 }

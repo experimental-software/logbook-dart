@@ -17,7 +17,7 @@ done
 # Install CLI
 cd $SCRIPT_DIR/packages/logbook_cli
 dart pub get
-# dart test
+dart test
 dart pub global activate --source path .
 
 # Compile app
