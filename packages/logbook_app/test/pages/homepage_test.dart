@@ -48,4 +48,9 @@ class _DummySearchService implements SearchService {
   Future<List<LogEntry>> search(Directory _, String query) async {
     return searchResults;
   }
+
+  @override
+  Future<List<Note>> listNotes(LogEntry logEntry) async {
+    return [];
+  }
 }

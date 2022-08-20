@@ -1,5 +1,9 @@
-import 'package:logbook_core/src/search.dart';
+import 'dart:io';
+
+import 'package:logbook_core/src/log_entry.dart';
+import 'package:logbook_core/src/search_service.dart';
 import 'package:logbook_core/src/system.dart';
+import 'package:logbook_core/src/write_service.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -56,6 +60,29 @@ void main() {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = 'cat fox';
       expect(isSearchResult(s, q), equals(false));
+    });
+  });
+
+  group('notes', () {
+
+
+    test('find notes in log entry', () async {
+      var writeService = WriteService();
+      var searchService = SearchService();
+
+      System.baseDir = await Directory.systemTemp.createTemp();
+      var logEntry = await writeService.createLogEntry(
+        title: 'Example log entry',
+      );
+      await writeService.createNoteEntry(
+        title: 'Example note',
+        description: 'xxx',
+        baseDir: Directory(logEntry.directory),
+      );
+
+      List<Note> notes = await searchService.listNotes(logEntry);
+
+      expect(notes.length, equals(1));
     });
   });
 }
