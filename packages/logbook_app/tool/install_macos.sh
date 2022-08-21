@@ -19,16 +19,18 @@ function delete_backup() {
   fi
 }
 
+# Compile binaries
+cd $SCRIPT_DIR/..
+fvm flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
+fvm flutter pub get
+fvm flutter test
+fvm flutter build macos --no-tree-shake-icons
+
 # Clear existing installation
 delete_backup
 create_backup
 
-# Compile binaries
-cd $SCRIPT_DIR/..
-flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
-flutter pub get
-flutter test
-flutter build macos --no-tree-shake-icons
+# Install
 cp -r $BUILT_APP_PATH $INSTALLED_APP_PATH
 rm -rf build/
 

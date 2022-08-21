@@ -21,36 +21,36 @@ class ActionButtons extends StatelessWidget {
     return Row(
       children: [
         const SizedBox(width: 15),
-        PrimaryButton(icon: Icons.add, 'Add note', onPressed: () async {
+        PrimaryButton('Add note', icon: Icons.add, onPressed: () async {
           await showCreateNoteDialog(context, logEntry);
         }),
         const SizedBox(width: 15),
-        PrimaryButton(icon: Icons.format_list_numbered, 'Open notes',
+        PrimaryButton('Open notes', icon: Icons.format_list_numbered,
             onPressed: () async {
           await showSelectNoteDialog(context, logEntry);
         }),
         const SizedBox(width: 15),
-        PrimaryButton(icon: Icons.edit, 'Open editor', onPressed: () {
+        PrimaryButton('Open editor', icon: Icons.edit, onPressed: () {
           System.openInEditor(logEntry.directory);
         }),
         const SizedBox(width: 15),
-        PrimaryButton(icon: Icons.folder, 'Open directory', onPressed: () {
+        PrimaryButton('Open directory', icon: Icons.folder, onPressed: () {
           System.openDirectory(logEntry.directory);
         }),
         const SizedBox(width: 15),
-        PrimaryButton(icon: Icons.content_copy, 'Copy to clipboard',
+        PrimaryButton('Copy to clipboard', icon: Icons.content_copy,
             onPressed: () {
           Clipboard.setData(ClipboardData(text: logEntry.directory));
         }),
         const SizedBox(width: 15),
-        PrimaryButton(icon: Icons.refresh, 'Reload', onPressed: () {
+        PrimaryButton('Reload', icon: Icons.refresh, onPressed: () {
           reloadBloc.add(UpdatedEvent());
         }),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              PrimaryButton(icon: Icons.delete, 'Archive', onPressed: () async {
+              PrimaryButton('Archive', icon: Icons.delete, onPressed: () async {
                 System.archive(logEntry.directory).then((_) {
                   Navigator.pop(context);
                   logEntriesChanged.value += 1;

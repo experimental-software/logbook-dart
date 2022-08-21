@@ -14,17 +14,17 @@ do
   cd -
 done
 
+# Compile app
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  $SCRIPT_DIR/packages/logbook_app/tool/install_linux.sh
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  $SCRIPT_DIR/packages/logbook_app/tool/install_macos.sh
+else
+  echo "OS type $OSTYPE not supported, yet."
+fi
+
 # Install CLI
 cd $SCRIPT_DIR/packages/logbook_cli
 dart pub get
 dart test
 dart pub global activate --source path .
-
-# Compile app
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  $SCRIPT_DIR/packages/logbook_app/tool/install_linux.sh
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-  $SCRIPT_DIR/packages/logbook_app/install_macos.sh
-else
-  echo "OS type $OSTYPE not supported, yet."
-fi
