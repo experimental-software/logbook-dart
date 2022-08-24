@@ -8,14 +8,20 @@ import 'package:test/test.dart';
 
 void main() {
   test('should find log entries', () async {
+    System.baseDir = await Directory.systemTemp.createTemp();
+    var writeService = WriteService();
+    await writeService.createLogEntry(
+      title: 'Example for test',
+      description: 'xxx',
+    );
     var searchService = SearchService();
+
     var result = await searchService.search(System.baseDir, 'test');
 
     for (var logEntry in result) {
       // ignore: avoid_print
       print('${logEntry.dateTime.toIso8601String()} - ${logEntry.title}');
     }
-
     expect(result, isNotEmpty);
   });
 
