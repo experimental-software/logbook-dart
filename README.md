@@ -2,6 +2,8 @@
 
 The logbook project provides a desktop and command-line application for chronological note taking.
 
+🚧 This project is not generally usable, yet. E.g. it assumes the availabilty of certain user directories and installed binaries. 🚧
+
 ## Introduction
 
 ### Unique value proposition
@@ -20,20 +22,8 @@ The logbook project provides a desktop and command-line application for chronolo
 
 ## Setup
 
-Given that Dart/Flutter have been installed using FVM, the Logbook can be installed on Linux and macOS like this:
-
 ```
 ./install.sh
-```
-
-## Usage
-
-### macOS
-
-**Run with console output**
-
-```
-/Applications/logbook.app/Contents/MacOS/logbook
 ```
 
 ## Development
