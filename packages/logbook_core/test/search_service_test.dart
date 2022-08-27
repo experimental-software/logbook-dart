@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:logbook_core/src/log_entry.dart';
 import 'package:logbook_core/src/search_service.dart';
-import 'package:logbook_core/src/system.dart';
+import 'package:logbook_core/src/system_service.dart';
 import 'package:logbook_core/src/write_service.dart';
 import 'package:test/test.dart';
 
