@@ -15,14 +15,14 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textWidget = Padding(
-      padding: const EdgeInsets.all(9.0),
+      padding: const EdgeInsets.fromLTRB(0, 11, 0, 11),
       child: Text(title),
     );
 
     if (icon != null) {
       return ElevatedButton.icon(
         onPressed: onPressed,
-        icon: Icon(icon!),
+        icon: Icon(icon!, size: 22),
         label: textWidget,
       );
     } else {

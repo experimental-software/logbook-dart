@@ -19,8 +19,4 @@ dart analyze
 dart test
 
 # logbook_app
-cd $SCRIPT_DIR/../packages/logbook_app
-flutter pub get
-flutter format --output=none --set-exit-if-changed .
-flutter analyze
-flutter test
+$SCRIPT_DIR/../packages/logbook_app/tool/test.sh

@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../widgets/create_log_dialog.dart';
 import '../homepage/index.dart';
 import 'action_buttons.dart';
 import 'reload_bloc/reload_bloc.dart';
@@ -24,6 +24,8 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  final SystemService systemService = GetIt.I.get();
+
   late Future<String> _noteText;
 
   @override
@@ -73,11 +75,13 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              await _showCreateLogDialog(context);
-              logEntriesChanged.value += 1;
+              systemService.archive(widget.logEntry.directory).then((_) {
+                Navigator.pop(context);
+                logEntriesChanged.value += 1;
+              });
             },
-            tooltip: 'Add log entry',
-            child: const Icon(Icons.add),
+            tooltip: 'Archive log entry',
+            child: const Icon(Icons.done),
           ),
           body: Column(
             children: [
@@ -130,16 +134,6 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> _showCreateLogDialog(BuildContext context) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return const CreateLogDialog();
-      },
-      barrierDismissible: false,
     );
   }
 }

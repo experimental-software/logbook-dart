@@ -7,6 +7,7 @@ import 'pages/homepage/index.dart';
 void main() {
   GetIt.I.registerSingleton(SearchService());
   GetIt.I.registerSingleton(WriteService());
+  GetIt.I.registerSingleton(SystemService());
 
   runApp(const LogbookApp());
 }
@@ -41,8 +42,9 @@ class LogbookApp extends StatelessWidget {
     return MaterialApp(
       home: const Homepage(),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light()
-          .copyWith(pageTransitionsTheme: pageTransitionsTheme),
+      theme: ThemeData.light().copyWith(
+        pageTransitionsTheme: pageTransitionsTheme,
+      ),
     );
   }
 }

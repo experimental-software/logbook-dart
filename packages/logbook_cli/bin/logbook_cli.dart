@@ -9,6 +9,7 @@ import 'package:logbook_core/logbook_core.dart';
 void main(List<String> args) {
   GetIt.I.registerSingleton(SearchService());
   GetIt.I.registerSingleton(WriteService());
+  GetIt.I.registerSingleton(SystemService());
 
   CommandRunner('logbook', 'A markdown-based engineering logbook.')
     ..addCommand(SearchCommand())

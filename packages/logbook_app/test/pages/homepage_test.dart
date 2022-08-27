@@ -8,10 +8,10 @@ import 'package:get_it/get_it.dart';
 import '../widget_test_app.dart';
 
 void main() {
-  late _DummySearchService searchService;
+  late _FakeSearchService searchService;
 
   setUp(() {
-    GetIt.I.registerSingleton<SearchService>(_DummySearchService());
+    GetIt.I.registerSingleton<SearchService>(_FakeSearchService());
   });
 
   tearDown(() async {
@@ -25,7 +25,7 @@ void main() {
   });
 
   testWidgets('show all log entries after opening the app', (tester) async {
-    searchService = GetIt.I.get<SearchService>() as _DummySearchService;
+    searchService = GetIt.I.get<SearchService>() as _FakeSearchService;
     searchService.searchResults.add(
       LogEntry(
         dateTime: DateTime.now(),
@@ -41,7 +41,7 @@ void main() {
   });
 }
 
-class _DummySearchService implements SearchService {
+class _FakeSearchService implements SearchService {
   final List<LogEntry> searchResults = [];
 
   @override

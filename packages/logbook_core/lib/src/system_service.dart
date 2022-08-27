@@ -2,6 +2,12 @@ import 'dart:io';
 
 import 'package:system/system.dart' as sys;
 
+class SystemService {
+  Future<void> archive(String originalDirectoryPath) async {
+    System.archive(originalDirectoryPath);
+  }
+}
+
 class System {
   System._();
 
