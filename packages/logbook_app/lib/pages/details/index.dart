@@ -102,12 +102,12 @@ class _DetailsPageState extends State<DetailsPage> {
                   data = data.replaceFirst(RegExp(r'^#.*'), '');
 
                   if (data.trim().isEmpty) {
-                    return Container();
+                    return Expanded(child: Container());
                   }
 
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 87),
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 45),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
@@ -129,6 +129,13 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                   );
                 },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(widget.logEntry.formattedTime),
+                ),
               ),
             ],
           ),

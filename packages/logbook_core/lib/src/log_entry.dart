@@ -8,6 +8,16 @@ class LogEntry {
     required this.title,
     required this.directory,
   });
+
+  String get formattedTime {
+    var year = dateTime.year.toString();
+    var month = dateTime.month.toString().padLeft(2, '0');
+    var day = dateTime.day.toString().padLeft(2, '0');
+    var hour = dateTime.hour.toString().padLeft(2, '0');
+    var minute = dateTime.minute.toString().padLeft(2, '0');
+
+    return '$year-$month-$day $hour:$minute';
+  }
 }
 
 /// Notes are details within log entries.
