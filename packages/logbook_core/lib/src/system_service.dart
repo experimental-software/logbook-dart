@@ -4,7 +4,7 @@ import 'package:system/system.dart' as sys;
 
 class SystemService {
   Future<void> archive(String originalDirectoryPath) async {
-    System.archive(originalDirectoryPath);
+    await System.archive(originalDirectoryPath);
   }
 }
 
@@ -12,6 +12,7 @@ class System {
   System._();
 
   static Directory? _baseDir;
+  static Directory? _archiveDir;
 
   static Future<void> openDirectory(String directory) async {
     sys.System.invoke('open $directory');
@@ -40,9 +41,18 @@ class System {
     await archivedDirectory.create(recursive: true);
     await originalDirectory.rename(archivedDirectoryPath);
 
-    final Directory originalParentDirectory = originalDirectory.parent;
-    if (await originalParentDirectory.list().isEmpty) {
-      await originalParentDirectory.delete();
+    final parentDayDirectory = originalDirectory.parent;
+    final parentMonthDirectory = parentDayDirectory.parent;
+    final parentYearDirectory = parentMonthDirectory.parent;
+
+    if (await parentDayDirectory.list().isEmpty) {
+      await parentDayDirectory.delete();
+    }
+    if (await parentMonthDirectory.list().isEmpty) {
+      await parentMonthDirectory.delete();
+    }
+    if (await parentYearDirectory.list().isEmpty) {
+      await parentYearDirectory.delete();
     }
   }
 
@@ -65,6 +75,10 @@ class System {
   }
 
   static Directory get archiveDir {
+    if (_archiveDir != null) {
+      return _archiveDir!;
+    }
+
     if (Platform.isMacOS) {
       return Directory('/Users/jmewes/doc/Archiv');
     }
@@ -72,5 +86,9 @@ class System {
       return Directory('/home/janux/doc/Archiv');
     }
     throw 'Unsupported OS: ${Platform.operatingSystem}';
+  }
+
+  static set archiveDir(Directory? archiveDir) {
+    _archiveDir = archiveDir;
   }
 }
