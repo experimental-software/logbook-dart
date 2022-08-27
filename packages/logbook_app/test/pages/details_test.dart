@@ -18,7 +18,7 @@ void main() {
     await GetIt.I.reset();
   });
 
-  testWidgets('render homepage', (tester) async {
+  testWidgets('render log entry details page', (tester) async {
     tester.binding.window.platformDispatcher.textScaleFactorTestValue = 0.2;
     var logEntry = LogEntry(
       dateTime: DateTime.now(),
