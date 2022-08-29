@@ -14,14 +14,21 @@ class System {
   static Directory? _baseDir;
   static Directory? _archiveDir;
 
+  static String get vsCodeMacOsBinary => '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron';
+
+  static Future<void> openApp() async {
+    if (Platform.isMacOS) {
+      sys.System.invoke('$vsCodeMacOsBinary &');
+    }
+  }
+
   static Future<void> openDirectory(String directory) async {
     sys.System.invoke('open $directory');
   }
 
   static Future<void> openInEditor(String directory) async {
     if (Platform.isMacOS) {
-      sys.System.invoke(
-          '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron $directory &');
+      sys.System.invoke('$vsCodeMacOsBinary $directory &');
     }
     if (Platform.isLinux) {
       sys.System.invoke('code $directory');
