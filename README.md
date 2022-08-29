@@ -35,3 +35,14 @@ Given `lcov` has been install via Homebrew or Apt, the test coverage report can 
 ```
 ./tool/create_test_coverage_report.sh
 ```
+
+## Maintenance
+
+### Create release
+
+```
+NEW_VERSION= # e.g. v0.0.9
+
+git tag $NEW_VERSION
+git push origin --tag $NEW_VERSION
+```
