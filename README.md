@@ -8,8 +8,7 @@ The logbook project provides a desktop and command-line application for chronolo
 
 ### Unique value proposition
 
-- The simplicity of the tool enables to focus on subject to be worked on.
-- It has been built to support work which requires intensive learning on the job.
+The simplicity of the tool enables to focus on subject to be worked on.
 
 ### Alternative projects
 
@@ -19,6 +18,7 @@ The logbook project provides a desktop and command-line application for chronolo
 - [Evernote](https://evernote.com)
 - [Roam Research](https://roamresearch.com)
 - [Quiver](https://yliansoft.com/)
+- [Notion](https://www.notion.so/product)
 
 ## Setup
 
