@@ -104,6 +104,51 @@ class SearchService {
   }
 }
 
+Future<LogEntry> toLogEntry(Directory logEntryDir) async {
+  final timeAndSlugMatcher = RegExp(r'.*/\d{2}.\d{2}_(.*)');
+  var timeAndSlugMatch = timeAndSlugMatcher.firstMatch(logEntryDir.path);
+  if (timeAndSlugMatch == null) {
+    throw 'Invalid log entry path';
+  }
+  var slug = timeAndSlugMatch.group(1)!;
+
+  for (var f in logEntryDir.listSync()) {
+    if (!f.path.endsWith('$slug.md')) {
+      continue;
+    }
+    final file = File(f.path);
+    Stream<String> lines = file
+        .openRead()
+        .transform(utf8.decoder)
+        .transform(const LineSplitter());
+    await for (var line in lines) {
+      if (line.startsWith('# ')) {
+        final regex =
+        RegExp(r'.*(\d{4})/(\d{2})/(\d{2})/(\d{2})\.(\d{2}).*');
+        final match = regex.firstMatch(f.path);
+        late DateTime dateTime;
+        if (match != null) {
+          final year = int.parse(match.group(1)!);
+          final month = int.parse(match.group(2)!);
+          final day = int.parse(match.group(3)!);
+          final hour = int.parse(match.group(4)!);
+          final minute = int.parse(match.group(5)!);
+          dateTime = DateTime(year, month, day, hour, minute);
+        } else {
+          continue;
+        }
+        final title = line.substring(2);
+        return LogEntry(
+          title: title,
+          dateTime: dateTime,
+          directory: logEntryDir.path,
+        );
+      }
+    }
+  }
+  throw 'Failed to get log entry';
+}
+
 bool isSearchResult(String text, String query) {
   if (query.trim() == '') {
     return true;

@@ -14,12 +14,15 @@ class System {
   static Directory? _baseDir;
   static Directory? _archiveDir;
 
-  static String get vsCodeMacOsBinary => '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron';
+  static String get macVsCodePath => '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron';
+  static String get macAppPath => '/Applications/logbook.app';
 
-  static Future<void> openApp() async {
+  static Future<void> openApp(String args) async {
     if (Platform.isMacOS) {
-      sys.System.invoke('$vsCodeMacOsBinary &');
+      sys.System.invoke('open -n $macAppPath --args $args');
+      return;
     }
+    throw 'Unsupported OS';
   }
 
   static Future<void> openDirectory(String directory) async {
@@ -28,7 +31,7 @@ class System {
 
   static Future<void> openInEditor(String directory) async {
     if (Platform.isMacOS) {
-      sys.System.invoke('$vsCodeMacOsBinary $directory &');
+      sys.System.invoke('$macVsCodePath $directory &');
     }
     if (Platform.isLinux) {
       sys.System.invoke('code $directory');

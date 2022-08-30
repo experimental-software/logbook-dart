@@ -12,6 +12,7 @@ class OpenCommand extends Command {
 
   @override
   void run() async {
-
+    var args = argResults ?? '';
+    System.openApp(args.toString());
   }
 }
