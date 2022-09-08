@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook/pages/details/index.dart';
@@ -14,7 +12,7 @@ void main(List<String> args) async {
 
   LogEntry? logEntry;
   if (args.isNotEmpty) {
-    logEntry = await toLogEntry(Directory(args.first));
+    logEntry = await toLogEntry(args.first);
   }
 
   runApp(LogbookApp(logEntry: logEntry));

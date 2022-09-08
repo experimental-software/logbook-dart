@@ -104,7 +104,13 @@ class SearchService {
   }
 }
 
-Future<LogEntry> toLogEntry(Directory logEntryDir) async {
+Future<LogEntry?> toLogEntry(String path) async {
+  var logEntryPath = _logEntryBasePath(path);
+  if (logEntryPath == null) {
+    return null;
+  }
+  var logEntryDir = Directory(logEntryPath);
+
   final timeAndSlugMatcher = RegExp(r'.*/\d{2}.\d{2}_(.*)');
   var timeAndSlugMatch = timeAndSlugMatcher.firstMatch(logEntryDir.path);
   if (timeAndSlugMatch == null) {
@@ -146,8 +152,18 @@ Future<LogEntry> toLogEntry(Directory logEntryDir) async {
       }
     }
   }
-  throw 'Failed to get log entry';
+  return null;
 }
+
+String? _logEntryBasePath(String path) {
+  var baseDirPattern = RegExp(r'(.*/2\d{3}/\d{2}/\d{2}/\d{2}\.\d{2}_.*?)/.*');
+  var match = baseDirPattern.firstMatch(path);
+  if (match == null) {
+    return null;
+  }
+  return match.group(1)!;
+}
+
 
 bool isSearchResult(String text, String query) {
   if (query.trim() == '') {

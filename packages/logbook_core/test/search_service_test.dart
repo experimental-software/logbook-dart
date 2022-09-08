@@ -8,21 +8,41 @@ import 'package:test/test.dart';
 
 void main() {
   test('should find log entries', () async {
-    System.baseDir = await Directory.systemTemp.createTemp();
-    var writeService = WriteService();
-    await writeService.createLogEntry(
-      title: 'Example for test',
-      description: 'xxx',
-    );
+    await createExampleLogEntry(title: 'Example for test');
     var searchService = SearchService();
 
     var result = await searchService.search(System.baseDir, 'test');
 
-    for (var logEntry in result) {
-      // ignore: avoid_print
-      print('${logEntry.dateTime.toIso8601String()} - ${logEntry.title}');
-    }
     expect(result, isNotEmpty);
+  });
+
+  group('toLogEntry', () {
+    test('read log entry from directory path', () async {
+      var originalLogEntry = await createExampleLogEntry();
+
+      var retrievedLogEntry = await toLogEntry(originalLogEntry.directory);
+
+      expect(retrievedLogEntry, isNotNull);
+      expect(
+        originalLogEntry.formattedTime,
+        equals(retrievedLogEntry!.formattedTime),
+      );
+    });
+
+    test('read log entry from nested file path', () async {
+      var originalLogEntry = await createExampleLogEntry();
+
+      var retrievedLogEntry = await toLogEntry(
+        '${originalLogEntry.directory}/005_random-note/index.md',
+      );
+
+      expect(retrievedLogEntry, isNotNull);
+      expect(
+        originalLogEntry.formattedTime,
+        equals(retrievedLogEntry!.formattedTime),
+      );
+      expect(true, equals(true));
+    });
   });
 
   group('match', () {
@@ -89,4 +109,15 @@ void main() {
       expect(notes.length, equals(1));
     });
   });
+}
+
+Future<LogEntry> createExampleLogEntry({
+  String title = 'Just a random test title',
+}) async {
+  System.baseDir = await Directory.systemTemp.createTemp();
+  var writeService = WriteService();
+  return writeService.createLogEntry(
+    title: title,
+    description: 'xxx',
+  );
 }
