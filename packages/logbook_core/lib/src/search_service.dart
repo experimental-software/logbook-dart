@@ -123,14 +123,11 @@ Future<LogEntry?> toLogEntry(String path) async {
       continue;
     }
     final file = File(f.path);
-    Stream<String> lines = file
-        .openRead()
-        .transform(utf8.decoder)
-        .transform(const LineSplitter());
+    Stream<String> lines =
+        file.openRead().transform(utf8.decoder).transform(const LineSplitter());
     await for (var line in lines) {
       if (line.startsWith('# ')) {
-        final regex =
-        RegExp(r'.*(\d{4})/(\d{2})/(\d{2})/(\d{2})\.(\d{2}).*');
+        final regex = RegExp(r'.*(\d{4})/(\d{2})/(\d{2})/(\d{2})\.(\d{2}).*');
         final match = regex.firstMatch(f.path);
         late DateTime dateTime;
         if (match != null) {
@@ -156,6 +153,7 @@ Future<LogEntry?> toLogEntry(String path) async {
 }
 
 String? _logEntryBasePath(String path) {
+  path = '$path/';
   var baseDirPattern = RegExp(r'(.*/2\d{3}/\d{2}/\d{2}/\d{2}\.\d{2}_.*?)/.*');
   var match = baseDirPattern.firstMatch(path);
   if (match == null) {
@@ -163,7 +161,6 @@ String? _logEntryBasePath(String path) {
   }
   return match.group(1)!;
 }
-
 
 bool isSearchResult(String text, String query) {
   if (query.trim() == '') {

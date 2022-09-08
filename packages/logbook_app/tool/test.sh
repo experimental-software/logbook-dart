@@ -9,3 +9,4 @@ flutter pub get
 flutter format --output=none --set-exit-if-changed .
 flutter analyze --fatal-infos
 flutter test
+# TODO if format errors, echo warning, fix format and then fail, so that re-run will pass

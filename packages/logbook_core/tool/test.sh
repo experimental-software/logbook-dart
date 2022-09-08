@@ -9,3 +9,5 @@ dart pub get
 dart format --output=none --set-exit-if-changed .
 dart analyze --fatal-infos
 dart test
+
+# TODO if format errors, echo warning, fix format and then fail, so that re-run will pass

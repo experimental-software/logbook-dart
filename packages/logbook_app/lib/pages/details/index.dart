@@ -71,9 +71,11 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     Widget? leading;
     if (!Navigator.of(context).canPop()) {
-      leading = IconButton(onPressed: () {
-        Navigator.pop(context);
-      }, icon: Icon(arrowBack()));
+      leading = IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(arrowBack()));
     }
     return BlocProvider(
       create: (context) => ReloadBloc(),

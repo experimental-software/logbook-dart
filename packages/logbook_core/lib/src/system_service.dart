@@ -14,7 +14,8 @@ class System {
   static Directory? _baseDir;
   static Directory? _archiveDir;
 
-  static String get macVsCodePath => '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron';
+  static String get macVsCodePath =>
+      '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron';
   static String get macAppPath => '/Applications/logbook.app';
 
   static Future<void> openApp(String args) async {
