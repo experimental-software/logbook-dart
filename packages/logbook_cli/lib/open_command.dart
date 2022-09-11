@@ -10,7 +10,13 @@ class OpenCommand extends Command {
 
   @override
   void run() async {
-    var args = argResults ?? '';
-    System.openApp(args.toString());
+    String? noteDirectory;
+    if (argResults != null) {
+      var args = argResults!;
+      if (args.rest.isNotEmpty) {
+        noteDirectory = args.rest.first;
+      }
+    }
+    System.openInApp(noteDirectory);
   }
 }

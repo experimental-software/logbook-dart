@@ -59,24 +59,8 @@ class _DetailsPageState extends State<DetailsPage> {
     return result;
   }
 
-  IconData arrowBack() {
-    if (Platform.isMacOS) {
-      return Icons.arrow_back_ios;
-    } else {
-      return Icons.arrow_back;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    Widget? leading;
-    if (!Navigator.of(context).canPop()) {
-      leading = IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(arrowBack()));
-    }
     return BlocProvider(
       create: (context) => ReloadBloc(),
       child: BlocListener<ReloadBloc, ReloadState>(
@@ -88,13 +72,16 @@ class _DetailsPageState extends State<DetailsPage> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(widget.logEntry.title),
-            leading: leading,
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               systemService.archive(widget.logEntry.directory).then((_) {
-                Navigator.pop(context);
-                logEntriesChanged.value += 1;
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                  logEntriesChanged.value += 1;
+                } else {
+                  systemService.shutdownApp();
+                }
               });
             },
             tooltip: 'Archive log entry',

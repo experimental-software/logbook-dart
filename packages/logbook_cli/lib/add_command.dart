@@ -17,6 +17,11 @@ class AddCommand extends Command {
       abbr: 'e',
       help: 'Edit created log entry in external text editor.',
     );
+    argParser.addFlag(
+      'open',
+      abbr: 'o',
+      help: 'Open the created log entry in a new Logbook app instance.',
+    );
   }
 
   @override
@@ -38,6 +43,9 @@ class AddCommand extends Command {
 
     if (results['edit']) {
       System.openInEditor(logEntry.directory);
+    }
+    if (results['open']) {
+      System.openInApp(logEntry.directory);
     }
   }
 }

@@ -7,4 +7,9 @@ class FakeSystemService implements SystemService {
   Future<void> archive(String originalDirectoryPath) async {
     archivedDirectories.add(originalDirectoryPath);
   }
+
+  @override
+  void shutdownApp() {
+    // Don't do this in tests
+  }
 }

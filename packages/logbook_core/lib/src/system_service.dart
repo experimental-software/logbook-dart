@@ -1,10 +1,15 @@
 import 'dart:io';
 
 import 'package:system/system.dart' as sys;
+import 'package:path/path.dart' as path;
 
 class SystemService {
   Future<void> archive(String originalDirectoryPath) async {
     await System.archive(originalDirectoryPath);
+  }
+
+  void shutdownApp() {
+    exit(0);
   }
 }
 
@@ -16,15 +21,6 @@ class System {
 
   static String get macVsCodePath =>
       '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron';
-  static String get macAppPath => '/Applications/logbook.app';
-
-  static Future<void> openApp(String args) async {
-    if (Platform.isMacOS) {
-      sys.System.invoke('open -n $macAppPath --args $args');
-      return;
-    }
-    throw 'Unsupported OS';
-  }
 
   static Future<void> openDirectory(String directory) async {
     sys.System.invoke('open $directory');
@@ -32,11 +28,26 @@ class System {
 
   static Future<void> openInEditor(String directory) async {
     if (Platform.isMacOS) {
-      sys.System.invoke('$macVsCodePath $directory &');
+      sys.System.invoke('$macVsCodePath $directory > /dev/null 2>&1 &');
     }
     if (Platform.isLinux) {
       sys.System.invoke('code $directory');
     }
+  }
+
+  static Future<void> openInApp([String? directory = '']) async {
+    if (Platform.isMacOS) {
+      sys.System.invoke(
+        '/Applications/logbook.app/Contents/MacOS/logbook $directory &',
+      );
+      return;
+    }
+    if (Platform.isLinux) {
+      var home = path.absolute(Platform.environment['HOME']!);
+      sys.System.invoke('$home/bin/logbook/logbook $directory &');
+      return;
+    }
+    throw 'Unsupported OS';
   }
 
   static Future<void> archive(String originalDirectoryPath) async {
