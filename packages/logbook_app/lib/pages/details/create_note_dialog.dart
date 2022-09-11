@@ -102,7 +102,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.teal,
+                backgroundColor: Colors.teal,
               ),
               onPressed: () {
                 Navigator.pop(context);
