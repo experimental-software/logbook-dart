@@ -1,2 +1,13 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# Command line interface
+
+## Development
+
+**Run linter**
+
+```
+cd ./packages/logbook_core
+
+dart pub get
+dart format .
+dart analyze
+```

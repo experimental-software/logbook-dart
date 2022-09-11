@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logbook/pages/details/index.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 import 'pages/homepage/index.dart';
 
-void main() {
+void main(List<String> args) async {
   GetIt.I.registerSingleton(SearchService());
   GetIt.I.registerSingleton(WriteService());
   GetIt.I.registerSingleton(SystemService());
 
-  runApp(const LogbookApp());
+  LogEntry? logEntry;
+  if (args.isNotEmpty) {
+    logEntry = await toLogEntry(args.first);
+  }
+
+  runApp(LogbookApp(logEntry: logEntry));
 }
 
 class NoAnimationPageTransitionsBuilder extends PageTransitionsBuilder {
@@ -35,12 +41,20 @@ const pageTransitionsTheme = PageTransitionsTheme(
 );
 
 class LogbookApp extends StatelessWidget {
-  const LogbookApp({Key? key}) : super(key: key);
+  final LogEntry? logEntry;
+
+  const LogbookApp({Key? key, this.logEntry}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Widget startPage;
+    if (logEntry == null) {
+      startPage = const Homepage();
+    } else {
+      startPage = DetailsPage(logEntry: logEntry!);
+    }
     return MaterialApp(
-      home: const Homepage(),
+      home: startPage,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
         pageTransitionsTheme: pageTransitionsTheme,

@@ -76,8 +76,12 @@ class _DetailsPageState extends State<DetailsPage> {
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               systemService.archive(widget.logEntry.directory).then((_) {
-                Navigator.pop(context);
-                logEntriesChanged.value += 1;
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                  logEntriesChanged.value += 1;
+                } else {
+                  systemService.shutdownApp();
+                }
               });
             },
             tooltip: 'Archive log entry',

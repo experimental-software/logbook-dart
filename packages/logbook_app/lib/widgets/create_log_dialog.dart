@@ -112,7 +112,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.teal,
+                backgroundColor: Colors.teal,
               ),
               onPressed: () {
                 Navigator.pop(context);
