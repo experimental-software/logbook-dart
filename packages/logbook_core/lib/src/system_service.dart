@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:system/system.dart' as sys;
 import 'package:path/path.dart' as path;
+import 'package:system/system.dart' as sys;
 
 class SystemService {
   Future<void> archive(String originalDirectoryPath) async {
@@ -38,13 +38,15 @@ class System {
   static Future<void> openInApp([String? directory = '']) async {
     if (Platform.isMacOS) {
       sys.System.invoke(
-        '/Applications/logbook.app/Contents/MacOS/logbook $directory &',
+        '/Applications/logbook.app/Contents/MacOS/logbook $directory > /dev/null 2>&1  &',
       );
       return;
     }
     if (Platform.isLinux) {
       var home = path.absolute(Platform.environment['HOME']!);
-      sys.System.invoke('$home/bin/logbook/logbook $directory &');
+      sys.System.invoke(
+        '$home/bin/logbook/logbook $directory > /dev/null 2>&1 &',
+      );
       return;
     }
     throw 'Unsupported OS';
