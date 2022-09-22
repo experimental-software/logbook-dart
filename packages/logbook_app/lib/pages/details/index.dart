@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:get_it/get_it.dart';
 
 import '../homepage/index.dart';
 import 'action_buttons.dart';
+import 'edit_log_entry_dialog.dart';
 import 'reload_bloc/reload_bloc.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -35,13 +36,13 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   void _fetchNoteText({Directory? noteDirectory}) {
-    _noteText = _readNoteText(
+    _noteText = _readDescriptionFromLogOrNote(
       noteDirectory ??= Directory(widget.logEntry.directory),
     );
     setState(() {});
   }
 
-  Future<String> _readNoteText(Directory dir) async {
+  Future<String> _readDescriptionFromLogOrNote(Directory dir) async {
     var files = dir.listSync();
 
     final timeAndSlugMatcher = RegExp(r'.*/\d{2}.\d{2}_(.*)');
@@ -71,7 +72,12 @@ class _DetailsPageState extends State<DetailsPage> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: Text(widget.logEntry.title),
+            title: GestureDetector(
+              onDoubleTap: () {
+                showEditLogEntryDialog(context, widget.logEntry);
+              },
+              child: Text(widget.logEntry.title),
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
@@ -116,18 +122,23 @@ class _DetailsPageState extends State<DetailsPage> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                         ),
-                        child: Markdown(
-                          styleSheet: MarkdownStyleSheet(
-                            h1Align: WrapAlignment.center,
-                          ),
-                          // shrinkWrap: false,
-                          selectable: true,
-                          onTapLink: (text, url, title) {
-                            if (url != null) {
-                              launchUrlString(url);
-                            }
+                        child: GestureDetector(
+                          onDoubleTap: () {
+                            showEditLogEntryDialog(context, widget.logEntry);
                           },
-                          data: data,
+                          child: Markdown(
+                            styleSheet: MarkdownStyleSheet(
+                              h1Align: WrapAlignment.center,
+                            ),
+                            // shrinkWrap: false,
+                            selectable: true,
+                            onTapLink: (text, url, title) {
+                              if (url != null) {
+                                launchUrlString(url);
+                              }
+                            },
+                            data: data,
+                          ),
                         ),
                       ),
                     ),

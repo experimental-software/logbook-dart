@@ -1,7 +1,11 @@
 import 'dart:io';
 
+import 'package:logbook_core/logbook_core.dart';
+import 'package:logbook_core/src/read_service.dart';
 import 'package:logbook_core/src/write_service.dart';
 import 'package:test/test.dart';
+
+import 'test_utils.dart';
 
 void main() {
   group('slugify', () {
@@ -63,6 +67,28 @@ void main() {
       var name = 'example-dir';
       var result = WriterUtils.parseIndexFromDirectory(name);
       expect(result, isNull);
+    });
+  });
+
+  group('updateLogEntry', () {
+    test('should write new text and description', () async {
+      final originalLogEntry = await createExampleLogEntry();
+
+      var writeService = WriteService();
+      await writeService.updateLogEntry(
+        logEntry: originalLogEntry,
+        title: 'New title',
+        description: 'New description',
+      );
+
+      final updatedLogEntry = await toLogEntry(originalLogEntry.directory);
+      expect(updatedLogEntry!.title, equals('New title'));
+
+      var readService = ReadService();
+      var description = await readService.readDescriptionLogOrNoteDescriptionFile(
+        Directory(originalLogEntry.directory),
+      );
+      expect(description, contains('New description'));
     });
   });
 }

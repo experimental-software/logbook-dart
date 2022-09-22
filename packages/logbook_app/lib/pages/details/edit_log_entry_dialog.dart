@@ -1,34 +1,43 @@
 import 'dart:io';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:logbook/pages/details/reload_bloc/reload_bloc.dart';
 
 import 'package:logbook_core/logbook_core.dart';
+import 'package:get_it/get_it.dart';
 
-import 'reload_bloc/reload_bloc.dart';
+class EditLogEntryDialog extends StatefulWidget {
+  final LogEntry logEntry;
+  final ReloadBloc reloadBloc;
 
-class CreateNoteDialog extends StatefulWidget {
-  final LogEntry parent;
-
-  const CreateNoteDialog({
+  const EditLogEntryDialog({
     Key? key,
-    required this.parent,
+    required this.logEntry,
+    required this.reloadBloc,
   }) : super(key: key);
 
   @override
-  State<CreateNoteDialog> createState() => _CreateNoteDialogState();
+  State<EditLogEntryDialog> createState() => _EditLogEntryDialogState();
 }
 
-class _CreateNoteDialogState extends State<CreateNoteDialog> {
+class _EditLogEntryDialogState extends State<EditLogEntryDialog> {
+  final WriteService writeService = GetIt.I.get();
+  final ReadService readService = GetIt.I.get();
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  bool shouldOpenEditor = false;
-  bool shouldOpenDirectory = false;
+  @override
+  void initState() {
+    _titleController.text = widget.logEntry.title;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Text('Add note to log entry'),
+      title: const Text('Edit log entry'),
       children: [
         SizedBox(
           width: 900,
@@ -70,36 +79,6 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
-          children: [
-            Row(
-              children: [
-                Checkbox(
-                  value: shouldOpenEditor,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldOpenEditor = value!;
-                    });
-                  },
-                ),
-                const Text('Open editor'),
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: shouldOpenDirectory,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldOpenDirectory = value!;
-                    });
-                  },
-                ),
-                const Text('Open directory'),
-              ],
-            ),
-          ],
-        ),
-        Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             ElevatedButton(
@@ -117,20 +96,13 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                 var title = _titleController.text;
                 var description = _descriptionController.text;
 
-                createNoteEntry(
+                writeService.updateLogEntry(
+                  logEntry: widget.logEntry,
                   title: title,
                   description: description,
-                  baseDir: Directory(widget.parent.directory),
-                ).then((noteEntryDirectory) {
-                  if (shouldOpenEditor) {
-                    System.openInEditor(noteEntryDirectory.path);
-                  }
-
-                  if (shouldOpenDirectory) {
-                    System.openDirectory(noteEntryDirectory.path);
-                  }
-
+                ).then((logEntry) {
                   Navigator.pop(context);
+                  widget.reloadBloc.add(UpdatedEvent());
                 });
               },
               child: const Text('Save'),
@@ -149,14 +121,15 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
   }
 }
 
-Future<void> showCreateNoteDialog(
+Future<void> showEditLogEntryDialog(
   BuildContext context,
   LogEntry logEntry,
 ) async {
+  final ReloadBloc reloadBloc = context.read<ReloadBloc>();
   await showDialog(
     context: context,
     builder: (context) {
-      return CreateNoteDialog(parent: logEntry);
+      return EditLogEntryDialog(logEntry: logEntry, reloadBloc: reloadBloc);
     },
     barrierDismissible: false,
   );
