@@ -72,11 +72,15 @@ class _DetailsPageState extends State<DetailsPage> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: GestureDetector(
-              onDoubleTap: () {
-                showEditLogEntryDialog(context, widget.logEntry);
-              },
-              child: Text(widget.logEntry.title),
+            title: Builder(
+              builder: (context) {
+                return GestureDetector(
+                  onDoubleTap: () {
+                    showEditLogEntryDialog(context, widget.logEntry);
+                  },
+                  child: Text(widget.logEntry.title),
+                );
+              }
             ),
           ),
           floatingActionButton: FloatingActionButton(
