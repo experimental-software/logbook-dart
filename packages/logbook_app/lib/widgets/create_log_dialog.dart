@@ -146,7 +146,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => DetailsPage(
-                          logEntry: logEntry,
+                          originalLogEntry: logEntry,
                         ),
                       ),
                     );

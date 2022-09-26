@@ -26,7 +26,7 @@ void main() {
       directory: '/tmp/fake/example',
     );
 
-    await tester.pumpWidget(WidgetTestApp(DetailsPage(logEntry: logEntry)));
+    await tester.pumpWidget(WidgetTestApp(DetailsPage(originalLogEntry: logEntry)));
 
     expect(find.text('Example log entry'), findsOneWidget);
   });
@@ -40,7 +40,7 @@ void main() {
       directory: '/tmp/fake/example',
     );
 
-    await tester.pumpWidget(WidgetTestApp(DetailsPage(logEntry: logEntry)));
+    await tester.pumpWidget(WidgetTestApp(DetailsPage(originalLogEntry: logEntry)));
     await tester.tap(find.byType(FloatingActionButton));
 
     expect(systemService.archivedDirectories, contains('/tmp/fake/example'));

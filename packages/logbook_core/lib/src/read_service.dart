@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:logbook_core/logbook_core.dart';
+
 class ReadService {
   Future<String> readDescriptionLogOrNoteDescriptionFile(Directory dir) async {
     var files = dir.listSync();
@@ -18,4 +20,9 @@ class ReadService {
     }
     return result;
   }
+}
+
+Future<LogEntry> toMandatoryLogEntry(String path) async {
+  var logEntry = await toLogEntry(path);
+  return logEntry!;
 }

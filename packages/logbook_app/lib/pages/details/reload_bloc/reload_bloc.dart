@@ -20,5 +20,9 @@ class ReloadBloc extends Bloc<ReloadEvent, ReloadState> {
     on<NoteSelected>((event, emit) {
       emit(Loading(Directory(event.note.directory)));
     });
+
+    on<LogEntryEdited>((event, emit) {
+      emit(Reloading(event.logEntryPath));
+    });
   }
 }

@@ -13,11 +13,11 @@ import 'edit_log_entry_dialog.dart';
 import 'reload_bloc/reload_bloc.dart';
 
 class DetailsPage extends StatefulWidget {
-  final LogEntry logEntry;
+  final LogEntry originalLogEntry;
 
   const DetailsPage({
     Key? key,
-    required this.logEntry,
+    required this.originalLogEntry,
   }) : super(key: key);
 
   @override
@@ -28,16 +28,18 @@ class _DetailsPageState extends State<DetailsPage> {
   final SystemService systemService = GetIt.I.get();
 
   late Future<String> _noteText;
+  late Future<LogEntry> _currentLogEntry;
 
   @override
   void initState() {
+    _currentLogEntry = Future.value(widget.originalLogEntry);
     _fetchNoteText();
     super.initState();
   }
 
   void _fetchNoteText({Directory? noteDirectory}) {
     _noteText = _readDescriptionFromLogOrNote(
-      noteDirectory ??= Directory(widget.logEntry.directory),
+      noteDirectory ??= Directory(widget.originalLogEntry.directory),
     );
     setState(() {});
   }
@@ -53,7 +55,10 @@ class _DetailsPageState extends State<DetailsPage> {
     for (var file in files) {
       if (file.path.endsWith('$slug.md') || file.path.endsWith('index.md')) {
         var f = File(file.path);
-        result = f.readAsStringSync();
+        var s = f.readAsStringSync();
+        s = s.replaceFirst(RegExp(r'^#.*'), '');
+        s = s.trim();
+        result = s;
         break;
       }
     }
@@ -69,23 +74,48 @@ class _DetailsPageState extends State<DetailsPage> {
           if (state is Loading) {
             _fetchNoteText(noteDirectory: state.noteDirectory);
           }
+          if (state is Reloading) {
+            _currentLogEntry = toMandatoryLogEntry(state.logEntryPath);
+          }
         },
         child: Scaffold(
           appBar: AppBar(
-            title: Builder(
-              builder: (context) {
-                return GestureDetector(
-                  onDoubleTap: () {
-                    showEditLogEntryDialog(context, widget.logEntry);
-                  },
-                  child: Text(widget.logEntry.title),
-                );
-              }
-            ),
+            title: Builder(builder: (context) {
+              return BlocBuilder<ReloadBloc, ReloadState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onDoubleTap: () async {
+                      var logEntry = await _currentLogEntry;
+                      // ignore: use_build_context_synchronously
+                      showEditLogEntryDialog(
+                        context: context,
+                        logEntry: logEntry,
+                        previousDescription: await _noteText,
+                      );
+                    },
+                    child: FutureBuilder<LogEntry>(
+                        future: _currentLogEntry,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState !=
+                              ConnectionState.done) {
+                            return const CircularProgressIndicator();
+                          }
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!.title);
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        }),
+                  );
+                },
+              );
+            }),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              systemService.archive(widget.logEntry.directory).then((_) {
+              systemService
+                  .archive(widget.originalLogEntry.directory)
+                  .then((_) {
                 if (Navigator.canPop(context)) {
                   Navigator.pop(context);
                   logEntriesChanged.value += 1;
@@ -100,7 +130,7 @@ class _DetailsPageState extends State<DetailsPage> {
           body: Column(
             children: [
               const SizedBox(height: 15),
-              ActionButtons(logEntry: widget.logEntry),
+              ActionButtons(logEntry: widget.originalLogEntry),
               const SizedBox(height: 15),
               FutureBuilder<String>(
                 future: _noteText,
@@ -113,9 +143,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   }
 
                   var data = snapshot.data!;
-                  data = data.replaceFirst(RegExp(r'^#.*'), '');
-
-                  if (data.trim().isEmpty) {
+                  if (data.isEmpty) {
                     return Expanded(child: Container());
                   }
 
@@ -127,8 +155,14 @@ class _DetailsPageState extends State<DetailsPage> {
                           border: Border.all(color: Colors.black),
                         ),
                         child: GestureDetector(
-                          onDoubleTap: () {
-                            showEditLogEntryDialog(context, widget.logEntry);
+                          onDoubleTap: () async {
+                            var logEntry = await _currentLogEntry;
+                            // ignore: use_build_context_synchronously
+                            showEditLogEntryDialog(
+                              context: context,
+                              logEntry: logEntry,
+                              previousDescription: await _noteText,
+                            );
                           },
                           child: Markdown(
                             styleSheet: MarkdownStyleSheet(
@@ -153,7 +187,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 padding: const EdgeInsets.all(15),
                 child: Align(
                   alignment: Alignment.bottomLeft,
-                  child: Text(widget.logEntry.formattedTime),
+                  child: Text(widget.originalLogEntry.formattedTime),
                 ),
               ),
             ],

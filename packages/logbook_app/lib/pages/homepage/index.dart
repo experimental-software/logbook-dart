@@ -208,7 +208,7 @@ class _HomepageState extends State<Homepage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => DetailsPage(
-                      logEntry: logEntry,
+                      originalLogEntry: logEntry,
                     ),
                   ),
                 );
