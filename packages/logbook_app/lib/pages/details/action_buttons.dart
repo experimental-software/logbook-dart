@@ -23,22 +23,6 @@ class ActionButtons extends StatelessWidget {
           children: [
             const SizedBox(width: 15),
             PrimaryButton(
-              'Open directory',
-              icon: Icons.folder,
-              onPressed: () {
-                System.openDirectory(logEntry.directory);
-              },
-            ),
-            const SizedBox(width: 15),
-            PrimaryButton(
-              'Edit description',
-              icon: Icons.edit,
-              onPressed: () {
-                System.openInEditor(logEntry.directory);
-              },
-            ),
-            const SizedBox(width: 15),
-            PrimaryButton(
               'Add note',
               icon: Icons.add,
               onPressed: () async {
@@ -53,6 +37,24 @@ class ActionButtons extends StatelessWidget {
                 await showSelectNoteDialog(context, logEntry);
               },
             ),
+            const SizedBox(width: 15),
+            PrimaryButton(
+              'Open directory',
+              icon: Icons.folder,
+              onPressed: () {
+                System.openDirectory(logEntry.directory);
+              },
+            ),
+            const SizedBox(width: 15),
+            PrimaryButton(
+              'Open editor',
+              icon: Icons.edit,
+              onPressed: () {
+                System.openInEditor(logEntry.directory);
+              },
+            ),
+
+
           ],
         ),
         Expanded(
@@ -71,7 +73,7 @@ class ActionButtons extends StatelessWidget {
                 'Reload',
                 icon: Icons.refresh,
                 onPressed: () {
-                  reloadBloc.add(UpdatedEvent());
+                  reloadBloc.add(LogEntryEdited(logEntry.path));
                 },
               ),
               const SizedBox(width: 15),
