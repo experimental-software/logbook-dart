@@ -10,6 +10,10 @@ if [[ "$OUT" != *"Flutter is already up to date"* ]]; then
   exit 1
 fi
 
+$SCRIPT_DIR/../packages/logbook_core/tool/lint.sh
+$SCRIPT_DIR/../packages/logbook_cli/tool/lint.sh
+$SCRIPT_DIR/../packages/logbook_app/tool/lint.sh
+
 $SCRIPT_DIR/../packages/logbook_core/tool/test.sh
 $SCRIPT_DIR/../packages/logbook_cli/tool/test.sh
 $SCRIPT_DIR/../packages/logbook_app/tool/test.sh
