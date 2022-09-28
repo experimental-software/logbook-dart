@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:logbook/pages/details/index.dart';
 import 'package:logbook_core/logbook_core.dart';
 
-import '../fakes/fake_system_service.dart';
+import '../fake_services.dart';
 import '../widget_test_app.dart';
 
 void main() {
@@ -12,6 +12,7 @@ void main() {
 
   setUp(() {
     GetIt.I.registerSingleton<SystemService>(FakeSystemService());
+    GetIt.I.registerSingleton<ReadService>(FakeReadService());
   });
 
   tearDown(() async {
@@ -26,7 +27,9 @@ void main() {
       directory: '/tmp/fake/example',
     );
 
-    await tester.pumpWidget(WidgetTestApp(DetailsPage(logEntry: logEntry)));
+    await tester
+        .pumpWidget(WidgetTestApp(DetailsPage(originalLogEntry: logEntry)));
+    await tester.pumpAndSettle();
 
     expect(find.text('Example log entry'), findsOneWidget);
   });
@@ -40,7 +43,8 @@ void main() {
       directory: '/tmp/fake/example',
     );
 
-    await tester.pumpWidget(WidgetTestApp(DetailsPage(logEntry: logEntry)));
+    await tester
+        .pumpWidget(WidgetTestApp(DetailsPage(originalLogEntry: logEntry)));
     await tester.tap(find.byType(FloatingActionButton));
 
     expect(systemService.archivedDirectories, contains('/tmp/fake/example'));

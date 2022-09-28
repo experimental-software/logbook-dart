@@ -9,6 +9,7 @@ void main(List<String> args) async {
   GetIt.I.registerSingleton(SearchService());
   GetIt.I.registerSingleton(WriteService());
   GetIt.I.registerSingleton(SystemService());
+  GetIt.I.registerSingleton(ReadService());
 
   LogEntry? logEntry;
   if (args.isNotEmpty) {
@@ -51,7 +52,7 @@ class LogbookApp extends StatelessWidget {
     if (logEntry == null) {
       startPage = const Homepage();
     } else {
-      startPage = DetailsPage(logEntry: logEntry!);
+      startPage = DetailsPage(originalLogEntry: logEntry!);
     }
     return MaterialApp(
       home: startPage,

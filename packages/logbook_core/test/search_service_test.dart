@@ -6,6 +6,8 @@ import 'package:logbook_core/src/system_service.dart';
 import 'package:logbook_core/src/write_service.dart';
 import 'package:test/test.dart';
 
+import 'test_utils.dart';
+
 void main() {
   test('should find log entries', () async {
     await createExampleLogEntry(title: 'Example for test');
@@ -109,15 +111,4 @@ void main() {
       expect(notes.length, equals(1));
     });
   });
-}
-
-Future<LogEntry> createExampleLogEntry({
-  String title = 'Just a random test title',
-}) async {
-  System.baseDir = await Directory.systemTemp.createTemp();
-  var writeService = WriteService();
-  return writeService.createLogEntry(
-    title: title,
-    description: 'xxx',
-  );
 }

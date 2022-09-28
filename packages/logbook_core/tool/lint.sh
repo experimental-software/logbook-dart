@@ -5,5 +5,6 @@ set -e
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 cd $SCRIPT_DIR/..
-flutter pub get
-flutter test
+dart pub get
+dart format --fix --set-exit-if-changed .
+dart analyze --fatal-infos

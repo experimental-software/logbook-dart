@@ -13,6 +13,26 @@ class WriteService {
     return _createLogEntry(title: title, description: description);
   }
 
+  Future<LogEntry> updateLogEntry({
+    required LogEntry logEntry,
+    required String title,
+    required String description,
+  }) async {
+    var logEntryFile = await File(logEntry.path).create();
+    var sink = logEntryFile.openWrite();
+    sink.write('# $title\n\n');
+    sink.write(description);
+    sink.write('\n');
+    await sink.flush();
+    await sink.close();
+
+    return LogEntry(
+      dateTime: logEntry.dateTime,
+      title: title,
+      directory: logEntry.directory,
+    );
+  }
+
   Future<Directory> createNoteEntry({
     required String title,
     required String description,

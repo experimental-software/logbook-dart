@@ -18,6 +18,19 @@ class LogEntry {
 
     return '$year-$month-$day $hour:$minute';
   }
+
+  String get path {
+    var slugMatcher = RegExp(r'\d{2}\.\d{2}_(.*)');
+    var slugMatch = slugMatcher.firstMatch(directory);
+    if (slugMatch == null) {
+      throw 'Could not parse slug for $directory';
+    }
+    var slug = slugMatch.group(1);
+    if (slug == null) {
+      throw 'Could not parse slug for $directory';
+    }
+    return '$directory/$slug.md';
+  }
 }
 
 /// Notes are details within log entries.

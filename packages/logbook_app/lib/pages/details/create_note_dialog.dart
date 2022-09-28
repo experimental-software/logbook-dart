@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:logbook_core/logbook_core.dart';
 
 class CreateNoteDialog extends StatefulWidget {

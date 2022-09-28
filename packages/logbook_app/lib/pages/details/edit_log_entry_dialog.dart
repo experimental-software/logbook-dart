@@ -1,29 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:logbook/pages/details/index.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logbook/pages/details/reload_bloc/reload_bloc.dart';
 import 'package:logbook_core/logbook_core.dart';
 
-class CreateLogDialog extends StatefulWidget {
-  const CreateLogDialog({
+class EditLogEntryDialog extends StatefulWidget {
+  final LogEntry logEntry;
+  final String previousDescription;
+  final ReloadBloc reloadBloc;
+
+  const EditLogEntryDialog({
     Key? key,
+    required this.logEntry,
+    required this.previousDescription,
+    required this.reloadBloc,
   }) : super(key: key);
 
   @override
-  State<CreateLogDialog> createState() => _CreateLogDialogState();
+  State<EditLogEntryDialog> createState() => _EditLogEntryDialogState();
 }
 
-class _CreateLogDialogState extends State<CreateLogDialog> {
+class _EditLogEntryDialogState extends State<EditLogEntryDialog> {
+  final WriteService writeService = GetIt.I.get();
+  final ReadService readService = GetIt.I.get();
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  bool shouldOpenDetails = true;
-  bool shouldOpenEditor = false;
-  bool shouldOpenDirectory = false;
+  @override
+  void initState() {
+    _titleController.text = widget.logEntry.title;
+    _descriptionController.text = widget.previousDescription;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: const Text('Add log entry'),
+      title: const Text('Edit log entry'),
       children: [
         SizedBox(
           width: 900,
@@ -64,49 +79,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            Row(
-              children: [
-                Checkbox(
-                  value: shouldOpenDetails,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldOpenDetails = value!;
-                    });
-                  },
-                ),
-                const Text('Open details'),
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: shouldOpenEditor,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldOpenEditor = value!;
-                    });
-                  },
-                ),
-                const Text('Open editor'),
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: shouldOpenDirectory,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldOpenDirectory = value!;
-                    });
-                  },
-                ),
-                const Text('Open directory'),
-              ],
-            ),
-          ],
-        ),
+        Row(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -125,32 +98,15 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                 var title = _titleController.text;
                 var description = _descriptionController.text;
 
-                createLogEntry(
+                writeService
+                    .updateLogEntry(
+                  logEntry: widget.logEntry,
                   title: title,
                   description: description,
-                ).then((logEntry) {
-                  Clipboard.setData(ClipboardData(text: logEntry.directory));
-
-                  if (shouldOpenEditor) {
-                    System.openInEditor(logEntry.directory);
-                  }
-
-                  if (shouldOpenDirectory) {
-                    System.openDirectory(logEntry.directory);
-                  }
-
+                )
+                    .then((logEntry) {
                   Navigator.pop(context);
-
-                  if (shouldOpenDetails) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailsPage(
-                          originalLogEntry: logEntry,
-                        ),
-                      ),
-                    );
-                  }
+                  widget.reloadBloc.add(LogEntryEdited(widget.logEntry.path));
                 });
               },
               child: const Text('Save'),
@@ -167,4 +123,23 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
     _descriptionController.dispose();
     super.dispose();
   }
+}
+
+Future<void> showEditLogEntryDialog({
+  required BuildContext context,
+  required LogEntry logEntry,
+  required String previousDescription,
+}) async {
+  final ReloadBloc reloadBloc = context.read<ReloadBloc>();
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return EditLogEntryDialog(
+        logEntry: logEntry,
+        previousDescription: previousDescription,
+        reloadBloc: reloadBloc,
+      );
+    },
+    barrierDismissible: false,
+  );
 }
