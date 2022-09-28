@@ -18,7 +18,6 @@ class WriteService {
     required String title,
     required String description,
   }) async {
-
     var logEntryFile = await File(logEntry.path).create();
     var sink = logEntryFile.openWrite();
     sink.write('# $title\n\n');

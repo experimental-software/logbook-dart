@@ -53,8 +53,6 @@ class ActionButtons extends StatelessWidget {
                 System.openInEditor(logEntry.directory);
               },
             ),
-
-
           ],
         ),
         Expanded(

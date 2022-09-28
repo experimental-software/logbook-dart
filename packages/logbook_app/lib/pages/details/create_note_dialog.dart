@@ -1,10 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:logbook_core/logbook_core.dart';
-
-import 'reload_bloc/reload_bloc.dart';
 
 class CreateNoteDialog extends StatefulWidget {
   final LogEntry parent;

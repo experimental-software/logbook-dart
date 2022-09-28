@@ -157,7 +157,6 @@ class _DetailsPageState extends State<DetailsPage> {
                         child: GestureDetector(
                           onDoubleTap: () async {
                             var logEntry = await _currentLogEntry;
-                            // ignore: use_build_context_synchronously
                             showEditLogEntryDialog(
                               context: context,
                               logEntry: logEntry,
