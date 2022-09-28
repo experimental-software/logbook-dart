@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:logbook_core/logbook_core.dart';
 
 class FakeSystemService implements SystemService {
@@ -11,5 +13,12 @@ class FakeSystemService implements SystemService {
   @override
   void shutdownApp() {
     // Don't do this in tests
+  }
+}
+
+class FakeReadService implements ReadService {
+  @override
+  Future<String> readDescriptionLogOrNoteDescriptionFile(Directory dir) async {
+    return dir.path;
   }
 }

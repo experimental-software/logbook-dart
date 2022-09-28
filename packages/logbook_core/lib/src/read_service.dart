@@ -14,7 +14,10 @@ class ReadService {
     for (var file in files) {
       if (file.path.endsWith('$slug.md') || file.path.endsWith('index.md')) {
         var f = File(file.path);
-        result = f.readAsStringSync();
+        var s = f.readAsStringSync();
+        s = s.replaceFirst(RegExp(r'^#.*'), '');
+        s = s.trim();
+        result = s;
         break;
       }
     }

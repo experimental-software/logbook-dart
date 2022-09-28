@@ -26,6 +26,7 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   final SystemService systemService = GetIt.I.get();
+  final ReadService readService = GetIt.I.get();
 
   late Future<String> _noteText;
   late Future<LogEntry> _currentLogEntry;
@@ -38,12 +39,13 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 
   void _fetchNoteText({Directory? noteDirectory}) {
-    _noteText = _readDescriptionFromLogOrNote(
-      noteDirectory ??= Directory(widget.originalLogEntry.directory),
+    _noteText = readService.readDescriptionLogOrNoteDescriptionFile(
+      noteDirectory ?? Directory(widget.originalLogEntry.directory),
     );
     setState(() {});
   }
 
+  @deprecated
   Future<String> _readDescriptionFromLogOrNote(Directory dir) async {
     var files = dir.listSync();
 
