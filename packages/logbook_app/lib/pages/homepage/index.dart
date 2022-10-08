@@ -106,6 +106,7 @@ class _HomepageState extends State<Homepage> {
                         setState(() {
                           _searchTermController.clear();
                           useRegexSearch = !useRegexSearch;
+                          _updateLogEntryList();
                         });
                       },
                     ),
@@ -117,7 +118,6 @@ class _HomepageState extends State<Homepage> {
                         setState(() {
                           negateSearch = !negateSearch;
                           _updateLogEntryList();
-                          setState(() {});
                         });
                       },
                     ),
