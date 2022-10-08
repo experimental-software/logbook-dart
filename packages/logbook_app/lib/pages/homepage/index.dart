@@ -23,6 +23,8 @@ class _HomepageState extends State<Homepage> {
 
   late Future<List<LogEntry>> _logEntries;
   final Set<LogEntry> _markedForDeletion = {};
+  bool useRegexSearch = false;
+  bool negateSearch = false;
 
   @override
   void initState() {
@@ -36,7 +38,12 @@ class _HomepageState extends State<Homepage> {
 
   void _updateLogEntryList() {
     var searchTerm = _searchTermController.text.trim();
-    _logEntries = searchService.search(System.baseDir, searchTerm);
+    _logEntries = searchService.search(
+      System.baseDir,
+      searchTerm,
+      isRegularExpression: useRegexSearch,
+      negateSearch: negateSearch,
+    );
     setState(() {});
   }
 
@@ -86,10 +93,36 @@ class _HomepageState extends State<Homepage> {
             width: 200,
             child: TextField(
               controller: _searchTermController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
                 hintText: 'Search log entries...',
-                suffixIcon: Icon(Icons.search),
+                suffixIcon: Column(
+                  children: [
+                    InkWell(
+                      child: useRegexSearch
+                          ? const Icon(Icons.emergency, size: 20)
+                          : const Icon(Icons.emergency_outlined, size: 20),
+                      onTap: () {
+                        setState(() {
+                          _searchTermController.clear();
+                          useRegexSearch = !useRegexSearch;
+                          _updateLogEntryList();
+                        });
+                      },
+                    ),
+                    InkWell(
+                      child: negateSearch
+                          ? const Icon(Icons.remove_circle, size: 20)
+                          : const Icon(Icons.remove_circle_outline, size: 20),
+                      onTap: () {
+                        setState(() {
+                          negateSearch = !negateSearch;
+                          _updateLogEntryList();
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
               onSubmitted: (query) {
                 _updateLogEntryList();

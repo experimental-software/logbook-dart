@@ -47,47 +47,73 @@ void main() {
     });
   });
 
-  group('match', () {
+  group('hasRegexMatch', () {
+    test('false for invalid regex', () {
+      const s = 'The brown fox jumps over the lazy dog.';
+      final q = RegExp(r'{');
+      expect(hasRegexMatch(s, q), equals(false));
+    });
+
+    test('true for simple regex', () {
+      const s = 'The brown fox jumps over the lazy dog.';
+      final q = RegExp(r'fox');
+      expect(hasRegexMatch(s, q), equals(true));
+    });
+
+    test('true for two words regex', () {
+      const s = 'The brown fox jumps over the lazy dog.';
+      final q = RegExp(r'fox jumps');
+      expect(hasRegexMatch(s, q), equals(true));
+    });
+
+    test('true for complex regex', () {
+      const s = 'The brown fox jumps over the lazy dog.';
+      final q = RegExp(r'^The.*dog\.$');
+      expect(hasRegexMatch(s, q), equals(true));
+    });
+  });
+
+  group('hasPlainTextMatch', () {
     test('true for empty query', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = '';
-      expect(isSearchResult(s, q), equals(true));
+      expect(hasPlainTextMatch(s, q), equals(true));
     });
 
     test('true for de-facto empty query', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = ' ';
-      expect(isSearchResult(s, q), equals(true));
+      expect(hasPlainTextMatch(s, q), equals(true));
     });
 
     test('false for unknown word', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = 'blue';
-      expect(isSearchResult(s, q), equals(false));
+      expect(hasPlainTextMatch(s, q), equals(false));
     });
 
     test('false for non-alphabetic query', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = '*';
-      expect(isSearchResult(s, q), equals(false));
+      expect(hasPlainTextMatch(s, q), equals(false));
     });
 
     test('true for known word', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = 'fox';
-      expect(isSearchResult(s, q), equals(true));
+      expect(hasPlainTextMatch(s, q), equals(true));
     });
 
     test('true for known word in differing case', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = 'FOX';
-      expect(isSearchResult(s, q), equals(true));
+      expect(hasPlainTextMatch(s, q), equals(true));
     });
 
     test('false for known and unknown word', () {
       const s = 'The brown fox jumps over the lazy dog.';
       const q = 'cat fox';
-      expect(isSearchResult(s, q), equals(false));
+      expect(hasPlainTextMatch(s, q), equals(false));
     });
   });
 

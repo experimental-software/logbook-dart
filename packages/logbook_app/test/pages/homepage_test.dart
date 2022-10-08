@@ -45,7 +45,11 @@ class _FakeSearchService implements SearchService {
   final List<LogEntry> searchResults = [];
 
   @override
-  Future<List<LogEntry>> search(Directory _, String query) async {
+  Future<List<LogEntry>> search(
+    Directory dir,
+    String query, {
+    bool isRegularExpression = false,
+  }) async {
     return searchResults;
   }
 
