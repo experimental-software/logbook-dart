@@ -49,6 +49,7 @@ class _FakeSearchService implements SearchService {
     Directory dir,
     String query, {
     bool isRegularExpression = false,
+    bool negateSearch = false,
   }) async {
     return searchResults;
   }
