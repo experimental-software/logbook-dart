@@ -23,6 +23,7 @@ class _HomepageState extends State<Homepage> {
 
   late Future<List<LogEntry>> _logEntries;
   final Set<LogEntry> _markedForDeletion = {};
+  bool useRegexSearch = false;
 
   @override
   void initState() {
@@ -36,7 +37,11 @@ class _HomepageState extends State<Homepage> {
 
   void _updateLogEntryList() {
     var searchTerm = _searchTermController.text.trim();
-    _logEntries = searchService.search(System.baseDir, searchTerm);
+    _logEntries = searchService.search(
+      System.baseDir,
+      searchTerm,
+      isRegularExpression: useRegexSearch,
+    );
     setState(() {});
   }
 
@@ -86,10 +91,20 @@ class _HomepageState extends State<Homepage> {
             width: 200,
             child: TextField(
               controller: _searchTermController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
                 hintText: 'Search log entries...',
-                suffixIcon: Icon(Icons.search),
+                suffixIcon: InkWell(
+                  child: useRegexSearch
+                      ? const Icon(Icons.emergency)
+                      : const Icon(Icons.emergency_outlined),
+                  onTap: () {
+                    setState(() {
+                      _searchTermController.clear();
+                      useRegexSearch = !useRegexSearch;
+                    });
+                  },
+                ),
               ),
               onSubmitted: (query) {
                 _updateLogEntryList();

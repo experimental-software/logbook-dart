@@ -5,7 +5,11 @@ import 'dart:io';
 import 'package:logbook_core/src/log_entry.dart';
 
 class SearchService {
-  Future<List<LogEntry>> search(Directory dir, String query) async {
+  Future<List<LogEntry>> search(
+    Directory dir,
+    String query, {
+    bool isRegularExpression = false,
+  }) async {
     final result = <LogEntry>[];
     Stream<FileSystemEntity> entityList = dir.list(recursive: true);
     await for (FileSystemEntity entity in entityList) {
@@ -43,12 +47,22 @@ class SearchService {
               continue;
             }
             final title = line.substring(2);
-            if (isSearchResult(title, query)) {
-              result.add(LogEntry(
-                title: title,
-                dateTime: dateTime,
-                directory: entity.parent.path,
-              ));
+            if (isRegularExpression) {
+              if (hasRegexMatch(title, RegExp(query))) {
+                result.add(LogEntry(
+                  title: title,
+                  dateTime: dateTime,
+                  directory: entity.parent.path,
+                ));
+              }
+            } else {
+              if (hasPlainTextMatch(title, query)) {
+                result.add(LogEntry(
+                  title: title,
+                  dateTime: dateTime,
+                  directory: entity.parent.path,
+                ));
+              }
             }
             break;
           }
@@ -162,7 +176,12 @@ String? _logEntryBasePath(String path) {
   return match.group(1)!;
 }
 
-bool isSearchResult(String text, String query) {
+bool hasRegexMatch(String text, RegExp query) {
+  RegExpMatch? match = query.firstMatch(text);
+  return match != null;
+}
+
+bool hasPlainTextMatch(String text, String query) {
   if (query.trim() == '') {
     return true;
   }

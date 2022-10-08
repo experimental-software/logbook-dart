@@ -17,6 +17,11 @@ class SearchCommand extends Command {
       abbr: 'a',
       help: 'Search in archived log entries',
     );
+    argParser.addFlag(
+      'regular-expression',
+      abbr: 'r',
+      help: 'Search with a regular expression',
+    );
   }
 
   @override
@@ -31,9 +36,17 @@ class SearchCommand extends Command {
     }
     List logEntries;
     if (results['archive']) {
-      logEntries = await searchService.search(System.archiveDir, searchTerm);
+      logEntries = await searchService.search(
+        System.archiveDir,
+        searchTerm,
+        isRegularExpression: results['regular-expression'],
+      );
     } else {
-      logEntries = await searchService.search(System.baseDir, searchTerm);
+      logEntries = await searchService.search(
+        System.baseDir,
+        searchTerm,
+        isRegularExpression: results['regular-expression'],
+      );
     }
     for (var logEntry in logEntries.reversed) {
       print(logEntry.directory);
