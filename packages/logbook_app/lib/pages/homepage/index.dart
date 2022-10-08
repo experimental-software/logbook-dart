@@ -24,6 +24,7 @@ class _HomepageState extends State<Homepage> {
   late Future<List<LogEntry>> _logEntries;
   final Set<LogEntry> _markedForDeletion = {};
   bool useRegexSearch = false;
+  bool negateSearch = false;
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _HomepageState extends State<Homepage> {
       System.baseDir,
       searchTerm,
       isRegularExpression: useRegexSearch,
+      negateSearch: negateSearch,
     );
     setState(() {});
   }
@@ -94,16 +96,32 @@ class _HomepageState extends State<Homepage> {
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 hintText: 'Search log entries...',
-                suffixIcon: InkWell(
-                  child: useRegexSearch
-                      ? const Icon(Icons.emergency)
-                      : const Icon(Icons.emergency_outlined),
-                  onTap: () {
-                    setState(() {
-                      _searchTermController.clear();
-                      useRegexSearch = !useRegexSearch;
-                    });
-                  },
+                suffixIcon: Column(
+                  children: [
+                    InkWell(
+                      child: useRegexSearch
+                          ? const Icon(Icons.emergency, size: 20)
+                          : const Icon(Icons.emergency_outlined, size: 20),
+                      onTap: () {
+                        setState(() {
+                          _searchTermController.clear();
+                          useRegexSearch = !useRegexSearch;
+                        });
+                      },
+                    ),
+                    InkWell(
+                      child: negateSearch
+                          ? const Icon(Icons.remove_circle, size: 20)
+                          : const Icon(Icons.remove_circle_outline, size: 20),
+                      onTap: () {
+                        setState(() {
+                          negateSearch = !negateSearch;
+                          _updateLogEntryList();
+                          setState(() {});
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               onSubmitted: (query) {

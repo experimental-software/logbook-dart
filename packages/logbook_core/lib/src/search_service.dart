@@ -9,6 +9,7 @@ class SearchService {
     Directory dir,
     String query, {
     bool isRegularExpression = false,
+    bool negateSearch = false,
   }) async {
     final result = <LogEntry>[];
     Stream<FileSystemEntity> entityList = dir.list(recursive: true);
@@ -47,22 +48,22 @@ class SearchService {
               continue;
             }
             final title = line.substring(2);
+
+            bool shouldBeShown = false;
             if (isRegularExpression) {
-              if (hasRegexMatch(title, RegExp(query))) {
-                result.add(LogEntry(
-                  title: title,
-                  dateTime: dateTime,
-                  directory: entity.parent.path,
-                ));
-              }
+              shouldBeShown = hasRegexMatch(title, RegExp(query));
             } else {
-              if (hasPlainTextMatch(title, query)) {
-                result.add(LogEntry(
-                  title: title,
-                  dateTime: dateTime,
-                  directory: entity.parent.path,
-                ));
-              }
+              shouldBeShown = hasPlainTextMatch(title, query);
+            }
+            if (negateSearch) {
+              shouldBeShown = !shouldBeShown;
+            }
+            if (shouldBeShown) {
+              result.add(LogEntry(
+                title: title,
+                dateTime: dateTime,
+                directory: entity.parent.path,
+              ));
             }
             break;
           }
