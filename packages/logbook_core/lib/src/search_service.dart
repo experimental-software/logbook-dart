@@ -11,6 +11,8 @@ class SearchService {
     bool isRegularExpression = false,
     bool negateSearch = false,
   }) async {
+    query = query.toLowerCase();
+
     final result = <LogEntry>[];
     Stream<FileSystemEntity> entityList = dir.list(recursive: true);
     await for (FileSystemEntity entity in entityList) {
@@ -51,7 +53,7 @@ class SearchService {
 
             bool shouldBeShown = false;
             if (isRegularExpression) {
-              shouldBeShown = hasRegexMatch(title, RegExp(query));
+              shouldBeShown = hasRegexMatch(title, RegExp(query.toLowerCase()));
             } else {
               shouldBeShown = hasPlainTextMatch(title, query);
             }
@@ -178,6 +180,7 @@ String? _logEntryBasePath(String path) {
 }
 
 bool hasRegexMatch(String text, RegExp query) {
+  text = text.toLowerCase();
   RegExpMatch? match = query.firstMatch(text);
   return match != null;
 }

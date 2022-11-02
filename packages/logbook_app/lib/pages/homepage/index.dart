@@ -104,7 +104,6 @@ class _HomepageState extends State<Homepage> {
                           : const Icon(Icons.emergency_outlined, size: 20),
                       onTap: () {
                         setState(() {
-                          _searchTermController.clear();
                           useRegexSearch = !useRegexSearch;
                           _updateLogEntryList();
                         });
