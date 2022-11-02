@@ -16,7 +16,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  bool shouldOpenDetails = true;
+  bool shouldOpenDetails = false;
   bool shouldOpenEditor = false;
   bool shouldOpenDirectory = false;
 
