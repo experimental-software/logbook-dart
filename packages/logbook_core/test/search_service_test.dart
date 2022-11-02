@@ -68,7 +68,7 @@ void main() {
 
     test('true for complex regex', () {
       const s = 'The brown fox jumps over the lazy dog.';
-      final q = RegExp(r'^The.*dog\.$');
+      final q = RegExp(r'^the.*dog\.$');
       expect(hasRegexMatch(s, q), equals(true));
     });
   });

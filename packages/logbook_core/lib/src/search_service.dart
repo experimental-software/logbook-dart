@@ -53,7 +53,7 @@ class SearchService {
 
             bool shouldBeShown = false;
             if (isRegularExpression) {
-              shouldBeShown = hasRegexMatch(title, RegExp(query.toLowerCase()));
+              shouldBeShown = hasRegexMatch(title, RegExp(query));
             } else {
               shouldBeShown = hasPlainTextMatch(title, query);
             }
