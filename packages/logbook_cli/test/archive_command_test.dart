@@ -13,10 +13,9 @@ void main() {
     GetIt.I.registerSingleton(SystemService());
     GetIt.I.registerSingleton(WriteService());
 
-    System.baseDir = await Directory.systemTemp.createTemp('logs_');
-    print('Log entry dir: ${System.baseDir}');
-    System.archiveDir = await Directory.systemTemp.createTemp('archive_');
-    print('Archive dir: ${System.archiveDir}');
+    LogbookConfig.homeDirectory = await Directory.systemTemp.createTemp();
+    System.baseDir.create(recursive: true);
+    System.archiveDir.create(recursive: true);
   });
 
   test('archive with log entry dir', () async {

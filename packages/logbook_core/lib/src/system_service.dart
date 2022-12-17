@@ -83,6 +83,7 @@ class System {
   }
 
   static Directory get archiveDir {
-    return LogbookConfig().logDirectory;
+    var result = LogbookConfig().archiveDirectory;
+    return result;
   }
 }

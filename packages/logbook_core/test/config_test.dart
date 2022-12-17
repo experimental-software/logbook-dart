@@ -28,7 +28,8 @@ void main() {
 
     var logDirectory = config.logDirectory;
 
-    expect(logDirectory.path, equals('${home.path}${Platform.pathSeparator}Logs'));
+    expect(
+        logDirectory.path, equals('${home.path}${Platform.pathSeparator}Logs'));
   });
 
   test('use default values for invalid yaml syntax', () async {
@@ -37,24 +38,33 @@ void main() {
 
     var logDirectory = config.logDirectory;
 
-    expect(logDirectory.path, equals('${home.path}${Platform.pathSeparator}Logs'));
+    expect(
+        logDirectory.path, equals('${home.path}${Platform.pathSeparator}Logs'));
   });
 
   test('configure log write directory', () async {
-    await createConfig('logDirectory: ~${Platform.pathSeparator}doc${Platform.pathSeparator}Notizen');
+    await createConfig(
+        'logDirectory: ~${Platform.pathSeparator}doc${Platform.pathSeparator}Notizen');
     var config = LogbookConfig();
 
     var logDirectory = config.logDirectory;
 
-    expect(logDirectory.path, equals('${home.path}${Platform.pathSeparator}doc${Platform.pathSeparator}Notizen'));
+    expect(
+        logDirectory.path,
+        equals(
+            '${home.path}${Platform.pathSeparator}doc${Platform.pathSeparator}Notizen'));
   });
 
   test('configure log read directory', () async {
-    await createConfig('archiveDirectory: ~${Platform.pathSeparator}doc${Platform.pathSeparator}Archiv');
+    await createConfig(
+        'archiveDirectory: ~${Platform.pathSeparator}doc${Platform.pathSeparator}Archiv');
     var config = LogbookConfig();
 
     var archiveDirectory = config.archiveDirectory;
 
-    expect(archiveDirectory.path, equals('${home.path}${Platform.pathSeparator}doc${Platform.pathSeparator}Archiv'));
+    expect(
+        archiveDirectory.path,
+        equals(
+            '${home.path}${Platform.pathSeparator}doc${Platform.pathSeparator}Archiv'));
   });
 }

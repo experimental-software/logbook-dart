@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:yaml/yaml.dart';
 
 String get _defaultConfig {
