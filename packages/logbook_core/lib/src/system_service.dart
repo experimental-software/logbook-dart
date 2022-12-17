@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:logbook_core/src/config.dart';
 import 'package:path/path.dart' as path;
 import 'package:system/system.dart' as sys;
 
@@ -15,9 +16,6 @@ class SystemService {
 
 class System {
   System._();
-
-  static Directory? _baseDir;
-  static Directory? _archiveDir;
 
   static String get macVsCodePath =>
       '/Applications/Visual\\ Studio\\ Code.app/Contents/MacOS/Electron';
@@ -80,39 +78,11 @@ class System {
     }
   }
 
-  static set baseDir(Directory? baseDir) {
-    _baseDir = baseDir;
-  }
-
   static Directory get baseDir {
-    if (_baseDir != null) {
-      return _baseDir!;
-    }
-
-    if (Platform.isMacOS) {
-      return Directory('/Users/jmewes/doc/Notizen');
-    }
-    if (Platform.isLinux) {
-      return Directory('/home/janux/doc/Notizen');
-    }
-    throw 'Unsupported OS: ${Platform.operatingSystem}';
+    return LogbookConfig().logDirectory;
   }
 
   static Directory get archiveDir {
-    if (_archiveDir != null) {
-      return _archiveDir!;
-    }
-
-    if (Platform.isMacOS) {
-      return Directory('/Users/jmewes/doc/Archiv');
-    }
-    if (Platform.isLinux) {
-      return Directory('/home/janux/doc/Archiv');
-    }
-    throw 'Unsupported OS: ${Platform.operatingSystem}';
-  }
-
-  static set archiveDir(Directory? archiveDir) {
-    _archiveDir = archiveDir;
+    return LogbookConfig().logDirectory;
   }
 }

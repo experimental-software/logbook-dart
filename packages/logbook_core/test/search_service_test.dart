@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:logbook_core/src/config.dart';
 import 'package:logbook_core/src/log_entry.dart';
 import 'package:logbook_core/src/search_service.dart';
 import 'package:logbook_core/src/system_service.dart';
@@ -122,7 +123,7 @@ void main() {
     var searchService = SearchService();
 
     test('find notes in log entry', () async {
-      System.baseDir = await Directory.systemTemp.createTemp();
+      LogbookConfig.homeDirectory = await Directory.systemTemp.createTemp();
       var logEntry = await writeService.createLogEntry(
         title: 'Example log entry',
       );
