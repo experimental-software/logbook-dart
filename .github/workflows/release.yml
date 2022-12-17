@@ -19,7 +19,7 @@ jobs:
         uses: bonddim/action-lxd-init@v1
 
       - name: Compile Snap
-        run: snapcraft --use-lxd
+        run: cd packages/logbook_app && snapcraft --use-lxd
 
       - name: Upload Snap to release
         uses: svenstaro/upload-release-action@v2
