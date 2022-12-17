@@ -215,9 +215,11 @@ packages:
   logbook_core:
     dependency: "direct main"
     description:
-      path: "../logbook_core"
-      relative: true
-    source: path
+      path: "packages/logbook_core"
+      ref: master
+      resolved-ref: "602e0b6df31fe01c23385a134da0a103b206352e"
+      url: "https://github.com/experimental-software/logbook.git"
+    source: git
     version: "1.0.0"
   logging:
     dependency: transitive
