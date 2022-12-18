@@ -8,10 +8,9 @@ The Logbook project provides a desktop and command-line application for chronolo
 
 ### Desktop app
 
-**Linux**
+**Ubuntu**
 
-To install the Logbook as desktop app, [Snapd](https://snapcraft.io/docs/installing-snapd) needs to be installed, first.
-Then one can download the `snap` file from the [latest release on GitHub](https://github.com/experimental-software/logbook/releases/latest) and install in dev mode.
+To install the Logbook as desktop app, download the `snap` file from the [latest release on GitHub](https://github.com/experimental-software/logbook/releases/latest) and install it dev mode.
 
 ```sh
 cd ~/Downloads
@@ -23,7 +22,7 @@ sudo snap install --devmode logbook_*_amd64.snap
 To use the command-line interface of the Logbook app, the [Dart SDK](https://dart.dev/get-dart) needs to be installed, first.
 Then one can clone the Git repository and globally activate the Logbook package.
 
-⚠️ At the moment, only **Linux** and **macOS** are supported. Windows and other operating systems will not work.
+⚠️ At the moment, only **Ubuntu** and **macOS** are supported. Windows and other operating systems will not work.
 
 ```sh
 git clone git@github.com:experimental-software/logbook.git
@@ -65,7 +64,7 @@ Given `lcov` has been install via Homebrew or Apt, the test coverage report can 
 ### Create release
 
 ```
-NEW_VERSION= # e.g. v0.0.9
+NEW_VERSION= # e.g. 0.1.4
 
 git tag $NEW_VERSION
 git push origin --tag $NEW_VERSION
