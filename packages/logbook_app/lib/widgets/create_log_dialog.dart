@@ -16,9 +16,8 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  bool shouldOpenDetails = true;
-  bool shouldOpenEditor = false;
-  bool shouldOpenDirectory = false;
+  bool shouldOpenDetails = false;
+  bool shouldCopyToClipboard = false;
 
   @override
   Widget build(BuildContext context) {
@@ -82,27 +81,14 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
             Row(
               children: [
                 Checkbox(
-                  value: shouldOpenEditor,
+                  value: shouldCopyToClipboard,
                   onChanged: (bool? value) {
                     setState(() {
-                      shouldOpenEditor = value!;
+                      shouldCopyToClipboard = value!;
                     });
                   },
                 ),
-                const Text('Open editor'),
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: shouldOpenDirectory,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldOpenDirectory = value!;
-                    });
-                  },
-                ),
-                const Text('Open directory'),
+                const Text('Copy to clipboard'),
               ],
             ),
           ],
@@ -129,14 +115,8 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   title: title,
                   description: description,
                 ).then((logEntry) {
-                  Clipboard.setData(ClipboardData(text: logEntry.directory));
-
-                  if (shouldOpenEditor) {
-                    System.openInEditor(logEntry.directory);
-                  }
-
-                  if (shouldOpenDirectory) {
-                    System.openDirectory(logEntry.directory);
+                  if (shouldCopyToClipboard) {
+                    Clipboard.setData(ClipboardData(text: logEntry.directory));
                   }
 
                   Navigator.pop(context);

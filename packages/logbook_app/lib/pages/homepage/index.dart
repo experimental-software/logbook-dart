@@ -177,7 +177,7 @@ class _HomepageState extends State<Homepage> {
                       label: Text('Titel'),
                     ),
                     const DataColumn(
-                      label: Text('Actions'),
+                      label: Text(''),
                     ),
                   ],
                   rows: _buildTableRows(context, logEntries),
@@ -226,7 +226,7 @@ class _HomepageState extends State<Homepage> {
   ) {
     var deviceInfo = MediaQuery.of(context);
     const widthDateTimeColumn = 140.0;
-    const widthActionsColumn = 412.0;
+    const widthActionsColumn = 400.0;
     final widthTitleColumn =
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
 
@@ -269,18 +269,7 @@ class _HomepageState extends State<Homepage> {
                       width: widthActionsColumn,
                       child: Row(
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () {
-                              System.openInEditor(logEntry.directory);
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.folder),
-                            onPressed: () {
-                              System.openDirectory(logEntry.directory);
-                            },
-                          ),
+                          const SizedBox(width: 60),
                           IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {

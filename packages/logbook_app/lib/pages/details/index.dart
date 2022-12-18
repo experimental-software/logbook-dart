@@ -7,7 +7,6 @@ import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../homepage/index.dart';
 import 'action_buttons.dart';
 import 'edit_log_entry_dialog.dart';
 import 'reload_bloc/reload_bloc.dart';
@@ -91,22 +90,6 @@ class _DetailsPageState extends State<DetailsPage> {
               );
             }),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              systemService
-                  .archive(widget.originalLogEntry.directory)
-                  .then((_) {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                  logEntriesChanged.value += 1;
-                } else {
-                  systemService.shutdownApp();
-                }
-              });
-            },
-            tooltip: 'Archive log entry',
-            child: const Icon(Icons.done),
-          ),
           body: Column(
             children: [
               const SizedBox(height: 15),
@@ -123,13 +106,10 @@ class _DetailsPageState extends State<DetailsPage> {
                   }
 
                   var data = snapshot.data!;
-                  if (data.isEmpty) {
-                    return Expanded(child: Container());
-                  }
 
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 45),
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
