@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 class CreateNoteDialog extends StatefulWidget {
@@ -19,8 +20,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  bool shouldOpenEditor = false;
-  bool shouldOpenDirectory = false;
+  bool shouldCopyToClipboard = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,27 +71,14 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
             Row(
               children: [
                 Checkbox(
-                  value: shouldOpenEditor,
+                  value: shouldCopyToClipboard,
                   onChanged: (bool? value) {
                     setState(() {
-                      shouldOpenEditor = value!;
+                      shouldCopyToClipboard = value!;
                     });
                   },
                 ),
-                const Text('Open editor'),
-              ],
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: shouldOpenDirectory,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldOpenDirectory = value!;
-                    });
-                  },
-                ),
-                const Text('Open directory'),
+                const Text('Path to clipboard'),
               ],
             ),
           ],
@@ -119,12 +106,10 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                   description: description,
                   baseDir: Directory(widget.parent.directory),
                 ).then((noteEntryDirectory) {
-                  if (shouldOpenEditor) {
-                    System.openInEditor(noteEntryDirectory.path);
-                  }
-
-                  if (shouldOpenDirectory) {
-                    System.openDirectory(noteEntryDirectory.path);
+                  if (shouldCopyToClipboard) {
+                    Clipboard.setData(ClipboardData(
+                      text: noteEntryDirectory.path,
+                    ));
                   }
 
                   Navigator.pop(context);

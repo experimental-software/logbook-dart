@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logbook/pages/details/select_note_dialog/index.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 import '../../widgets/buttons.dart';
+import '../homepage/index.dart';
 import 'create_note_dialog.dart';
 import 'reload_bloc/reload_bloc.dart';
 
 class ActionButtons extends StatelessWidget {
+  final SystemService systemService = GetIt.I.get();
   final LogEntry logEntry;
 
-  const ActionButtons({required this.logEntry, Key? key}) : super(key: key);
+  ActionButtons({required this.logEntry, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +33,18 @@ class ActionButtons extends StatelessWidget {
             ),
             const SizedBox(width: 15),
             PrimaryButton(
-              'Open notes',
-              icon: Icons.format_list_numbered,
-              onPressed: () async {
-                await showSelectNoteDialog(context, logEntry);
+              'Reload',
+              icon: Icons.refresh,
+              onPressed: () {
+                reloadBloc.add(LogEntryEdited(logEntry.path));
               },
             ),
             const SizedBox(width: 15),
             PrimaryButton(
-              'Open directory',
-              icon: Icons.folder,
+              'Copy to clipboard',
+              icon: Icons.content_copy,
               onPressed: () {
-                System.openDirectory(logEntry.directory);
-              },
-            ),
-            const SizedBox(width: 15),
-            PrimaryButton(
-              'Open editor',
-              icon: Icons.edit,
-              onPressed: () {
-                System.openInEditor(logEntry.directory);
+                Clipboard.setData(ClipboardData(text: logEntry.directory));
               },
             ),
           ],
@@ -59,19 +53,19 @@ class ActionButtons extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              PrimaryButton(
-                'Copy to clipboard',
-                icon: Icons.content_copy,
-                onPressed: () {
-                  Clipboard.setData(ClipboardData(text: logEntry.directory));
-                },
-              ),
               const SizedBox(width: 15),
               PrimaryButton(
-                'Reload',
-                icon: Icons.refresh,
+                'Archive',
+                icon: Icons.delete,
                 onPressed: () {
-                  reloadBloc.add(LogEntryEdited(logEntry.path));
+                  systemService.archive(logEntry.directory).then((_) {
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                      logEntriesChanged.value += 1;
+                    } else {
+                      systemService.shutdownApp();
+                    }
+                  });
                 },
               ),
               const SizedBox(width: 15),
