@@ -9,7 +9,7 @@ import 'dart:io';
 void main() {
   test('add new log entry', () async {
     GetIt.I.registerSingleton(WriteService());
-    System.baseDir = await Directory.systemTemp.createTemp();
+    LogbookConfig.homeDirectory = await Directory.systemTemp.createTemp();
 
     List<String> args = ['add', 'Example log entry'];
     var runner = CommandRunner('logbook-test', 'Just a test run');

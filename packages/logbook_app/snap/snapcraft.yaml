@@ -1,26 +1,26 @@
 name: logbook
-version: 0.1.0
+version: "0.1"
 summary: App for chronological note taking
 description: Allows to create note directories with the current date and time.
 
-confinement: strict
+confinement: classic
 base: core18
 grade: stable
 
-plugs:
-  file-system-access:
-    interface: system-files
-    read:
-      - /home
-    write:
-      - /home
+#plugs:
+#  file-system-access:
+#    interface: system-files
+#    read:
+#      - /home
+#    write:
+#      - /home
 
 apps:
   logbook:
     command: logbook
     extensions: [flutter-stable]
-    plugs:
-      - file-system-access
+#    plugs:
+#      - file-system-access
 
 parts:
   logbook:
