@@ -4,6 +4,8 @@ import 'package:get_it/get_it.dart';
 import 'package:logbook/pages/details/reload_bloc/reload_bloc.dart';
 import 'package:logbook_core/logbook_core.dart';
 
+import '../homepage/index.dart';
+
 class EditLogEntryDialog extends StatefulWidget {
   final LogEntry logEntry;
   final String previousDescription;
@@ -107,6 +109,7 @@ class _EditLogEntryDialogState extends State<EditLogEntryDialog> {
                     .then((logEntry) {
                   Navigator.pop(context);
                   widget.reloadBloc.add(LogEntryEdited(widget.logEntry.path));
+                  logEntriesChanged.value += 1;
                 });
               },
               child: const Text('Save'),
