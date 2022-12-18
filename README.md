@@ -8,9 +8,10 @@ The Logbook project provides a desktop and command-line application for chronolo
 
 ### Desktop app
 
-**Ubuntu**
+**Linux**
 
-To install the Logbook as desktop app, download the `snap` file from the [latest release on GitHub](https://github.com/experimental-software/logbook/releases/latest) and install it dev mode.
+To use the Logbook desktop app, [Snapd](https://snapcraft.io/docs/installing-snapd) needs to be installed, first.
+Then download the `snap` file from the [latest release on GitHub](https://github.com/experimental-software/logbook/releases/latest) and install it in dev mode.
 
 ```sh
 cd ~/Downloads
@@ -22,7 +23,7 @@ sudo snap install --devmode logbook_*_amd64.snap
 To use the command-line interface of the Logbook app, the [Dart SDK](https://dart.dev/get-dart) needs to be installed, first.
 Then one can clone the Git repository and globally activate the Logbook package.
 
-⚠️ At the moment, only **Ubuntu** and **macOS** are supported. Windows and other operating systems will not work.
+⚠️ At the moment, only **Linux** and **macOS** are supported. Windows and other operating systems will not work.
 
 ```sh
 git clone git@github.com:experimental-software/logbook.git
@@ -44,6 +45,8 @@ logDirectory: ~/Logs
 # The directory where log entries are moved when they are archived.
 archiveDirectory: ~/Archive
 ```
+
+⚠️ On Linux, due to the Snap security restrictings, the log and archive directories need to be under the `/home` directory.
 
 ## Usage
 
