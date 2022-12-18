@@ -111,7 +111,7 @@ Future<Directory> _createNoteEntry({
 
   late String noteEntryDirectory;
 
-  var id = (biggestExistingIndex + 1).toString().padLeft(3, '0');
+  var id = (biggestExistingIndex + 1).toString().padLeft(2, '0');
   noteEntryDirectory = '${baseDir.path}/${id}_$slug';
 
   var logEntryPath = '$noteEntryDirectory/index.md';
