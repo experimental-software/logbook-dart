@@ -54,7 +54,8 @@ class SearchCommand extends Command {
     ];
     for (LogEntry logEntry in logEntries.reversed) {
       var t = logEntry.dateTime;
-      var formattedDateTime = '${t.year}-${t.month.toString().padLeft(2, "0")}-${t.day.toString().padLeft(2, "0")} ${t.hour.toString().padLeft(2, "0")}:${t.minute.toString().padLeft(2, "0")}';
+      var formattedDateTime =
+          '${t.year}-${t.month.toString().padLeft(2, "0")}-${t.day.toString().padLeft(2, "0")} ${t.hour.toString().padLeft(2, "0")}:${t.minute.toString().padLeft(2, "0")}';
       data.add(
         [formattedDateTime, logEntry.title, logEntry.directory],
       );
