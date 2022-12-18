@@ -1,6 +1,7 @@
 import 'package:args/command_runner.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
+import 'package:tabular/tabular.dart';
 
 class SearchCommand extends Command {
   final SearchService searchService = GetIt.I.get();
@@ -48,8 +49,24 @@ class SearchCommand extends Command {
         isRegularExpression: results['regular-expression'],
       );
     }
-    for (var logEntry in logEntries.reversed) {
-      print(logEntry.directory);
+    var data = [
+      ['Time', 'Title', 'Path']
+    ];
+    for (LogEntry logEntry in logEntries.reversed) {
+      var t = logEntry.dateTime;
+      var formattedDateTime = '${t.year}'
+          '-'
+          '${t.month.toString().padLeft(2, "0")}'
+          '-'
+          '${t.day.toString().padLeft(2, "0")}'
+          ' '
+          '${t.hour.toString().padLeft(2, "0")}'
+          ':'
+          '${t.minute.toString().padLeft(2, "0")}';
+      data.add(
+        [formattedDateTime, logEntry.title, logEntry.directory],
+      );
     }
+    print(tabular(data, style: Style.mysql, border: Border.all));
   }
 }
