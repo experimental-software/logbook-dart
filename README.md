@@ -50,7 +50,36 @@ archiveDirectory: ~/Archive
 
 ## Usage
 
-TBD
+**Add log entry**
+
+A new log entry can be added with the `add` command an the log title as positional parameter.
+
+```
+$ logbook add "Hello, World!"
+/Users/jdoe/Logs/2022/12/19/10.38_hello-world
+```
+
+**Search log entries**
+
+With the help of the `search` command, the logs can be found. If no search term gets provided, all available log entries are listed.
+
+```
+$ logbook search
++------------------+----------------+-----------------------------------------------+
+| Time             | Title          | Path                                          |
++------------------+----------------+-----------------------------------------------+
+| 2022-12-19 10:38 | Hello, World!  | /Users/jdoe/Logs/2022/12/19/10.38_hello-world |
++------------------+----------------+-----------------------------------------------+
+```
+
+**Details**
+
+For an overview over all the options, call the `logbook` program and/or the respective sub-command with the `--help` flag.
+
+```
+$ logbook -h
+$ logbook add -h
+```
 
 ## Development
 
