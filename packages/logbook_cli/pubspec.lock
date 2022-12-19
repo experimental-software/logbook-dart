@@ -64,13 +64,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-  ffi:
-    dependency: transitive
-    description:
-      name: ffi
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.1"
   file:
     dependency: transitive
     description:
@@ -281,13 +274,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  system:
-    dependency: transitive
-    description:
-      name: system
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   tabular:
     dependency: "direct main"
     description:
