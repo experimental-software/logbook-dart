@@ -37,6 +37,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   void _updateLogEntryList() {
+    _markedForDeletion.clear();
     var searchTerm = _searchTermController.text.trim();
     _logEntries = searchService.search(
       System.baseDir,
