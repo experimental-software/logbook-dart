@@ -50,10 +50,21 @@ class System {
     throw 'Unsupported OS';
   }
 
-  static Future<void> archive(String originalDirectoryPath) async {
+  static Future<void> archive(String path) async {
+    var pattern = RegExp(r'(.*/\d{4}/\d{2}/\d{2}/\d{2}\.\d{2}_.*?)(/.*)?$');
+    var match = pattern.firstMatch(path);
+    if (match == null) {
+      throw "Cannot archive '$path'. Reason: Invalid path.";
+    }
+
+    var originalDirectoryPath = match.group(1);
+    if (originalDirectoryPath == null) {
+      throw "Cannot archive '$path'. Reason: Invalid path.";
+    }
+
     final Directory originalDirectory = Directory(originalDirectoryPath);
     if (!originalDirectory.existsSync()) {
-      return;
+      throw "Cannot archive '$originalDirectoryPath'. Reason: directory not found.";
     }
     var archivedDirectoryPath = originalDirectoryPath.replaceFirst(
       baseDir.path,
