@@ -54,7 +54,6 @@ class SearchCommand extends Command {
     ];
     for (LogEntry logEntry in logEntries.reversed) {
       var title = logEntry.title;
-      // Flutter: How to run devtools locally
       if (title.length > 60) {
         title = title.replaceRange(60, null, ' (...)');
       }
