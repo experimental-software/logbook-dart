@@ -53,18 +53,23 @@ class SearchCommand extends Command {
       ['Time', 'Title', 'Path']
     ];
     for (LogEntry logEntry in logEntries.reversed) {
-      var t = logEntry.dateTime;
-      var formattedDateTime = '${t.year}'
+      var title = logEntry.title;
+      if (title.length > 60) {
+        title = title.replaceRange(60, null, ' (...)');
+      }
+
+      var dateTime = logEntry.dateTime;
+      var formattedDateTime = '${dateTime.year}'
           '-'
-          '${t.month.toString().padLeft(2, "0")}'
+          '${dateTime.month.toString().padLeft(2, "0")}'
           '-'
-          '${t.day.toString().padLeft(2, "0")}'
+          '${dateTime.day.toString().padLeft(2, "0")}'
           ' '
-          '${t.hour.toString().padLeft(2, "0")}'
+          '${dateTime.hour.toString().padLeft(2, "0")}'
           ':'
-          '${t.minute.toString().padLeft(2, "0")}';
+          '${dateTime.minute.toString().padLeft(2, "0")}';
       data.add(
-        [formattedDateTime, logEntry.title, logEntry.directory],
+        [formattedDateTime, title, logEntry.directory],
       );
     }
     print(tabular(data, style: Style.mysql, border: Border.all));
