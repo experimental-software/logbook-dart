@@ -23,7 +23,7 @@ sudo snap install --devmode logbook_*_amd64.snap
 To use the command-line interface of the Logbook app, the [Dart SDK](https://dart.dev/get-dart) needs to be installed, first.
 Then one can clone the Git repository and globally activate the Logbook package.
 
-⚠️ At the moment, only **Linux** and **macOS** are supported. Windows and other operating systems will not work.
+⚠️ At the moment, only **Linux** and **macOS** are supported.
 
 ```sh
 git clone git@github.com:experimental-software/logbook.git
@@ -46,7 +46,7 @@ logDirectory: ~/Logs
 archiveDirectory: ~/Archive
 ```
 
-⚠️ On Linux, due to the Snap security restrictings, the log and archive directories need to be under the `/home` directory.
+⚠️ On Linux, due to the Snap security restrictions, the log and archive directories need to be under the `/home` directory.
 
 ## Usage
 
