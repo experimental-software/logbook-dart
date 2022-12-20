@@ -23,7 +23,7 @@ sudo snap install --devmode logbook_*_amd64.snap
 To use the command-line interface of the Logbook app, the [Dart SDK](https://dart.dev/get-dart) needs to be installed, first.
 Then one can clone the Git repository and globally activate the Logbook package.
 
-⚠️ At the moment, only **Linux** and **macOS** are supported. Windows and other operating systems will not work.
+⚠️ At the moment, only **Linux** and **macOS** are supported.
 
 ```sh
 git clone git@github.com:experimental-software/logbook.git
@@ -46,7 +46,7 @@ logDirectory: ~/Logs
 archiveDirectory: ~/Archive
 ```
 
-⚠️ On Linux, due to the Snap security restrictings, the log and archive directories need to be under the `/home` directory.
+⚠️ On Linux, due to the Snap security restrictions, the log and archive directories need to be under the `/home` directory.
 
 ## Usage
 
@@ -57,6 +57,12 @@ A new log entry can be added with the `add` command an the log title as position
 ```
 $ logbook add "Hello, World!"
 /Users/jdoe/Logs/2022/12/19/10.38_hello-world
+```
+
+The program will print out the directory that got created. So this output can e.g. be used to open the log entry in a text editor.
+
+```
+$ code $(logbook add "Hello, World!")
 ```
 
 **Search log entries**

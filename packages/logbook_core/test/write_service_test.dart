@@ -14,6 +14,14 @@ void main() {
 
       expect(result, equals('hello-world'));
     });
+
+    test('truncast long slug', () {
+      var s = 'Lorem ipsum dolor sit amet';
+
+      var result = slugify(s);
+
+      expect(result, equals('lorem-ipsum-dolor-sit'));
+    });
   });
 
   group('Create directory for log entry', () {

@@ -129,8 +129,12 @@ Future<Directory> _createNoteEntry({
 
 String slugify(String s) {
   var result = s.toLowerCase();
+  if (result.length > 22) {
+    result = result.substring(0, 22);
+  }
   result = result.replaceAll(RegExp(r'[^\w\s-]'), '');
   result = result.replaceAll(RegExp(r'[-\s]+'), '-');
+  result = result.replaceAll(RegExp(r'-$'), '');
   return result;
 }
 
