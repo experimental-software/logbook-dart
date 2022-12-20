@@ -59,11 +59,7 @@ $ logbook add "Hello, World!"
 /Users/jdoe/Logs/2022/12/19/10.38_hello-world
 ```
 
-The program will print out the directory that got created. So this output can e.g. be used to open the log entry in a text editor.
-
-```
-$ code $(logbook add "Hello, World!")
-```
+The program will print out the directory that got created for the log entry.
 
 **Search log entries**
 
