@@ -1,4 +1,4 @@
-# Logbook docs
+# Overview
 
 - [1. Introduction and Goals](./01_introduction-and-goals/README.md)
 - [2. Constraints](./02_constraints/README.md)
