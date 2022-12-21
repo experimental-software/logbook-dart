@@ -1,6 +1,6 @@
 [Desktop Entry]
 Icon=${SNAP}/meta/gui/logbook.png
-Exec=logbook-app
+Exec=logbook_app
 Version=0.2
 Type=Application
 Name=Logbook

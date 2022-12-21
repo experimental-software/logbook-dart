@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:logbook/pages/homepage/index.dart';
+import 'package:logbook_app/pages/homepage/index.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:get_it/get_it.dart';
 

@@ -1,4 +1,4 @@
-name: logbook
+name: logbook_app
 description: Note taking utility for software engineers.
 
 publish_to: 'none'
