@@ -17,7 +17,7 @@ plugs:
 
 apps:
   logbook:
-    command: logbook
+    command: logbook-app
     extensions: [flutter-stable]
     plugs:
       - file-system-access
