@@ -46,16 +46,26 @@ void main() {
 
       await givenStateShowingLogs(tester);
 
-      
-
       // When search submitted
-      await tester.enterText(find.byType(TextField), 'Foo');
-      await tester.pump();
-      await tester.testTextInput.receiveAction(TextInputAction.done);
-      await tester.pump();
+      // ignore: prefer_function_declarations_over_variables
+      var whenSearchSubmitted = (WidgetTester tester,
+          {String searchTerm = 'Foo',}) async {
+        await tester.enterText(find.byType(TextField), 'Foo');
+        await tester.pump();
+        await tester.testTextInput.receiveAction(TextInputAction.done);
+        await tester.pump();
+      };
+
+      await whenSearchSubmitted(tester);
+
 
       // Then state "Searching Logs"
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      // ignore: prefer_function_declarations_over_variables
+      final thenSearchingLogs = () {
+        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      };
+      thenSearchingLogs();
+      
     });
   });
 
@@ -86,8 +96,7 @@ class _FakeSearchService implements SearchService {
   final List<LogEntry> searchResults = [];
 
   @override
-  Future<List<LogEntry>> search(
-      Directory dir,
+  Future<List<LogEntry>> search(Directory dir,
       String query, {
         bool isRegularExpression = false,
         bool negateSearch = false,
