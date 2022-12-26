@@ -5,7 +5,7 @@ import 'package:logbook_core/logbook_core.dart';
 
 import '../../widgets/create_log_dialog.dart';
 import '../details/index.dart';
-import 'mark_deleted_checkbox.dart';
+import 'logs_overview/mark_deleted_checkbox/index.dart';
 
 final ValueNotifier<int> logEntriesChanged = ValueNotifier(0);
 
