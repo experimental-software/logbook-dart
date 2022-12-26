@@ -4,8 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:uuid/uuid.dart';
 
-// TODO Update state diagram
-
 /// The [HomepageBloc] contains the code related to the Homepage state.
 ///
 /// ![hompage state](https://experimental-software.github.io/logbook/06_runtime-view/img/pages/homepage/state.png)

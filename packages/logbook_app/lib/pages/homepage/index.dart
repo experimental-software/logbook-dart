@@ -113,21 +113,21 @@ class _HomepageState extends State<Homepage> {
                     DataColumn(
                       label: _markedForDeletion.isNotEmpty
                           ? IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () async {
-                          for (var logEntry in _markedForDeletion) {
-                            try {
-                              await System.archive(logEntry.directory);
-                              logEntries.remove(logEntry);
-                            } catch (e) {
-                              _showErrorDialog(context, e);
-                              rethrow;
-                            }
-                          }
-                          _markedForDeletion.clear();
-                          _updateLogEntryList();
-                        },
-                      )
+                              icon: const Icon(Icons.delete),
+                              onPressed: () async {
+                                for (var logEntry in _markedForDeletion) {
+                                  try {
+                                    await System.archive(logEntry.directory);
+                                    logEntries.remove(logEntry);
+                                  } catch (e) {
+                                    _showErrorDialog(context, e);
+                                    rethrow;
+                                  }
+                                }
+                                _markedForDeletion.clear();
+                                _updateLogEntryList();
+                              },
+                            )
                           : const Text(''),
                     ),
                     const DataColumn(
@@ -180,8 +180,10 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  List<DataRow> _buildTableRows(BuildContext context,
-      List<LogEntry> logEntries,) {
+  List<DataRow> _buildTableRows(
+    BuildContext context,
+    List<LogEntry> logEntries,
+  ) {
     var deviceInfo = MediaQuery.of(context);
     const widthDateTimeColumn = 140.0;
     const widthActionsColumn = 400.0;
@@ -189,60 +191,58 @@ class _HomepageState extends State<Homepage> {
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
 
     return logEntries
-        .map((logEntry) =>
-        DataRow(
-          onSelectChanged: (value) {
-            if (value == null || !value) {
-              return;
-            }
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    DetailsPage(
+        .map((logEntry) => DataRow(
+              onSelectChanged: (value) {
+                if (value == null || !value) {
+                  return;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailsPage(
                       originalLogEntry: logEntry,
                     ),
-              ),
-            );
-          },
-          cells: [
-            DataCell(
-              MarkDeletedCheckbox(
-                key: ValueKey(logEntry.dateTime),
-                markedForDeletion: _markedForDeletion,
-                logEntry: logEntry,
-                notifyParent: () {
-                  setState(() {});
-                },
-              ),
-            ),
-            DataCell(SizedBox(
-              width: widthDateTimeColumn,
-              child: Text(_formatTime(logEntry.dateTime)),
-            )),
-            DataCell(SizedBox(
-              width: widthTitleColumn,
-              child: Text(logEntry.title),
-            )),
-            DataCell(
-              SizedBox(
-                  width: widthActionsColumn,
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 60),
-                      IconButton(
-                        icon: const Icon(Icons.copy),
-                        onPressed: () {
-                          Clipboard.setData(ClipboardData(
-                            text: logEntry.directory,
-                          ));
-                        },
-                      ),
-                    ],
-                  )),
-            ),
-          ],
-        ))
+                  ),
+                );
+              },
+              cells: [
+                DataCell(
+                  MarkDeletedCheckbox(
+                    key: ValueKey(logEntry.dateTime),
+                    markedForDeletion: _markedForDeletion,
+                    logEntry: logEntry,
+                    notifyParent: () {
+                      setState(() {});
+                    },
+                  ),
+                ),
+                DataCell(SizedBox(
+                  width: widthDateTimeColumn,
+                  child: Text(_formatTime(logEntry.dateTime)),
+                )),
+                DataCell(SizedBox(
+                  width: widthTitleColumn,
+                  child: Text(logEntry.title),
+                )),
+                DataCell(
+                  SizedBox(
+                      width: widthActionsColumn,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 60),
+                          IconButton(
+                            icon: const Icon(Icons.copy),
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(
+                                text: logEntry.directory,
+                              ));
+                            },
+                          ),
+                        ],
+                      )),
+                ),
+              ],
+            ))
         .toList();
   }
 

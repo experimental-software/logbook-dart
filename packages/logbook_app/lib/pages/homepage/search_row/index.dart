@@ -11,8 +11,6 @@ class SearchRow extends StatefulWidget {
   State<SearchRow> createState() => _SearchRowState();
 }
 
-// TODO Reset search term controller after app update
-
 class _SearchRowState extends State<SearchRow> {
   final TextEditingController _searchTermController = TextEditingController();
   bool useRegexSearch = false;
