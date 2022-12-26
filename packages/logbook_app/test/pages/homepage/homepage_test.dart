@@ -132,7 +132,7 @@ Future<void> whenSearchSubmitted(
   WidgetTester tester, {
   String searchTerm = 'Foo',
 }) async {
-  await tester.enterText(find.byType(TextField), 'Foo');
+  await tester.enterText(find.byType(TextField), 'Bar');
   await tester.pump();
   await tester.testTextInput.receiveAction(TextInputAction.done);
   await tester.pump();
