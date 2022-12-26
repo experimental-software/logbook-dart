@@ -1,17 +1,21 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_app/pages/details/index.dart';
 import 'package:logbook_app/pages/homepage/index.dart';
+import 'package:logbook_app/pages/homepage/state.dart';
 import 'package:logbook_core/logbook_core.dart';
 
+import '../../test_bloc_observer.dart';
 import '../../widget_test_app.dart';
 
 void main() {
   setUp(() {
     GetIt.I.registerSingleton<SearchService>(_FakeSearchService());
+    Bloc.observer = TestBlocObserver();
   });
 
   tearDown(() async {
@@ -109,7 +113,7 @@ Future<void> givenSearchingLogs(WidgetTester tester) async {
   await tester.pumpWidget(const WidgetTestApp(Homepage()));
   await tester.pumpAndSettle();
   await whenSearchSubmitted(tester);
-  expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  thenSearchingLogs();
 }
 
 Future<void> givenShowingLogs(WidgetTester tester) async {
@@ -138,7 +142,10 @@ void thenShowingLogs() {
 }
 
 void thenSearchingLogs() {
-  expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  final testBlocObserver = Bloc.observer as TestBlocObserver;
+  testBlocObserver.changes.firstWhere(
+    (element) => element.nextState is SearchingLogs,
+  );
 }
 
 void thenEmpty() {

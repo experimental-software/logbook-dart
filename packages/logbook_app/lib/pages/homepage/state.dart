@@ -1,16 +1,38 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:uuid/uuid.dart';
+
+// TODO Update state diagram
 
 /// The [HomepageBloc] contains the code related to the Homepage state.
 ///
 /// ![hompage state](https://experimental-software.github.io/logbook/06_runtime-view/img/pages/homepage/state.png)
 class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
+  final SearchService _searchService = GetIt.I.get();
+
   HomepageBloc() : super(Empty()) {
-    on<HomepageEvent>((event, emit) {
-      // TODO: implement event handler
+    on<SearchSubmitted>((event, emit) async {
+      emit(SearchingLogs());
+      var logs = await _searchService.search(
+        System.baseDir,
+        event.searchTerm,
+        isRegularExpression: event.useRegexSearch,
+        negateSearch: event.negateSearch,
+      );
+      if (logs.isEmpty) {
+        emit(Empty());
+      } else {
+        emit(ShowingLogs(logs));
+      }
     });
+
+    init();
+  }
+
+  void init() {
+    add(SearchSubmitted(''));
   }
 }
 
@@ -53,18 +75,14 @@ abstract class HomepageEvent extends Equatable {
 class SearchSubmitted extends HomepageEvent {
   final String id = const Uuid().v4();
   final String searchTerm;
+  final bool useRegexSearch;
+  final bool negateSearch;
 
-  SearchSubmitted(this.searchTerm);
-
-  @override
-  List<Object?> get props => [id, searchTerm];
-}
-
-class SearchFinished extends HomepageEvent {
-  final String id = const Uuid().v4();
-  final List<LogEntry> logs;
-
-  SearchFinished(this.logs);
+  SearchSubmitted(
+    this.searchTerm, {
+    this.useRegexSearch = false,
+    this.negateSearch = false,
+  });
 
   @override
   List<Object?> get props => [id];

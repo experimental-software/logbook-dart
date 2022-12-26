@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 import '../../widgets/create_log_dialog.dart';
 import '../details/index.dart';
 import 'logs_overview/mark_deleted_checkbox/index.dart';
+import 'search_row/index.dart';
+import 'state.dart';
 
 final ValueNotifier<int> logEntriesChanged = ValueNotifier(0);
 
@@ -18,13 +21,10 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   final SearchService searchService = GetIt.I.get();
-  final TextEditingController _searchTermController = TextEditingController();
+
   final ScrollController _scrollController = ScrollController();
 
-  late Future<List<LogEntry>> _logEntries;
   final Set<LogEntry> _markedForDeletion = {};
-  bool useRegexSearch = false;
-  bool negateSearch = false;
 
   @override
   void initState() {
@@ -38,104 +38,60 @@ class _HomepageState extends State<Homepage> {
 
   void _updateLogEntryList() {
     _markedForDeletion.clear();
-    var searchTerm = _searchTermController.text.trim();
-    _logEntries = searchService.search(
-      System.baseDir,
-      searchTerm,
-      isRegularExpression: useRegexSearch,
-      negateSearch: negateSearch,
-    );
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Logbook')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await _showCreateLogDialog(context);
-          _updateLogEntryList();
-        },
-        tooltip: 'Add log entry',
-        child: const Icon(Icons.add),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          children: [
-            _buildSearchRow(),
-            const SizedBox(height: 15),
-            FutureBuilder<List<LogEntry>>(
-              future: _logEntries,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const CircularProgressIndicator();
-                }
-                if (snapshot.hasData) {
-                  var data = snapshot.data!;
-                  return data.isNotEmpty
-                      ? _buildLogEntryTable(snapshot.data!)
-                      : const Text('No search results');
-                } else {
-                  return const Text('No search results');
-                }
-              },
-            ),
-          ],
-        ),
+    return BlocProvider(
+      create: (BuildContext context) => HomepageBloc(),
+      child: _buildScaffold(context),
+    );
+  }
+
+  Widget _buildScaffold(BuildContext context) {
+    return BlocBuilder<HomepageBloc, HomepageState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: const Text('Logbook')),
+          floatingActionButton: _buildFloatingActionButton(context),
+          body: _buildBody(),
+        );
+      },
+    );
+  }
+
+  Padding _buildBody() {
+    return Padding(
+      padding: const EdgeInsets.all(30),
+      child: Column(
+        children: [
+          const SearchRow(),
+          const SizedBox(height: 15),
+          BlocBuilder<HomepageBloc, HomepageState>(
+            builder: (context, state) {
+              if (state is ShowingLogs) {
+                return _buildLogEntryTable(state.logs);
+              } else if (state is SearchingLogs) {
+                return const CircularProgressIndicator();
+              } else {
+                return const Text('No search results');
+              }
+            },
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildSearchRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: SizedBox(
-            width: 200,
-            child: TextField(
-              controller: _searchTermController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                hintText: 'Search log entries...',
-                suffixIcon: Column(
-                  children: [
-                    InkWell(
-                      child: useRegexSearch
-                          ? const Icon(Icons.emergency, size: 20)
-                          : const Icon(Icons.emergency_outlined, size: 20),
-                      onTap: () {
-                        setState(() {
-                          useRegexSearch = !useRegexSearch;
-                          _updateLogEntryList();
-                        });
-                      },
-                    ),
-                    InkWell(
-                      child: negateSearch
-                          ? const Icon(Icons.remove_circle, size: 20)
-                          : const Icon(Icons.remove_circle_outline, size: 20),
-                      onTap: () {
-                        setState(() {
-                          negateSearch = !negateSearch;
-                          _updateLogEntryList();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              onSubmitted: (query) {
-                _updateLogEntryList();
-                setState(() {});
-              },
-              autofocus: true,
-            ),
-          ),
-        )
-      ],
+  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+        await _showCreateLogDialog(context);
+        _updateLogEntryList();
+      },
+      tooltip: 'Add log entry',
+      child: const Icon(Icons.add),
     );
   }
 
@@ -157,21 +113,21 @@ class _HomepageState extends State<Homepage> {
                     DataColumn(
                       label: _markedForDeletion.isNotEmpty
                           ? IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () async {
-                                for (var logEntry in _markedForDeletion) {
-                                  try {
-                                    await System.archive(logEntry.directory);
-                                    logEntries.remove(logEntry);
-                                  } catch (e) {
-                                    _showErrorDialog(context, e);
-                                    rethrow;
-                                  }
-                                }
-                                _markedForDeletion.clear();
-                                _updateLogEntryList();
-                              },
-                            )
+                        icon: const Icon(Icons.delete),
+                        onPressed: () async {
+                          for (var logEntry in _markedForDeletion) {
+                            try {
+                              await System.archive(logEntry.directory);
+                              logEntries.remove(logEntry);
+                            } catch (e) {
+                              _showErrorDialog(context, e);
+                              rethrow;
+                            }
+                          }
+                          _markedForDeletion.clear();
+                          _updateLogEntryList();
+                        },
+                      )
                           : const Text(''),
                     ),
                     const DataColumn(
@@ -224,10 +180,8 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  List<DataRow> _buildTableRows(
-    BuildContext context,
-    List<LogEntry> logEntries,
-  ) {
+  List<DataRow> _buildTableRows(BuildContext context,
+      List<LogEntry> logEntries,) {
     var deviceInfo = MediaQuery.of(context);
     const widthDateTimeColumn = 140.0;
     const widthActionsColumn = 400.0;
@@ -235,58 +189,60 @@ class _HomepageState extends State<Homepage> {
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
 
     return logEntries
-        .map((logEntry) => DataRow(
-              onSelectChanged: (value) {
-                if (value == null || !value) {
-                  return;
-                }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailsPage(
+        .map((logEntry) =>
+        DataRow(
+          onSelectChanged: (value) {
+            if (value == null || !value) {
+              return;
+            }
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    DetailsPage(
                       originalLogEntry: logEntry,
                     ),
-                  ),
-                );
-              },
-              cells: [
-                DataCell(
-                  MarkDeletedCheckbox(
-                    key: ValueKey(logEntry.dateTime),
-                    markedForDeletion: _markedForDeletion,
-                    logEntry: logEntry,
-                    notifyParent: () {
-                      setState(() {});
-                    },
-                  ),
-                ),
-                DataCell(SizedBox(
-                  width: widthDateTimeColumn,
-                  child: Text(_formatTime(logEntry.dateTime)),
-                )),
-                DataCell(SizedBox(
-                  width: widthTitleColumn,
-                  child: Text(logEntry.title),
-                )),
-                DataCell(
-                  SizedBox(
-                      width: widthActionsColumn,
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 60),
-                          IconButton(
-                            icon: const Icon(Icons.copy),
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(
-                                text: logEntry.directory,
-                              ));
-                            },
-                          ),
-                        ],
-                      )),
-                ),
-              ],
-            ))
+              ),
+            );
+          },
+          cells: [
+            DataCell(
+              MarkDeletedCheckbox(
+                key: ValueKey(logEntry.dateTime),
+                markedForDeletion: _markedForDeletion,
+                logEntry: logEntry,
+                notifyParent: () {
+                  setState(() {});
+                },
+              ),
+            ),
+            DataCell(SizedBox(
+              width: widthDateTimeColumn,
+              child: Text(_formatTime(logEntry.dateTime)),
+            )),
+            DataCell(SizedBox(
+              width: widthTitleColumn,
+              child: Text(logEntry.title),
+            )),
+            DataCell(
+              SizedBox(
+                  width: widthActionsColumn,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 60),
+                      IconButton(
+                        icon: const Icon(Icons.copy),
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(
+                            text: logEntry.directory,
+                          ));
+                        },
+                      ),
+                    ],
+                  )),
+            ),
+          ],
+        ))
         .toList();
   }
 
@@ -302,7 +258,6 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void dispose() {
-    _searchTermController.dispose();
     _scrollController.dispose();
     super.dispose();
   }

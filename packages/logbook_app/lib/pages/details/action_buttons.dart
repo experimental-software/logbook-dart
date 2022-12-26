@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 
+import '../../state.dart';
 import '../../widgets/buttons.dart';
 import '../homepage/index.dart';
 import 'create_note_dialog.dart';
@@ -58,9 +59,13 @@ class ActionButtons extends StatelessWidget {
                 'Archive',
                 icon: Icons.delete,
                 onPressed: () {
+                  final logbookBloc = context.read<LogbookBloc>();
+
                   systemService.archive(logEntry.directory).then((_) {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context);
+
+                      logbookBloc.add(LogUpdated());
                       logEntriesChanged.value += 1;
                     } else {
                       systemService.shutdownApp();
