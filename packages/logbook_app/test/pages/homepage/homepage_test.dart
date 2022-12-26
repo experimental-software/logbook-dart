@@ -119,9 +119,8 @@ Future<void> givenSearchingLogs(WidgetTester tester) async {
 Future<void> givenShowingLogs(WidgetTester tester) async {
   givenSearchResults();
   await tester.pumpWidget(const WidgetTestApp(Homepage()));
-  await tester.binding.delayed(const Duration(days: 1));
+  await tester.binding.delayed(const Duration(days: 5));
   await tester.pump();
-
   thenShowingLogs();
 }
 
