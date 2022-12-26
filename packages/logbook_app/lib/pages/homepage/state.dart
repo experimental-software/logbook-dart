@@ -11,14 +11,21 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
   final SearchService _searchService = GetIt.I.get();
 
   HomepageBloc() : super(Empty()) {
-    on<SearchSubmitted>((event, emit) async {
+    on<SearchSubmitted>((event, emit) {
       emit(SearchingLogs());
-      var logs = await _searchService.search(
+      _searchService.search(
         System.baseDir,
         event.searchTerm,
         isRegularExpression: event.useRegexSearch,
         negateSearch: event.negateSearch,
-      );
+      ).then((logs) {
+        add(SearchFinished(logs));
+      });
+      // TODO Handle timeout
+    });
+
+    on<SearchFinished>((event, emit) {
+      final logs = event.logs;
       if (logs.isEmpty) {
         emit(Empty());
       } else {
@@ -81,6 +88,16 @@ class SearchSubmitted extends HomepageEvent {
     this.useRegexSearch = false,
     this.negateSearch = false,
   });
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class SearchFinished extends HomepageEvent {
+  final String id = const Uuid().v4();
+  final List<LogEntry> logs;
+
+  SearchFinished(this.logs);
 
   @override
   List<Object?> get props => [id];

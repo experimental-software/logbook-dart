@@ -35,7 +35,7 @@ void main() {
       await givenShowingLogs(tester);
 
       await whenSearchSubmitted(tester);
-
+      await tester.binding.delayed(const Duration(days: 999));
       thenSearchingLogs();
     });
 
@@ -119,7 +119,9 @@ Future<void> givenSearchingLogs(WidgetTester tester) async {
 Future<void> givenShowingLogs(WidgetTester tester) async {
   givenSearchResults();
   await tester.pumpWidget(const WidgetTestApp(Homepage()));
-  await tester.pumpAndSettle();
+  await tester.binding.delayed(const Duration(days: 1));
+  await tester.pump();
+
   thenShowingLogs();
 }
 
@@ -135,6 +137,7 @@ Future<void> whenSearchSubmitted(
   await tester.pump();
   await tester.testTextInput.receiveAction(TextInputAction.done);
   await tester.pump();
+  await tester.binding.delayed(const Duration(seconds: 1));
 }
 
 void thenShowingLogs() {
@@ -146,6 +149,8 @@ void thenSearchingLogs() {
   testBlocObserver.changes.firstWhere(
     (element) => element.nextState is SearchingLogs,
   );
+
+  expect(find.byType(CircularProgressIndicator), findsOneWidget);
 }
 
 void thenEmpty() {
@@ -162,6 +167,7 @@ class _FakeSearchService implements SearchService {
     bool isRegularExpression = false,
     bool negateSearch = false,
   }) async {
+    await Future.delayed(const Duration(microseconds: 0));
     return searchResults;
   }
 
