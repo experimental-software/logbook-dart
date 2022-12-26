@@ -25,7 +25,7 @@ void main() {
   group('Initial', () {
     testWidgets('page opened', (tester) async {
       await tester.pumpWidget(const WidgetTestApp(Homepage()));
-
+      await tester.binding.delayed(const Duration(days: 5));
       expect(find.text('Logbook'), findsOneWidget);
     });
   });
@@ -35,7 +35,7 @@ void main() {
       await givenShowingLogs(tester);
 
       await whenSearchSubmitted(tester);
-      await tester.binding.delayed(const Duration(days: 999));
+
       thenSearchingLogs();
     });
 
@@ -137,7 +137,7 @@ Future<void> whenSearchSubmitted(
   await tester.pump();
   await tester.testTextInput.receiveAction(TextInputAction.done);
   await tester.pump();
-  await tester.binding.delayed(const Duration(seconds: 1));
+  await tester.binding.delayed(const Duration(days: 5));
 }
 
 void thenShowingLogs() {
