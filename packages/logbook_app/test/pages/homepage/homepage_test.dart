@@ -29,56 +29,38 @@ void main() {
 
   group('Showing Logs', () {
     testWidgets('search submitted', (tester) async {
-      // ignore: prefer_function_declarations_over_variables
-      var givenStateShowingLogs = (WidgetTester tester) async {
-        searchService = GetIt.I.get<SearchService>() as _FakeSearchService;
-        searchService.searchResults.add(
-          LogEntry(
-            dateTime: DateTime.now(),
-            title: 'Hello, World!',
-            directory: '',
-          ),
-        );
-        await tester.pumpWidget(const WidgetTestApp(Homepage()));
-        await tester.pumpAndSettle();
-        expect(find.text('Hello, World!'), findsOneWidget);
-      };
-
-      await givenStateShowingLogs(tester);
-
-      // When search submitted
-      // ignore: prefer_function_declarations_over_variables
-      var whenSearchSubmitted = (WidgetTester tester,
-          {String searchTerm = 'Foo',}) async {
-        await tester.enterText(find.byType(TextField), 'Foo');
-        await tester.pump();
-        await tester.testTextInput.receiveAction(TextInputAction.done);
-        await tester.pump();
-      };
-
+      await givenShowingLogs(tester);
       await whenSearchSubmitted(tester);
-
-
-      // Then state "Searching Logs"
-      // ignore: prefer_function_declarations_over_variables
-      final thenSearchingLogs = () {
-        expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      };
       thenSearchingLogs();
-      
     });
   });
 
-  // group('Showing Logs', () {
-  //   testWidgets('search finished [one or more results]', (tester) async {
-  //     tester.binding.window.platformDispatcher.textScaleFactorTestValue = 0.2;
-  //
-  //     var widget = Text('Hello, Widget!');
-  //     await tester.pumpWidget(WidgetTestApp(widget));
-  //
-  //     expect(find.byType(Text), findsWidgets);
-  //   });
-  // });
+  group('Searching Logs', () {
+    testWidgets('search finished [one or more results]', (tester) async {
+      // Given search results
+      final searchService = GetIt.I.get<SearchService>() as _FakeSearchService;
+      searchService.searchResults.add(
+        LogEntry(
+          dateTime: DateTime.now(),
+          title: 'Hello, World!',
+          directory: '',
+        ),
+      );
+
+      // Given searching logs
+      await tester.pumpWidget(const WidgetTestApp(Homepage()));
+      await tester.pumpAndSettle();
+      await whenSearchSubmitted(tester);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      // When search finished
+      await tester.pumpAndSettle();
+
+      // Then showing logs
+      await tester.pumpAndSettle();
+      expect(find.text('Hello, World!'), findsOneWidget);
+    });
+  });
 
   // group('Empty', () {
   //   testWidgets('search finished [no results]', (tester) async {
@@ -90,6 +72,32 @@ void main() {
   //     expect(find.byType(Text), findsWidgets);
   //   });
   // });
+}
+
+Future<void> givenShowingLogs(WidgetTester tester) async {
+  final searchService = GetIt.I.get<SearchService>() as _FakeSearchService;
+  searchService.searchResults.add(
+    LogEntry(
+      dateTime: DateTime.now(),
+      title: 'Hello, World!',
+      directory: '',
+    ),
+  );
+  await tester.pumpWidget(const WidgetTestApp(Homepage()));
+  await tester.pumpAndSettle();
+  expect(find.text('Hello, World!'), findsOneWidget);
+}
+
+Future<void> whenSearchSubmitted(WidgetTester tester,
+    {String searchTerm = 'Foo',}) async {
+  await tester.enterText(find.byType(TextField), 'Foo');
+  await tester.pump();
+  await tester.testTextInput.receiveAction(TextInputAction.done);
+  await tester.pump();
+}
+
+void thenSearchingLogs() {
+  expect(find.byType(CircularProgressIndicator), findsOneWidget);
 }
 
 class _FakeSearchService implements SearchService {
