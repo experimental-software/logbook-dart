@@ -1,6 +1,0 @@
-@startuml homepage state
-
-state "Showing log entries" as Shadowing
-state "Searching log entries" as Searching
-
-@enduml

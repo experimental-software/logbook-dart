@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logbook_app/state.dart';
 
 class WidgetTestApp extends StatelessWidget {
   final Widget widget;
@@ -7,8 +9,11 @@ class WidgetTestApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: widget,
+    return BlocProvider(
+      create: (context) => LogbookBloc(),
+      child: MaterialApp(
+        home: widget,
+      ),
     );
   }
 }

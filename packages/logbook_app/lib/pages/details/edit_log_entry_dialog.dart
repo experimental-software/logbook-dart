@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_app/pages/details/reload_bloc/reload_bloc.dart';
+import 'package:logbook_app/state.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 import '../homepage/index.dart';
@@ -107,9 +108,13 @@ class _EditLogEntryDialogState extends State<EditLogEntryDialog> {
                   description: description,
                 )
                     .then((logEntry) {
+                  final logbookBloc = context.read<LogbookBloc>();
+
                   Navigator.pop(context);
                   widget.reloadBloc.add(LogEntryEdited(widget.logEntry.path));
+
                   logEntriesChanged.value += 1;
+                  logbookBloc.add(LogUpdated());
                 });
               },
               child: const Text('Save'),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logbook_app/pages/details/index.dart';
+import 'package:logbook_app/state.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 class CreateLogDialog extends StatefulWidget {
@@ -115,6 +117,9 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                   title: title,
                   description: description,
                 ).then((logEntry) {
+                  final logbookBloc = context.read<LogbookBloc>();
+                  logbookBloc.add(LogAdded());
+
                   if (shouldCopyToClipboard) {
                     Clipboard.setData(ClipboardData(text: logEntry.directory));
                   }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_app/pages/details/index.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 import 'pages/homepage/index.dart';
+import 'state.dart';
 
 void main(List<String> args) async {
   GetIt.I.registerSingleton(SearchService());
@@ -16,7 +18,12 @@ void main(List<String> args) async {
     logEntry = await toLogEntry(args.first);
   }
 
-  runApp(LogbookApp(logEntry: logEntry));
+  runApp(
+    BlocProvider(
+      create: (context) => LogbookBloc(),
+      child: LogbookApp(logEntry: logEntry),
+    ),
+  );
 }
 
 class NoAnimationPageTransitionsBuilder extends PageTransitionsBuilder {

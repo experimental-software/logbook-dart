@@ -22,12 +22,14 @@ dependencies:
       ref: master
   test: ^1.21.1
   url_launcher: ^6.1.2
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  bloc_test: ^9.1.0
 
 flutter:
   uses-material-design: true
