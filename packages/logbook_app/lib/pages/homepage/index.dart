@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logbook_core/logbook_core.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logbook_core/logbook_core.dart';
 
 import '../../widgets/create_log_dialog.dart';
 import '../details/index.dart';
@@ -73,9 +73,12 @@ class _HomepageState extends State<Homepage> {
                   return const CircularProgressIndicator();
                 }
                 if (snapshot.hasData) {
-                  return _buildLogEntryTable(snapshot.data!);
+                  var data = snapshot.data!;
+                  return data.isNotEmpty
+                      ? _buildLogEntryTable(snapshot.data!)
+                      : const Text('No search results');
                 } else {
-                  return _buildLogEntryTable([]);
+                  return const Text('No search results');
                 }
               },
             ),
