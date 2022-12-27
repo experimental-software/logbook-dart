@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:logbook_core/src/config.dart';
 
 class SystemService {
-  Future<void> archive(String originalDirectoryPath) async {
-    await System.archive(originalDirectoryPath);
+  Future<String> archive(String originalDirectoryPath) async {
+    return await System.archive(originalDirectoryPath);
   }
 
   void shutdownApp() {
@@ -15,7 +15,7 @@ class SystemService {
 class System {
   System._();
 
-  static Future<void> archive(String path) async {
+  static Future<String> archive(String path) async {
     var pattern = RegExp(r'(.*/\d{4}/\d{2}/\d{2}/\d{2}\.\d{2}_.*?)(/.*)?$');
     var match = pattern.firstMatch(path);
     if (match == null) {
@@ -52,6 +52,8 @@ class System {
     if (await parentYearDirectory.list().isEmpty) {
       await parentYearDirectory.delete();
     }
+
+    return archivedDirectoryPath;
   }
 
   static Directory get baseDir {

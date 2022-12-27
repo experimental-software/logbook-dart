@@ -25,6 +25,7 @@ class ArchiveCommand extends Command {
       throw 'Missing log entry directory';
     }
 
-    await systemService.archive(logEntryDirectory);
+    var archiveDir = await systemService.archive(logEntryDirectory);
+    print(archiveDir);
   }
 }
