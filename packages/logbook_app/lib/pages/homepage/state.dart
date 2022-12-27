@@ -13,12 +13,14 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
   HomepageBloc() : super(Empty()) {
     on<SearchSubmitted>((event, emit) {
       emit(SearchingLogs());
-      _searchService.search(
+      _searchService
+          .search(
         System.baseDir,
         event.searchTerm,
         isRegularExpression: event.useRegexSearch,
         negateSearch: event.negateSearch,
-      ).then((logs) {
+      )
+          .then((logs) {
         add(SearchFinished(logs));
       });
       // TODO Handle timeout
