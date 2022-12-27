@@ -29,7 +29,8 @@ class System {
 
     final Directory originalDirectory = Directory(originalDirectoryPath);
     if (!originalDirectory.existsSync()) {
-      throw "Cannot archive '$originalDirectoryPath'. Reason: directory not found.";
+      throw "Cannot archive '$originalDirectoryPath'. "
+          'Reason: directory not found.';
     }
     var archivedDirectoryPath = originalDirectoryPath.replaceFirst(
       baseDir.path,
