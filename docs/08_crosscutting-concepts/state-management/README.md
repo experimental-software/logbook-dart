@@ -2,16 +2,16 @@
 
 ## State machine
 
-The state of the respective (complex) UI elements is modeled as state machine.
+For every widget with a non-trivial internal state, the state is modeled with a [UML state diagram](http://www.agilemodeling.com/artifacts/stateMachineDiagram.htm).
 
-The implementation of the state machine is done with the BloC library.
+The implementation of the state machine described by that diagram is done with the BloC library.
 
 However, the state machine is not used for code generation or automatic validation. Rather it is used as a thinking tool. It is modeled with [Visual Paradigm](https://www.visual-paradigm.com/), [PlantUML](https://plantuml.com), and or [Mermaid](https://mermaid.js.org/#/) and then manually implemented using the state machine like a roadmap.
 
 The widget tests are built using the structure of the state machine as inspiration:
 
-- For every event there is a test group
-- The test names have the transition text
+- For every state there is a test group.
+- For every state transition there is a test, with the text of the transition as test name.
 
 ## File structure
 
