@@ -26,10 +26,10 @@ create_backup
 
 # Compile binaries
 cd $SCRIPT_DIR/..
-fvm flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
-fvm flutter pub get
-fvm flutter test
-fvm flutter build linux
+flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
+flutter pub get
+flutter test
+flutter build linux
 cp -r ./build/linux/x64/release/bundle ~/bin/logbook
 
 # Create desktop entry

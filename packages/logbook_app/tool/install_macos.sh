@@ -21,16 +21,20 @@ function delete_backup() {
 
 # Compile binaries
 cd $SCRIPT_DIR/..
-fvm flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
-fvm flutter pub get
-fvm flutter test
-fvm flutter build macos --no-tree-shake-icons
+flutter --version | grep "channel stable" || { echo "Not on stable channel." ; exit 1;  }
+flutter pub get
+flutter test
+flutter build macos --no-tree-shake-icons
 
 # Clear existing installation
 delete_backup
 create_backup
 
 # Install
+if [[ ! -f "$BUILT_APP_PATH" ]] ; then
+  echo "ERROR: Could not find built app at path: $BUILT_APP_PATH"
+  exit 1
+fi
 cp -r $BUILT_APP_PATH $INSTALLED_APP_PATH
 rm -rf build/
 
