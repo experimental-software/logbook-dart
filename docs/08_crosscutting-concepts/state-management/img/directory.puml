@@ -1,0 +1,18 @@
+@startmindmap
+
+* logbook_app
+ * lib
+  * pages
+   * homepage
+    * search_row
+     *_ index.dart
+    *_ index.dart
+    *_ state.dart
+  *_ main.dart
+  *_ state.dart 
+ * test
+  * pages
+   * homepage
+    *_ homepage_test.dart
+
+@endmindmap
