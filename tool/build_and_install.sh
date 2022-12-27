@@ -10,7 +10,7 @@ for p in $PUBSPECS
 do
   PUBSPEC_DIR="${p%pubspec.*}"
   cd $PUBSPEC_DIR
-  fvm flutter pub get
+  flutter pub get
   cd -
 done
 
