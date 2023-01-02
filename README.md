@@ -15,7 +15,7 @@ Then download the `snap` file from the [latest release on GitHub](https://github
 
 ```sh
 cd ~/Downloads
-sudo snap install --devmode logbook_*_amd64.snap
+sudo snap install --devmode logbookapp_*_amd64.snap
 ```
 
 ### Command-line interface
@@ -46,7 +46,19 @@ logDirectory: ~/Logs
 archiveDirectory: ~/Archive
 ```
 
+**Linux**
+
 ⚠️ On Linux, due to the Snap security restrictions, the log and archive directories need to be under the `/home` directory.
+Further, since the `HOME` environment variable resolves to `/home/jdoe/snap/logbookapp/x1`, absolute path declarations have to be used.
+
+`/home/jdoe/snap/logbookapp/x1/.config/logbook/config.yaml`:
+
+```yaml
+# The directory where new log entries are added.
+logDirectory: /home/jdoe/doc/Notizen
+# The directory where log entries are moved when they are archived.
+archiveDirectory: /home/jdoe/doc/Archiv
+```
 
 ## Usage
 
