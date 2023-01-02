@@ -1,9 +1,9 @@
-name: logbook
+name: logbook_app
 version: "0.2"
 summary: App for chronological note taking
 description: Allows to create note directories with the current date and time.
 
-confinement: strict
+confinement: devmode
 base: core18
 grade: stable
 
