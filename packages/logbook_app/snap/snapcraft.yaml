@@ -16,14 +16,14 @@ plugs:
       - /home
 
 apps:
-  logbook:
-    command: logbook_app
+  logbookapp:
+    command: logbookapp
     extensions: [flutter-stable]
     plugs:
       - file-system-access
 
 parts:
-  logbook:
+  logbookapp:
     source: .
     plugin: flutter
     flutter-target: lib/main.dart
