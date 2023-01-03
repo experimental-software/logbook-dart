@@ -51,7 +51,10 @@ archiveDirectory: ~/Archive
 ⚠️ On Linux, due to the Snap security restrictions, the log and archive directories need to be under the `/home` directory.
 Further, since the `HOME` environment variable resolves to `/home/jdoe/snap/logbookapp/x1`, absolute path declarations have to be used.
 
-`/home/jdoe/snap/logbookapp/x1/.config/logbook/config.yaml`:
+```
+mkdir -p /home/$(whoami)/snap/logbookapp/x1/.config/logbook
+nano /home/$(whoami)/snap/logbookapp/x1/.config/logbook/config.yaml
+```
 
 ```yaml
 # The directory where new log entries are added.
