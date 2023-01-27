@@ -16,11 +16,13 @@ void main() {
     });
 
     test('truncast long slug', () {
-      var s = 'Lorem ipsum dolor sit amet';
+      var s = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, '
+          'sed diam nonumy eirmod tempor invidunt ut labore et dolore '
+          'magna aliquyam erat, sed diam voluptua.';
 
       var result = slugify(s);
 
-      expect(result, equals('lorem-ipsum-dolor-sit'));
+      expect(result, equals('lorem-ipsum-dolor-sit-amet-consete'));
     });
   });
 
