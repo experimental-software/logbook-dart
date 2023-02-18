@@ -10,13 +10,16 @@ The Logbook project provides a desktop and command-line application for chronolo
 
 **Linux**
 
-Go to the latest release and download the AppImage file:
+Go to the latest GitHub release and download the AppImage file:
 
 https://github.com/experimental-software/logbook/releases/latest
 
+Then make the AppImage file executeable and run it:
+
 ```bash
 cd ~/Downloads
-chmod +x 
+chmod +x Logbook-*-x86_64.AppImage 
+./Logbook-*-x86_64.AppImage 
 ```
 
 ⚠️ Currently the AppImage gets only tested with **Ubuntu 22.04**.
