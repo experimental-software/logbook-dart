@@ -11,14 +11,14 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@master
-
-      - uses: subosito/flutter-action@v2
+      - name: Install Flutter SDK
+        uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-
-      - run: sudo apt update && sudo apt install clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
-      - run: ./packages/logbook_app/tool/build_linux.sh
-
+      - name: Install Flutter Linux build dependencies
+        run: sudo apt update && sudo apt install clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+      - name: Build Flutter Linux app
+        run: ./packages/logbook_app/tool/build_linux.sh
       - name: Install FUSE
         run: |
           sudo add-apt-repository universe
@@ -27,8 +27,8 @@ jobs:
         # see:
         # - https://github.com/AppImage/AppImageKit/wiki/FUSE
         # - https://www.youtube.com/watch?v=MsZZ5EVBZdY
-      - run: ./packages/logbook_app/tool/build_appimage.sh
-
+      - name: Build AppImage
+        run: ./packages/logbook_app/tool/build_appimage.sh
       - name: Upload AppImage to release
         uses: svenstaro/upload-release-action@v2
         with:

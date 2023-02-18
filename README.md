@@ -10,14 +10,21 @@ The Logbook project provides a desktop and command-line application for chronolo
 
 **Linux**
 
-TBD
+Go to the latest release and download the AppImage file:
+
+https://github.com/experimental-software/logbook/releases/latest
+
+```bash
+cd ~/Downloads
+chmod +x 
+```
+
+⚠️ Currently the AppImage gets only tested with **Ubuntu 22.04**.
 
 ### Command-line interface
 
 To use the command-line interface of the Logbook app, the [Dart SDK](https://dart.dev/get-dart) needs to be installed, first.
 Then one can clone the Git repository and globally activate the Logbook package.
-
-⚠️ At the moment, only **Linux** and **macOS** are supported.
 
 ```sh
 git clone git@github.com:experimental-software/logbook.git
@@ -26,6 +33,8 @@ cd logbook/packages/logbook_cli
 dart pub get
 dart pub global activate --source path .
 ```
+
+⚠️ Currently only **Linux** and **macOS** are supported.
 
 ### Configuration
 
