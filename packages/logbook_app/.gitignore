@@ -2,4 +2,4 @@
 AppDir/
 *.AppImage
 appimage-build/
-
+*.zsync
