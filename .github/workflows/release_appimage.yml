@@ -16,6 +16,8 @@ jobs:
         with:
           channel: "stable"
 
+      - run: sudo apt update && sudo apt install ninja-build
+
       - run: packages/logbook_app/tool/build_linux.sh
 
       - name: Build AppImage
