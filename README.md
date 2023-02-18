@@ -10,9 +10,16 @@ The Logbook project provides a desktop and command-line application for chronolo
 
 **Linux**
 
-Go to the latest GitHub release and download the AppImage file:
+The Logbook desktop app is distributed as [AppImage](https://appimage.org).
+AppImages depend on FUSE 2.
+See [AppImageKit/wiki/FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE) for setup instructions.
+
+After making sure that FUSE 2 is installed,
+go to the latest GitHub release and download the AppImage file:
 
 https://github.com/experimental-software/logbook/releases/latest
+
+
 
 Then make the AppImage file executeable and run it:
 
