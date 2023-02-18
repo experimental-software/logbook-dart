@@ -129,3 +129,4 @@ git push origin --tag $NEW_VERSION
 - [Quiver](https://yliansoft.com/)
 - [Notion](https://www.notion.so/product)
 - [Obsidian](https://obsidian.md/)
+- [Joplin](https://joplinapp.org/)
