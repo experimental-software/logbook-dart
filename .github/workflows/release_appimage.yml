@@ -19,6 +19,14 @@ jobs:
       - run: sudo apt update && sudo apt install clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
       - run: ./packages/logbook_app/tool/build_linux.sh
 
+      - name: Install FUSE
+        run: |
+          sudo add-apt-repository universe
+          sudo apt install libfuse2
+        shell: bash
+        # see:
+        # - https://github.com/AppImage/AppImageKit/wiki/FUSE
+        # - https://www.youtube.com/watch?v=MsZZ5EVBZdY
       - run: ./packages/logbook_app/tool/build_appimage.sh
 
       - name: Upload AppImage to release
