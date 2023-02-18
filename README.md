@@ -10,13 +10,7 @@ The Logbook project provides a desktop and command-line application for chronolo
 
 **Linux**
 
-To use the Logbook desktop app, [Snapd](https://snapcraft.io/docs/installing-snapd) needs to be installed, first.
-Then download the `snap` file from the [latest release on GitHub](https://github.com/experimental-software/logbook/releases/latest) and install it in dev mode.
-
-```sh
-cd ~/Downloads
-sudo snap install --devmode logbookapp_*_amd64.snap
-```
+TBD
 
 ### Command-line interface
 
@@ -44,23 +38,6 @@ The following snippet shows the configuration options with their default values:
 logDirectory: ~/Logs
 # The directory where log entries are moved when they are archived.
 archiveDirectory: ~/Archive
-```
-
-**Linux**
-
-⚠️ On Linux, due to the Snap security restrictions, the log and archive directories need to be under the `/home` directory.
-Further, since the `HOME` environment variable resolves to `/home/jdoe/snap/logbookapp/x1`, absolute path declarations have to be used.
-
-```
-mkdir -p /home/$(whoami)/snap/logbookapp/x1/.config/logbook
-nano /home/$(whoami)/snap/logbookapp/x1/.config/logbook/config.yaml
-```
-
-```yaml
-# The directory where new log entries are added.
-logDirectory: /home/jdoe/doc/Notizen
-# The directory where log entries are moved when they are archived.
-archiveDirectory: /home/jdoe/doc/Archiv
 ```
 
 ## Usage
