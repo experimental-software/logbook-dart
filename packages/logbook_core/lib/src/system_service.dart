@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:logbook_core/src/config.dart';
+import 'package:system/system.dart' as sys;
 
 class SystemService {
   Future<String> archive(String originalDirectoryPath) async {
@@ -14,6 +15,17 @@ class SystemService {
 
 class System {
   System._();
+
+  static Future<void> openInTextEditor(
+      String textEditor, String logEntryDir) async {
+    if (!await File(textEditor).exists()) {
+      throw "Text editor binary '$textEditor' does not exist.";
+    }
+    if (!await Directory(logEntryDir).exists()) {
+      throw "Log entry '$logEntryDir' does not exist";
+    }
+    sys.System.invoke('$textEditor $logEntryDir');
+  }
 
   static Future<String> archive(String path) async {
     var pattern = RegExp(r'(.*/\d{4}/\d{2}/\d{2}/\d{2}\.\d{2}_.*?)(/.*)?$');

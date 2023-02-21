@@ -63,6 +63,16 @@ class LogbookConfig {
     return Directory(path);
   }
 
+  String? get textEditor {
+    String? path = _config['textEditor'];
+    if (path != null) {
+      if (!path.startsWith('/usr/')) {
+        throw 'Untrusted editor path: $path';
+      }
+    }
+    return path;
+  }
+
   static set homeDirectory(Directory directory) {
     _customizedHomeDirectory = directory;
   }
