@@ -19,8 +19,6 @@ go to the latest GitHub release and download the AppImage file:
 
 https://github.com/experimental-software/logbook/releases/latest
 
-
-
 Then make the AppImage file executeable and run it:
 
 ```bash
@@ -57,6 +55,8 @@ The following snippet shows the configuration options with their default values:
 logDirectory: ~/Logs
 # The directory where log entries are moved when they are archived.
 archiveDirectory: ~/Archive
+# The path of a text editor (needs to start with "/usr/", e.g. "/usr/local/bin/code")
+textEditor:
 ```
 
 ## Usage
