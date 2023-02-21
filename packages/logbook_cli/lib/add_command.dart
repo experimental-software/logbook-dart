@@ -17,7 +17,7 @@ class AddCommand extends Command {
     argParser.addFlag(
       'open',
       abbr: 'o',
-      help: 'Open the log entry the configured text editor',
+      help: 'Open the log entry with the configured text editor',
     );
   }
 
