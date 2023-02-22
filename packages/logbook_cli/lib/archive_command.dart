@@ -1,6 +1,7 @@
 import 'package:args/command_runner.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
+import 'dart:io';
 
 class ArchiveCommand extends Command {
   final SystemService systemService = GetIt.I.get();
@@ -18,14 +19,19 @@ class ArchiveCommand extends Command {
       return;
     }
 
-    var logEntryDirectory = '';
-    if (results.rest.isNotEmpty) {
-      logEntryDirectory = results.rest.first;
-    } else {
-      throw 'Missing log entry directory';
+    if (results.rest.isEmpty) {
+      print('ERROR: No directory for archiving provided.');
+      exit(1);
     }
 
-    var archiveDir = await systemService.archive(logEntryDirectory);
-    print(archiveDir);
+    for (var dir in results.rest) {
+      try {
+        var archiveDir = await systemService.archive(dir);
+        print(archiveDir);
+      } catch (e) {
+        print("ERROR: Failed to archive log entry '$dir'.");
+        exit(1);
+      }
+    }
   }
 }
