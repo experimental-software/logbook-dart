@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
-import 'dart:io';
 
 class ArchiveCommand extends Command {
   final SystemService systemService = GetIt.I.get();
