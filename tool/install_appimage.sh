@@ -9,7 +9,7 @@ function usage()
     cat <<-END
 usage: install_appimage.sh [-h]
 
-This script download the latest an AppImage of the Logbook app, places the
+This script downloads the latest AppImage of the Logbook app, places the
 binary files in /home/$(whoami)/bin/Logbook** and the icon/desktop files in
 /home/$(whoami)/.local/share/**.
 
