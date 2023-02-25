@@ -9,7 +9,7 @@ AppDir:
     id: com.experimental-software.logbook
     name: Logbook
     icon: application-vnd.appimage
-    version: 0.3.0
+    version: 0.3.6
     exec: logbookapp
     exec_args: $@
   apt:
