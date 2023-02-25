@@ -69,8 +69,8 @@ if [[ -d "${INSTALL_DIR}" ]] ; then
   exit 1
 fi
 
-echo "Downloading AppImage release for version '${LOGBOOK_VERSION}' into temporary directory '$(pwd)'."
 cd $(mktemp -d)
+echo "Downloading AppImage release for version '${LOGBOOK_VERSION}' into temporary directory '$(pwd)'."
 DOWNLOAD_URL="https://github.com/experimental-software/logbook/releases/download/${LOGBOOK_VERSION}/${APPIMAGE_ASSET}"
 curl -SL ${DOWNLOAD_URL} -o ${APPIMAGE_ASSET}
 chmod +x ${APPIMAGE_ASSET}
