@@ -41,23 +41,6 @@ done
 shift $((OPTIND-1))
 
 ###############################################################################
-# Utility functions
-###############################################################################
-
-function check_if_binary_files_already_exist() {
-  _LOGBOOK_VERSION=$1
-  if [[ -z "$_LOGBOOK_VERSION" ]] ; then
-    echo "ERROR: Logbook version not provided for previous install check" >&2
-    exit 1
-  fi
-  INSTALL_DIR="/home/$(whoami)/bin/Logbook-${_LOGBOOK_VERSION}"
-  if [[ -d "${INSTALL_DIR}" ]] ; then
-    echo "WARNING: Logbook app version '${_LOGBOOK_VERSION}' is already installed at '${INSTALL_DIR}'." >&2
-    exit 1
-  fi
-}
-
-###############################################################################
 # Verify that dependencies are available
 ###############################################################################
 
@@ -100,8 +83,8 @@ mkdir -p ${INSTALL_DIR}
 tar xvf ./${BINARY_ARCHIVE} --directory ${INSTALL_DIR}
 
 # Create desktop file
-DESKTOP_FILE_SRC=${SCRIPT_DIR}/resources/logbook.desktop
-DESKTOP_FILE_TARGET="/home/$(whoami)/.local/share/applications/logbook.desktop"
+DESKTOP_FILE_SRC=${SCRIPT_DIR}/resources/logbookapp.desktop
+DESKTOP_FILE_TARGET="/home/$(whoami)/.local/share/applications/logbookapp.desktop"
 if [[ -f ${DESKTOP_FILE_TARGET} ]] ; then
   rm ${DESKTOP_FILE_TARGET}
 fi
