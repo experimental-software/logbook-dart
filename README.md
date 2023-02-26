@@ -10,24 +10,17 @@ The Logbook project provides a desktop and command-line application for chronolo
 
 **Linux**
 
-The Logbook desktop app is distributed as [AppImage](https://appimage.org).
-AppImages depend on FUSE 2.
-See [AppImageKit/wiki/FUSE](https://github.com/AppImage/AppImageKit/wiki/FUSE) for setup instructions.
+The Logbook desktop app is distributed as compressed [tar](https://en.wikipedia.org/wiki/Tar_(computing)) file (`*.tar.gz`) containing the release output of the `flutter build linux` command.
 
-After making sure that FUSE 2 is installed,
-go to the latest GitHub release and download the AppImage file:
+It can be installed by downloading the `tar.gz` file from the [latest GitHub release](https://github.com/experimental-software/logbook/releases/latest), unpacking it, moving it into a custom installation directory, and creating a [Desktop file](./packages/logbook_app/tool/resources/logbookapp.desktop).
 
-https://github.com/experimental-software/logbook/releases/latest
-
-Then make the AppImage file executeable and run it:
+Those steps may be done automatically by executing the [install_linux.sh](./packages/logbook_app/tool/install_linux.sh) script:
 
 ```bash
-cd ~/Downloads
-chmod +x Logbook-*-x86_64.AppImage 
-./Logbook-*-x86_64.AppImage 
+./packages/logbook_app/tool/install_linux.sh -h
 ```
 
-⚠️ Currently the AppImage gets only tested with **Ubuntu 22.04**.
+⚠️ Currently the Linux release gets only tested with **Ubuntu 22.04**.
 
 ### Command-line interface
 
