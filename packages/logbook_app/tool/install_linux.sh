@@ -20,7 +20,7 @@ optional arguments:
 
 dependencies:
   - Linux
-  - jq
+  - jq (https://stedolan.github.io/jq/)
   - cURL
 
 license: MIT
@@ -44,7 +44,7 @@ shift $((OPTIND-1))
 # Verify that dependencies are available
 ###############################################################################
 
-which jq > /dev/null || { echo "ERROR: jq not installed" ; exit 1 ; }
+which jq > /dev/null || { echo "ERROR: jq not installed. See https://stedolan.github.io/jq" ; exit 1 ; }
 
 if [[ ! "${OSTYPE}" == "linux-gnu"* ]]; then
   echo "ERROR: This script only works on Linux" >&2
