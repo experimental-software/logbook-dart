@@ -10,9 +10,9 @@ The Logbook project provides a desktop and command-line application for chronolo
 
 **Linux**
 
-The Logbook desktop app is distributed as compressed [tar](https://en.wikipedia.org/wiki/Tar_(computing)) file (`*.tgz`) containing the release output of the `flutter build linux` command.
+The Logbook desktop app is distributed as compressed [tar](https://en.wikipedia.org/wiki/Tar_(computing)) file (`*.tar.gz`) containing the release output of the `flutter build linux` command.
 
-It can be installed by downloading the `tgz` file from the [latest GitHub release](https://github.com/experimental-software/logbook/releases/latest), unpacking it, moving it into a custom installation directory, and creating a [Desktop file](./packages/logbook_app/tool/resources/logbookapp.desktop).
+It can be installed by downloading the `tar.gz` file from the [latest GitHub release](https://github.com/experimental-software/logbook/releases/latest), unpacking it, moving it into a custom installation directory, and creating a [Desktop file](./packages/logbook_app/tool/resources/logbookapp.desktop).
 
 Those steps may be done automatically by executing the [install_linux.sh](./packages/logbook_app/tool/install_linux.sh) script:
 

@@ -61,7 +61,7 @@ set -e
 # Get release details from GitHub API
 LOGBOOK_VERSION=$(curl -s https://api.github.com/repos/experimental-software/logbook/releases/latest | jq -r '.tag_name')
 BINARY_ARCHIVE=$(curl -s https://api.github.com/repos/experimental-software/logbook/releases/latest  | \
-  jq -r '.assets[] | select(.name | endswith(".tgz")) | .name')
+  jq -r '.assets[] | select(.name | endswith(".tar.gz")) | .name')
 if [[ -z "${BINARY_ARCHIVE}" ]] ; then
   echo "ERROR: Could not find binary archive file in release for version '${LOGBOOK_VERSION}'." >&2
   exit 1

@@ -1,4 +1,4 @@
-name: Create AppImage
+name: Create Linux release
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       - name: Build Flutter Linux app
         run: ./packages/logbook_app/tool/build_linux.sh
       - name: Create binary package
-        run: tar czf logbookapp-${GITHUB_REF}-linux-x86_64.tgz --directory=packages/logbook_app/build/linux/x64/release/bundle/ .
+        run: tar czf logbookapp-${GITHUB_REF}-linux-x86_64.tar.gz --directory=packages/logbook_app/build/linux/x64/release/bundle/ .
       - name: Upload binary to release
         uses: svenstaro/upload-release-action@v2
         with:
