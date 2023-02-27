@@ -20,12 +20,17 @@ jobs:
       - name: Build Flutter Linux app
         run: ./packages/logbook_app/tool/build_linux.sh
       - name: Create binary package
-        run: tar czf logbookapp-${GITHUB_REF}-linux-x86_64.tar.gz --directory=packages/logbook_app/build/linux/x64/release/bundle/ .
+        run: |
+          RELEASE_VERSION=$(echo ${GITHUB_REF}  | sed -n -e 's|refs/tags/\(.*\)|\1|p')
+          TAR_FILE="logbookapp-${RELEASE_VERSION}-linux-x86_64.tar.gz"
+          BINARY_DIR="packages/logbook_app/build/linux/x64/release/bundle/"
+          tar czf ${TAR_FILE} --directory=${BINARY_DIR} .
+        shell: bash
       - name: Upload binary to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: "./*.tgz"
+          file: "./*.tar.gz"
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
