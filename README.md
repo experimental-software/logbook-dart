@@ -97,17 +97,6 @@ Given `lcov` has been install via Homebrew or Apt, the test coverage report can 
 ./tool/create_test_coverage_report.sh
 ```
 
-## Maintenance
-
-### Create release
-
-```
-NEW_VERSION= # e.g. 0.2.0
-
-git tag $NEW_VERSION
-git push origin --tag $NEW_VERSION
-```
-
 ## Alternative projects
 
 - [Engineering Notebook](https://www.youtube.com/watch?v=xaFqpd7lNM4)
