@@ -27,11 +27,8 @@ license: MIT
 END
 }
 
-while getopts "h f:" o; do
+while getopts "h" o; do
   case "${o}" in
-    f)
-      APPIMAGE_FILE=${OPTARG}
-      ;;  
     h | *)
       usage
       exit 0
