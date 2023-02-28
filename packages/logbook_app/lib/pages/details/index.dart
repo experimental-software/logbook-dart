@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logbook_app/pages/homepage/index.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../widgets/create_log_dialog.dart';
 import 'action_buttons.dart';
 import 'edit_log_entry_dialog.dart';
 import 'reload_bloc/reload_bloc.dart';
@@ -109,7 +111,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
@@ -143,17 +145,40 @@ class _DetailsPageState extends State<DetailsPage> {
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(widget.originalLogEntry.formattedTime),
-                ),
-              ),
+              const SizedBox(height: 8),
+              // Padding(
+              //   padding: const EdgeInsets.all(15),
+              //   child: Align(
+              //     alignment: Alignment.bottomLeft,
+              //     child: Text(widget.originalLogEntry.formattedTime),
+              //   ),
+              // ),
             ],
           ),
+          floatingActionButton: _buildFloatingActionButton(context),
         ),
       ),
+    );
+  }
+
+  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+        await _showCreateLogDialog(context);
+        logEntriesChanged.value += 1;
+      },
+      tooltip: 'Add log entry',
+      child: const Icon(Icons.add),
+    );
+  }
+
+  Future<void> _showCreateLogDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return const CreateLogDialog();
+      },
+      barrierDismissible: false,
     );
   }
 }
