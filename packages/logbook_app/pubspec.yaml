@@ -15,11 +15,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_markdown: ^0.6.10+2
   logbook_core:
-#     path: ../logbook_core
-    git:
-      url: https://github.com/experimental-software/logbook.git
-      path: packages/logbook_core
-      ref: master
+    path: ../logbook_core
   test: ^1.21.1
   url_launcher: ^6.1.2
   uuid: ^3.0.7
