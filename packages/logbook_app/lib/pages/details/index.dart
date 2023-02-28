@@ -143,13 +143,14 @@ class _DetailsPageState extends State<DetailsPage> {
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(widget.originalLogEntry.formattedTime),
-                ),
-              ),
+              const SizedBox(height: 20),
+              // Padding(
+              //   padding: const EdgeInsets.all(15),
+              //   child: Align(
+              //     alignment: Alignment.bottomLeft,
+              //     child: Text(widget.originalLogEntry.formattedTime),
+              //   ),
+              // ),
             ],
           ),
         ),

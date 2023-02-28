@@ -19,11 +19,25 @@ class ActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reloadBloc = context.read<ReloadBloc>();
+    var textEditor = LogbookConfig().textEditor;
+
     return Row(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            if (textEditor != null) const SizedBox(width: 15),
+            if (textEditor != null)
+              PrimaryButton(
+                'Open in editor',
+                icon: Icons.edit,
+                onPressed: () {
+                  System.openInTextEditor(
+                    textEditor,
+                    logEntry.directory,
+                  );
+                },
+              ),
             const SizedBox(width: 15),
             PrimaryButton(
               'Add note',
@@ -48,6 +62,7 @@ class ActionButtons extends StatelessWidget {
                 Clipboard.setData(ClipboardData(text: logEntry.directory));
               },
             ),
+            const SizedBox(width: 15),
           ],
         ),
         Expanded(
