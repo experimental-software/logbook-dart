@@ -178,7 +178,7 @@ class _FakeSearchService implements SearchService {
 
 class _FakeSystemService implements SystemService {
   @override
-  Future<void> archive(String originalDirectoryPath) {
+  Future<String> archive(String originalDirectoryPath) {
     throw UnimplementedError();
   }
 

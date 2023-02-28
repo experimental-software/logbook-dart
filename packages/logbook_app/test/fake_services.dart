@@ -6,8 +6,9 @@ class FakeSystemService implements SystemService {
   final List<String> archivedDirectories = [];
 
   @override
-  Future<void> archive(String originalDirectoryPath) async {
+  Future<String> archive(String originalDirectoryPath) async {
     archivedDirectories.add(originalDirectoryPath);
+    return '/path/to/archived/dir';
   }
 
   @override
