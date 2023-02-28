@@ -26,7 +26,7 @@ class ActionButtons extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (textEditor != null) const SizedBox(width: 15),
+            if (textEditor != null) const SizedBox(width: 8),
             if (textEditor != null)
               PrimaryButton(
                 'Open in editor',
@@ -38,7 +38,7 @@ class ActionButtons extends StatelessWidget {
                   );
                 },
               ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 8),
             PrimaryButton(
               'Add note',
               icon: Icons.add,
@@ -46,7 +46,7 @@ class ActionButtons extends StatelessWidget {
                 await showCreateNoteDialog(context, logEntry);
               },
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 8),
             PrimaryButton(
               'Reload',
               icon: Icons.refresh,
@@ -54,7 +54,7 @@ class ActionButtons extends StatelessWidget {
                 reloadBloc.add(LogEntryEdited(logEntry.path));
               },
             ),
-            const SizedBox(width: 15),
+            const SizedBox(width: 8),
             PrimaryButton(
               'Copy to clipboard',
               icon: Icons.content_copy,
@@ -69,7 +69,7 @@ class ActionButtons extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(width: 15),
+              const SizedBox(width: 8),
               PrimaryButton(
                 'Archive',
                 icon: Icons.delete,
@@ -88,7 +88,7 @@ class ActionButtons extends StatelessWidget {
                   });
                 },
               ),
-              const SizedBox(width: 15),
+              const SizedBox(width: 8),
             ],
           ),
         ),

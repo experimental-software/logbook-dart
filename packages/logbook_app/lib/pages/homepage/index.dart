@@ -67,7 +67,7 @@ class _HomepageState extends State<Homepage> {
       child: Column(
         children: [
           const SearchRow(),
-          const SizedBox(height: 15),
+          const SizedBox(height: 8),
           BlocBuilder<HomepageBloc, HomepageState>(
             builder: (context, state) {
               if (state is ShowingLogs) {
