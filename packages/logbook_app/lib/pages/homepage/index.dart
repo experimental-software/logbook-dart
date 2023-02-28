@@ -67,7 +67,7 @@ class _HomepageState extends State<Homepage> {
       child: Column(
         children: [
           const SearchRow(),
-          const SizedBox(height: 15),
+          const SizedBox(height: 8),
           BlocBuilder<HomepageBloc, HomepageState>(
             builder: (context, state) {
               if (state is ShowingLogs) {
@@ -189,6 +189,7 @@ class _HomepageState extends State<Homepage> {
     const widthActionsColumn = 400.0;
     final widthTitleColumn =
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
+    var textEditor = LogbookConfig().textEditor;
 
     return logEntries
         .map((logEntry) => DataRow(
@@ -229,7 +230,17 @@ class _HomepageState extends State<Homepage> {
                       width: widthActionsColumn,
                       child: Row(
                         children: [
-                          const SizedBox(width: 60),
+                          const SizedBox(width: 25),
+                          if (textEditor != null)
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                System.openInTextEditor(
+                                  textEditor,
+                                  logEntry.directory,
+                                );
+                              },
+                            ),
                           IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {

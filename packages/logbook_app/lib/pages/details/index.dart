@@ -146,13 +146,6 @@ class _DetailsPageState extends State<DetailsPage> {
                 },
               ),
               const SizedBox(height: 8),
-              // Padding(
-              //   padding: const EdgeInsets.all(15),
-              //   child: Align(
-              //     alignment: Alignment.bottomLeft,
-              //     child: Text(widget.originalLogEntry.formattedTime),
-              //   ),
-              // ),
             ],
           ),
           floatingActionButton: _buildFloatingActionButton(context),
