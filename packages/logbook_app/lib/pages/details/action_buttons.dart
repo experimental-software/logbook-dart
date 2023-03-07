@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,6 +48,18 @@ class ActionButtons extends StatelessWidget {
                   );
                 },
               ),
+            const SizedBox(width: 10),
+            PrimaryButton(
+              Platform.operatingSystem == 'macos'
+                  ? 'Open in Finder'
+                  : 'Open in Nautilus',
+              icon: Icons.folder_open,
+              onPressed: () {
+                System.openInFileExplorer(
+                  logEntry.directory,
+                );
+              },
+            ),
             const SizedBox(width: 10),
             PrimaryButton(
               'Reload',
