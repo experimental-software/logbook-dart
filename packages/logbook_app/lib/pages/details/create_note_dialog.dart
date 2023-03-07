@@ -20,6 +20,9 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
+  var textEditor = LogbookConfig().textEditor;
+
+  bool shouldOpenInEditor = false;
   bool shouldCopyToClipboard = false;
 
   @override
@@ -68,6 +71,21 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
       children: [
         Row(
           children: [
+            if (textEditor != null) Row(
+              children: [
+                Checkbox(
+                  value: shouldOpenInEditor,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      shouldOpenInEditor = value!;
+                    });
+                  },
+                ),
+                const Text('Open in editor'),
+              ],
+            ),
+            if (textEditor != null)
+              const SizedBox(width: 10),
             Row(
               children: [
                 Checkbox(
@@ -106,6 +124,11 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                   description: description,
                   baseDir: Directory(widget.parent.directory),
                 ).then((noteEntryDirectory) {
+                  if (shouldOpenInEditor) {
+                    var textEditor = LogbookConfig().textEditor!;
+                    System.openInTextEditor(textEditor, noteEntryDirectory.path);
+                  }
+
                   if (shouldCopyToClipboard) {
                     Clipboard.setData(ClipboardData(
                       text: noteEntryDirectory.path,

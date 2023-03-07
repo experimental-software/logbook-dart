@@ -17,14 +17,14 @@ class System {
   System._();
 
   static Future<void> openInTextEditor(
-      String textEditor, String logEntryDir) async {
+      String textEditor, String directoryPath) async {
     if (!await File(textEditor).exists()) {
       throw "Text editor binary '$textEditor' does not exist.";
     }
-    if (!await Directory(logEntryDir).exists()) {
-      throw "Log entry '$logEntryDir' does not exist";
+    if (!await Directory(directoryPath).exists()) {
+      throw "Directory '$directoryPath' does not exist";
     }
-    sys.System.invoke('$textEditor $logEntryDir');
+    sys.System.invoke('$textEditor $directoryPath');
   }
 
   static Future<String> archive(String path) async {
