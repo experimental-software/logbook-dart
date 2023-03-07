@@ -71,21 +71,21 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
       children: [
         Row(
           children: [
-            if (textEditor != null) Row(
-              children: [
-                Checkbox(
-                  value: shouldOpenInEditor,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      shouldOpenInEditor = value!;
-                    });
-                  },
-                ),
-                const Text('Open in editor'),
-              ],
-            ),
             if (textEditor != null)
-              const SizedBox(width: 10),
+              Row(
+                children: [
+                  Checkbox(
+                    value: shouldOpenInEditor,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        shouldOpenInEditor = value!;
+                      });
+                    },
+                  ),
+                  const Text('Open in editor'),
+                ],
+              ),
+            if (textEditor != null) const SizedBox(width: 10),
             Row(
               children: [
                 Checkbox(
@@ -126,7 +126,8 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                 ).then((noteEntryDirectory) {
                   if (shouldOpenInEditor) {
                     var textEditor = LogbookConfig().textEditor!;
-                    System.openInTextEditor(textEditor, noteEntryDirectory.path);
+                    System.openInTextEditor(
+                        textEditor, noteEntryDirectory.path);
                   }
 
                   if (shouldCopyToClipboard) {
