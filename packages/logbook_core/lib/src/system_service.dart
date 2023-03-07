@@ -27,6 +27,16 @@ class System {
     sys.System.invoke('$textEditor $directoryPath');
   }
 
+  static Future<void> openInFileExplorer(String directoryPath) async {
+    var fileExplorer =
+        Platform.operatingSystem == 'macos' ? 'open' : 'xdg-open';
+
+    if (!await Directory(directoryPath).exists()) {
+      throw "Directory '$directoryPath' does not exist";
+    }
+    sys.System.invoke('$fileExplorer $directoryPath');
+  }
+
   static Future<String> archive(String path) async {
     var pattern = RegExp(r'(.*/\d{4}/\d{2}/\d{2}/\d{2}\.\d{2}_.*?)(/.*)?$');
     var match = pattern.firstMatch(path);
