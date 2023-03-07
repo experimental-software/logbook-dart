@@ -111,7 +111,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
@@ -145,7 +145,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   );
                 },
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 15),
             ],
           ),
           floatingActionButton: _buildFloatingActionButton(context),
