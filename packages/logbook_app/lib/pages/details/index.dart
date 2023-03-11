@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logbook_app/pages/details/log_entry_text_clipper.dart';
-import 'package:logbook_app/pages/homepage/index.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../widgets/create_log_dialog.dart';
 import 'action_buttons.dart';
 import 'edit_log_entry_dialog.dart';
 import 'reload_bloc/reload_bloc.dart';
@@ -113,38 +110,31 @@ class _DetailsPageState extends State<DetailsPage> {
                   return Expanded(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: CustomPaint(
-                        painter: LogEntryClippedTextBorder(),
-                        child: ClipPath(
-                          clipper: LogEntryTextClipper(),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: GestureDetector(
+                          onDoubleTap: () async {
+                            var logEntry = await _currentLogEntry;
+                            // ignore: use_build_context_synchronously
+                            showEditLogEntryDialog(
+                              context: context,
+                              logEntry: logEntry,
+                              previousDescription: await _noteText,
+                            );
+                          },
+                          child: Markdown(
+                            styleSheet: MarkdownStyleSheet(
+                              h1Align: WrapAlignment.center,
                             ),
-                            child: GestureDetector(
-                              onDoubleTap: () async {
-                                var logEntry = await _currentLogEntry;
-                                // ignore: use_build_context_synchronously
-                                showEditLogEntryDialog(
-                                  context: context,
-                                  logEntry: logEntry,
-                                  previousDescription: await _noteText,
-                                );
-                              },
-                              child: Markdown(
-                                styleSheet: MarkdownStyleSheet(
-                                  h1Align: WrapAlignment.center,
-                                ),
-                                // shrinkWrap: false,
-                                selectable: true,
-                                onTapLink: (text, url, title) {
-                                  if (url != null) {
-                                    launchUrlString(url);
-                                  }
-                                },
-                                data: data,
-                              ),
-                            ),
+                            selectable: true,
+                            onTapLink: (text, url, title) {
+                              if (url != null) {
+                                launchUrlString(url);
+                              }
+                            },
+                            data: data,
                           ),
                         ),
                       ),
@@ -155,30 +145,8 @@ class _DetailsPageState extends State<DetailsPage> {
               const SizedBox(height: 10),
             ],
           ),
-          floatingActionButton: _buildFloatingActionButton(context),
         ),
       ),
-    );
-  }
-
-  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () async {
-        await _showCreateLogDialog(context);
-        logEntriesChanged.value += 1;
-      },
-      tooltip: 'Add log entry',
-      child: const Icon(Icons.add),
-    );
-  }
-
-  Future<void> _showCreateLogDialog(BuildContext context) async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return const CreateLogDialog();
-      },
-      barrierDismissible: false,
     );
   }
 }
