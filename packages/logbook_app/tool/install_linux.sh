@@ -18,7 +18,7 @@ function usage()
     cat <<-END
 usage: install_linux.sh [-h]
 
-This script download the latest Linux release of the Logbook app, places the
+This script downloads the latest Linux release of the Logbook app, places the
 binary files in /home/$(whoami)/bin/Logbook** and the icon and desktop files in
 /home/$(whoami)/.local/share/**.
 
