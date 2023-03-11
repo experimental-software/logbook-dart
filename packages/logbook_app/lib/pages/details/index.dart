@@ -97,7 +97,7 @@ class _DetailsPageState extends State<DetailsPage> {
             children: [
               const SizedBox(height: 15),
               ActionButtons(logEntry: widget.originalLogEntry),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               FutureBuilder<String>(
                 future: _noteText,
                 builder: (context, snapshot) {
@@ -112,35 +112,38 @@ class _DetailsPageState extends State<DetailsPage> {
 
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: CustomPaint(
                         painter: LogEntryClippedTextBorder(),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                          ),
-                          child: GestureDetector(
-                            onDoubleTap: () async {
-                              var logEntry = await _currentLogEntry;
-                              // ignore: use_build_context_synchronously
-                              showEditLogEntryDialog(
-                                context: context,
-                                logEntry: logEntry,
-                                previousDescription: await _noteText,
-                              );
-                            },
-                            child: Markdown(
-                              styleSheet: MarkdownStyleSheet(
-                                h1Align: WrapAlignment.center,
-                              ),
-                              // shrinkWrap: false,
-                              selectable: true,
-                              onTapLink: (text, url, title) {
-                                if (url != null) {
-                                  launchUrlString(url);
-                                }
+                        child: ClipPath(
+                          clipper: LogEntryTextClipper(),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: GestureDetector(
+                              onDoubleTap: () async {
+                                var logEntry = await _currentLogEntry;
+                                // ignore: use_build_context_synchronously
+                                showEditLogEntryDialog(
+                                  context: context,
+                                  logEntry: logEntry,
+                                  previousDescription: await _noteText,
+                                );
                               },
-                              data: data,
+                              child: Markdown(
+                                styleSheet: MarkdownStyleSheet(
+                                  h1Align: WrapAlignment.center,
+                                ),
+                                // shrinkWrap: false,
+                                selectable: true,
+                                onTapLink: (text, url, title) {
+                                  if (url != null) {
+                                    launchUrlString(url);
+                                  }
+                                },
+                                data: data,
+                              ),
                             ),
                           ),
                         ),
@@ -149,7 +152,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   );
                 },
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
             ],
           ),
           floatingActionButton: _buildFloatingActionButton(context),
