@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logbook_app/pages/details/log_entry_text_clipper.dart';
 import 'package:logbook_app/pages/homepage/index.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -96,7 +97,7 @@ class _DetailsPageState extends State<DetailsPage> {
             children: [
               const SizedBox(height: 15),
               ActionButtons(logEntry: widget.originalLogEntry),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               FutureBuilder<String>(
                 future: _noteText,
                 builder: (context, snapshot) {
@@ -111,33 +112,39 @@ class _DetailsPageState extends State<DetailsPage> {
 
                   return Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                        ),
-                        child: GestureDetector(
-                          onDoubleTap: () async {
-                            var logEntry = await _currentLogEntry;
-                            // ignore: use_build_context_synchronously
-                            showEditLogEntryDialog(
-                              context: context,
-                              logEntry: logEntry,
-                              previousDescription: await _noteText,
-                            );
-                          },
-                          child: Markdown(
-                            styleSheet: MarkdownStyleSheet(
-                              h1Align: WrapAlignment.center,
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: CustomPaint(
+                        painter: LogEntryClippedTextBorder(),
+                        child: ClipPath(
+                          clipper: LogEntryTextClipper(),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
                             ),
-                            // shrinkWrap: false,
-                            selectable: true,
-                            onTapLink: (text, url, title) {
-                              if (url != null) {
-                                launchUrlString(url);
-                              }
-                            },
-                            data: data,
+                            child: GestureDetector(
+                              onDoubleTap: () async {
+                                var logEntry = await _currentLogEntry;
+                                // ignore: use_build_context_synchronously
+                                showEditLogEntryDialog(
+                                  context: context,
+                                  logEntry: logEntry,
+                                  previousDescription: await _noteText,
+                                );
+                              },
+                              child: Markdown(
+                                styleSheet: MarkdownStyleSheet(
+                                  h1Align: WrapAlignment.center,
+                                ),
+                                // shrinkWrap: false,
+                                selectable: true,
+                                onTapLink: (text, url, title) {
+                                  if (url != null) {
+                                    launchUrlString(url);
+                                  }
+                                },
+                                data: data,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -145,7 +152,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   );
                 },
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
             ],
           ),
           floatingActionButton: _buildFloatingActionButton(context),
