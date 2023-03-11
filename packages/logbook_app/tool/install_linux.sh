@@ -89,7 +89,7 @@ if [[ -d "${INSTALL_DIR}" ]] ; then
 fi
 
 cd $(mktemp -d)
-echo "Downloading release into temporary directory '$(pwd)'."
+echo "Downloading release '${LOGBOOK_VERSION}' into temporary directory '$(pwd)'."
 DOWNLOAD_URL="https://github.com/experimental-software/logbook/releases/download/${LOGBOOK_VERSION}/${BINARY_ARCHIVE}"
 curl -SL ${DOWNLOAD_URL} -o ${BINARY_ARCHIVE}
 
