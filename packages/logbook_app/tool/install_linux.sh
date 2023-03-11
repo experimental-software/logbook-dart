@@ -2,6 +2,13 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+DESKTOP_FILE_SRC=${SCRIPT_DIR}/resources/logbookapp.desktop
+DESKTOP_FILE_TARGET="/home/$(whoami)/.local/share/applications/logbookapp.desktop"
+
+ICON_FILE_SRC=${SCRIPT_DIR}/resources/app_icon_256.png
+ICON_DIR_TARGET="/home/$(whoami)/.local/share/ExperimentalSoftware/icons"
+ICON_FILE_TARGET="${ICON_DIR_TARGET}/app_icon_256.png"
+
 ###############################################################################
 # Script parameters
 ###############################################################################
@@ -11,8 +18,8 @@ function usage()
     cat <<-END
 usage: install_linux.sh [-v] [-h]
 
-This script download the latest Linux release of the Logbook app, places the
-binary files in /home/$(whoami)/bin/Logbook** and the icon/desktop files in
+This script downloads the latest Linux release of the Logbook app, places the
+binary files in /home/$(whoami)/bin/Logbook** and the icon and desktop files in
 /home/$(whoami)/.local/share/**.
 
 optional arguments:
@@ -88,23 +95,37 @@ if [[ -d "${INSTALL_DIR}" ]] ; then
   exit 0
 fi
 
+# Download release
 cd $(mktemp -d)
 echo "Downloading release '${LOGBOOK_VERSION}' into temporary directory '$(pwd)'."
 DOWNLOAD_URL="https://github.com/experimental-software/logbook/releases/download/${LOGBOOK_VERSION}/${BINARY_ARCHIVE}"
 curl -SL ${DOWNLOAD_URL} -o ${BINARY_ARCHIVE}
 
+# Extract binary files into installation directory
 mkdir -p ${INSTALL_DIR}
 tar xvf ./${BINARY_ARCHIVE} --directory ${INSTALL_DIR}
 
+# Copy icon file into target directory
+if [[ -f ${ICON_FILE_TARGET} ]] ; then
+  rm ${ICON_FILE_TARGET}
+fi
+if [[ ! -d ${ICON_DIR_TARGET} ]] ; then
+  mkdir -p ${ICON_DIR_TARGET}
+fi
+cp ${ICON_FILE_SRC} ${ICON_FILE_TARGET} 
+
 # Create desktop file
-DESKTOP_FILE_SRC=${SCRIPT_DIR}/resources/logbookapp.desktop
-DESKTOP_FILE_TARGET="/home/$(whoami)/.local/share/applications/logbookapp.desktop"
 if [[ -f ${DESKTOP_FILE_TARGET} ]] ; then
   rm ${DESKTOP_FILE_TARGET}
 fi
 cp ${DESKTOP_FILE_SRC} ${DESKTOP_FILE_TARGET}
+
+# Normalize Exec path in desktop file
 sed -i -e "s|Exec=.*|Exec=${INSTALL_DIR}/logbookapp|g" ${DESKTOP_FILE_TARGET}
 chmod +x ${DESKTOP_FILE_TARGET}
+
+# Normalize Icon path in desktop file
+sed -i -e "s|Icon=.*|Icon=${ICON_FILE_TARGET}|g" ${DESKTOP_FILE_TARGET}
 
 # Success message
 echo
