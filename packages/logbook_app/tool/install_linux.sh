@@ -7,7 +7,7 @@ DESKTOP_FILE_TARGET="/home/$(whoami)/.local/share/applications/logbookapp.deskto
 
 ICON_FILE_SRC=${SCRIPT_DIR}/resources/app_icon_256.png
 ICON_DIR_TARGET="/home/$(whoami)/.local/share/ExperimentalSoftware/icons"
-ICON_FILE_TARGET="${ICON_TARGET_DIR}/app_icon_256.png"
+ICON_FILE_TARGET="${ICON_DIR_TARGET}/app_icon_256.png"
 
 ###############################################################################
 # Script parameters
@@ -92,8 +92,8 @@ tar xvf ./${BINARY_ARCHIVE} --directory ${INSTALL_DIR}
 if [[ -f ${ICON_FILE_TARGET} ]] ; then
   rm ${ICON_FILE_TARGET}
 fi
-if [[ ! -d ${ICON_TARGET_DIR} ]] ; then
-  mkdir -p ${ICON_TARGET_DIR}
+if [[ ! -d ${ICON_DIR_TARGET} ]] ; then
+  mkdir -p ${ICON_DIR_TARGET}
 fi
 cp ${ICON_FILE_SRC} ${ICON_FILE_TARGET} 
 
