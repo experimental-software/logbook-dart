@@ -185,8 +185,8 @@ class _HomepageState extends State<Homepage> {
     List<LogEntry> logEntries,
   ) {
     var deviceInfo = MediaQuery.of(context);
-    const widthDateTimeColumn = 140.0;
-    const widthActionsColumn = 400.0;
+    const widthDateTimeColumn = 130.0;
+    const widthActionsColumn = 410.0;
     final widthTitleColumn =
         deviceInfo.size.width - widthDateTimeColumn - widthActionsColumn;
     var textEditor = LogbookConfig().textEditor;
@@ -230,7 +230,6 @@ class _HomepageState extends State<Homepage> {
                       width: widthActionsColumn,
                       child: Row(
                         children: [
-                          const SizedBox(width: 25),
                           if (textEditor != null)
                             IconButton(
                               icon: const Icon(Icons.edit),
@@ -241,6 +240,14 @@ class _HomepageState extends State<Homepage> {
                                 );
                               },
                             ),
+                          IconButton(
+                            icon: const Icon(Icons.folder),
+                            onPressed: () {
+                              System.openInFileExplorer(
+                                logEntry.directory,
+                              );
+                            },
+                          ),
                           IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {

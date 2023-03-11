@@ -53,7 +53,7 @@ class ActionButtons extends StatelessWidget {
               Platform.operatingSystem == 'macos'
                   ? 'Open in Finder'
                   : 'Open in Nautilus',
-              icon: Icons.folder_open,
+              icon: Icons.folder,
               onPressed: () {
                 System.openInFileExplorer(
                   logEntry.directory,
