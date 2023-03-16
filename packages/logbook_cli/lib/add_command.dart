@@ -15,9 +15,9 @@ class AddCommand extends Command {
 
   AddCommand() {
     argParser.addFlag(
-      'open',
-      abbr: 'o',
-      help: 'Open the log entry with the configured text editor',
+      'edit',
+      abbr: 'e',
+      help: 'Edit the log entry with the configured text editor',
     );
   }
 
@@ -39,7 +39,7 @@ class AddCommand extends Command {
 
     print(logEntry.directory);
 
-    if (results['open']) {
+    if (results['edit']) {
       var textEditor = LogbookConfig().textEditor;
       if (textEditor == null) {
         print('ERROR: No text editor specified in config file.');
