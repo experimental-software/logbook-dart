@@ -24,6 +24,7 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
 
   bool shouldOpenInEditor = false;
   bool shouldCopyToClipboard = false;
+  bool shouldOpenDirectory = false;
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +90,22 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
             Row(
               children: [
                 Checkbox(
+                  value: shouldOpenDirectory,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      shouldOpenDirectory = value!;
+                    });
+                  },
+                ),
+                Text(Platform.operatingSystem == 'macos'
+                    ? 'Open in Finder'
+                    : 'Open in Nautilus'),
+              ],
+            ),
+            const SizedBox(width: 10),
+            Row(
+              children: [
+                Checkbox(
                   value: shouldCopyToClipboard,
                   onChanged: (bool? value) {
                     setState(() {
@@ -129,7 +146,11 @@ class _CreateNoteDialogState extends State<CreateNoteDialog> {
                     System.openInTextEditor(
                         textEditor, noteEntryDirectory.path);
                   }
-
+                  if (shouldOpenDirectory) {
+                    System.openInFileExplorer(
+                      noteEntryDirectory.path,
+                    );
+                  }
                   if (shouldCopyToClipboard) {
                     Clipboard.setData(ClipboardData(
                       text: noteEntryDirectory.path,
