@@ -24,13 +24,12 @@ class SearchCommand extends Command {
       abbr: 'r',
       help: 'Search with a regular expression.',
     );
-    argParser.addOption(
-      'output-format',
-      abbr: 'o',
-      help: 'The format in which the log entries are printed to the terminal.',
-      allowed: ['table', 'json', 'list'],
-      defaultsTo: 'table'
-    );
+    argParser.addOption('output-format',
+        abbr: 'o',
+        help:
+            'The format in which the log entries are printed to the terminal.',
+        allowed: ['table', 'json', 'list'],
+        defaultsTo: 'table');
   }
 
   @override
@@ -61,7 +60,7 @@ class SearchCommand extends Command {
 
     // Print search results to terminal
     String outputFormat = results['output-format'];
-    switch(outputFormat) {
+    switch (outputFormat) {
       case 'table':
         logEntries.printAsTable();
         break;
