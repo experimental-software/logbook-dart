@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
@@ -10,7 +9,6 @@ import '../../state.dart';
 import '../../widgets/buttons.dart';
 import '../homepage/index.dart';
 import 'create_note_dialog.dart';
-import 'reload_bloc/reload_bloc.dart';
 
 class ActionButtons extends StatelessWidget {
   final SystemService systemService = GetIt.I.get();
@@ -20,7 +18,6 @@ class ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reloadBloc = context.read<ReloadBloc>();
     var textEditor = LogbookConfig().textEditor;
 
     return Row(
@@ -60,23 +57,6 @@ class ActionButtons extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(width: 7),
-            PrimaryButton(
-              'Reload',
-              icon: Icons.refresh,
-              onPressed: () {
-                reloadBloc.add(LogEntryEdited(logEntry.path));
-              },
-            ),
-            const SizedBox(width: 7),
-            PrimaryButton(
-              'Copy to clipboard',
-              icon: Icons.content_copy,
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: logEntry.directory));
-              },
-            ),
-            const SizedBox(width: 10),
           ],
         ),
         Expanded(

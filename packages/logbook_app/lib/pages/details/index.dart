@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get_it/get_it.dart';
@@ -142,11 +143,66 @@ class _DetailsPageState extends State<DetailsPage> {
                   );
                 },
               ),
-              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 2, 10, 5),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(widget.originalLogEntry.formattedTime),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      ReloadButton(logEntry: widget.originalLogEntry),
+                      IconButton(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(
+                            text: widget.originalLogEntry.path,
+                          ));
+                        },
+                        icon: const Icon(Icons.content_copy),
+                        iconSize: 15,
+                        constraints: const BoxConstraints(
+                          minWidth: 10,
+                          minHeight: 10,
+                        ),
+                        splashRadius: 30,
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class ReloadButton extends StatelessWidget {
+  final LogEntry logEntry;
+
+  const ReloadButton({Key? key, required this.logEntry}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final reloadBloc = context.read<ReloadBloc>();
+    return IconButton(
+      padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+      onPressed: () {
+        reloadBloc.add(LogEntryEdited(logEntry.path));
+      },
+      icon: const Icon(Icons.refresh),
+      iconSize: 15,
+      constraints: const BoxConstraints(
+        minWidth: 10,
+        minHeight: 10,
+      ),
+      splashRadius: 30,
     );
   }
 }
