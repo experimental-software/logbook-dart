@@ -160,7 +160,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                         onPressed: () {
                           Clipboard.setData(ClipboardData(
-                            text: widget.originalLogEntry.path,
+                            text: widget.originalLogEntry.directory,
                           ));
                         },
                         icon: const Icon(Icons.content_copy),
