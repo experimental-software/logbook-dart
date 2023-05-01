@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 
 import '../../widgets/create_log_dialog.dart';
@@ -20,8 +19,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final SearchService searchService = GetIt.I.get();
-
   final ScrollController _scrollController = ScrollController();
 
   final Set<LogEntry> _markedForDeletion = {};
@@ -32,7 +29,6 @@ class _HomepageState extends State<Homepage> {
       _updateLogEntryList();
     });
 
-    _updateLogEntryList();
     super.initState();
   }
 
@@ -74,8 +70,10 @@ class _HomepageState extends State<Homepage> {
                 return _buildLogEntryTable(state.logs);
               } else if (state is SearchingLogs) {
                 return const CircularProgressIndicator();
-              } else {
+              } else if (state is HavingNoSearchResults) {
                 return const Text('No search results');
+              } else {
+                return Container();
               }
             },
           ),

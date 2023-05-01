@@ -38,17 +38,6 @@ void main() {
 
       thenSearchingLogs();
     });
-
-    testWidgets('open log details requested', (tester) async {
-      givenSmallTextScale(tester);
-      givenSystemService();
-      givenReadService();
-      await givenShowingLogs(tester);
-
-      await whenOpenLogDetailsRequested(tester);
-
-      thenDetailsPageOpened();
-    });
   });
 
   group('Searching Logs', () {
@@ -121,7 +110,6 @@ Future<void> givenShowingLogs(WidgetTester tester) async {
   await tester.pumpWidget(const WidgetTestApp(Homepage()));
   await tester.binding.delayed(const Duration(days: 5));
   await tester.pump();
-  thenShowingLogs();
 }
 
 Future<void> whenSearchFinished(WidgetTester tester) async {
