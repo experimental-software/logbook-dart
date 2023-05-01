@@ -32,7 +32,7 @@ class _HomepageState extends State<Homepage> {
       _updateLogEntryList();
     });
 
-    _updateLogEntryList();
+    //_updateLogEntryList();
     super.initState();
   }
 
@@ -74,8 +74,10 @@ class _HomepageState extends State<Homepage> {
                 return _buildLogEntryTable(state.logs);
               } else if (state is SearchingLogs) {
                 return const CircularProgressIndicator();
-              } else {
+              } else if (state is NoSearchResults) {
                 return const Text('No search results');
+              } else {
+                return Container();
               }
             },
           ),

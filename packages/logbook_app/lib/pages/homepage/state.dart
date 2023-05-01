@@ -4,14 +4,20 @@ import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:uuid/uuid.dart';
 
-/// The [HomepageBloc] contains the code related to the Homepage state.
-///
-/// ![hompage state](https://experimental-software.github.io/logbook/06_runtime-view/img/pages/homepage/state.png)
 class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
   final SearchService _searchService = GetIt.I.get();
 
   HomepageBloc() : super(Empty()) {
     on<SearchSubmitted>((event, emit) {
+      if (event.searchTerm.isEmpty) {
+        if (event.negateSearch) {
+          add(SearchSubmitted('.*', useRegexSearch: true));
+        } else {
+          emit(Empty());
+        }
+        return;
+      }
+
       emit(SearchingLogs());
       _searchService
           .search(
@@ -29,13 +35,13 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
     on<SearchFinished>((event, emit) {
       final logs = event.logs;
       if (logs.isEmpty) {
-        emit(Empty());
+        emit(NoSearchResults());
       } else {
         emit(ShowingLogs(logs));
       }
     });
 
-    init();
+    //init();
   }
 
   void init() {
@@ -47,6 +53,13 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
 
 abstract class HomepageState extends Equatable {
   const HomepageState();
+}
+
+class Empty extends HomepageState {
+  final String id = const Uuid().v4();
+
+  @override
+  List<Object> get props => [id];
 }
 
 class SearchingLogs extends HomepageState {
@@ -66,7 +79,7 @@ class ShowingLogs extends HomepageState {
   List<Object> get props => [id];
 }
 
-class Empty extends HomepageState {
+class NoSearchResults extends HomepageState {
   final String id = const Uuid().v4();
 
   @override
