@@ -40,12 +40,6 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
         emit(ShowingLogs(logs));
       }
     });
-
-    //init();
-  }
-
-  void init() {
-    add(SearchSubmitted(''));
   }
 }
 

@@ -20,8 +20,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final SearchService searchService = GetIt.I.get();
-
   final ScrollController _scrollController = ScrollController();
 
   final Set<LogEntry> _markedForDeletion = {};
@@ -32,7 +30,6 @@ class _HomepageState extends State<Homepage> {
       _updateLogEntryList();
     });
 
-    //_updateLogEntryList();
     super.initState();
   }
 
