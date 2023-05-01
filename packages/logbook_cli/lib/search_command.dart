@@ -1,8 +1,9 @@
+import 'dart:convert';
+
 import 'package:args/command_runner.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logbook_core/logbook_core.dart';
 import 'package:tabular/tabular.dart';
-import 'dart:convert';
 
 class SearchCommand extends Command {
   final SearchService searchService = GetIt.I.get();
@@ -30,6 +31,11 @@ class SearchCommand extends Command {
             'The format in which the log entries are printed to the terminal.',
         allowed: ['table', 'json', 'list'],
         defaultsTo: 'table');
+    argParser.addOption(
+      'from',
+      abbr: 'f',
+      help: 'The first date of the search results, e.g. 2023-05-01',
+    );
   }
 
   @override
@@ -57,6 +63,15 @@ class SearchCommand extends Command {
       );
     }
     logEntries = logEntries.reversed.toList();
+
+    // Include only logs after 'from' option
+    String? firstDate = results['from'];
+    if (firstDate != null) {
+      var d = DateTime.parse(firstDate);
+      logEntries = logEntries
+          .where((e) => e.dateTime.isAtSameMomentAs(d) || e.dateTime.isAfter(d))
+          .toList();
+    }
 
     // Print search results to terminal
     String outputFormat = results['output-format'];
