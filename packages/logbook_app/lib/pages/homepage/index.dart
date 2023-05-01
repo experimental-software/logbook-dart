@@ -70,7 +70,7 @@ class _HomepageState extends State<Homepage> {
                 return _buildLogEntryTable(state.logs);
               } else if (state is SearchingLogs) {
                 return const CircularProgressIndicator();
-              } else if (state is NoSearchResults) {
+              } else if (state is HavingNoSearchResults) {
                 return const Text('No search results');
               } else {
                 return Container();

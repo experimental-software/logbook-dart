@@ -7,14 +7,10 @@ import 'package:uuid/uuid.dart';
 class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
   final SearchService _searchService = GetIt.I.get();
 
-  HomepageBloc() : super(Empty()) {
+  HomepageBloc() : super(WaitingForSearchInput()) {
     on<SearchSubmitted>((event, emit) {
       if (event.searchTerm.isEmpty) {
-        if (event.negateSearch) {
-          add(SearchSubmitted('.*', useRegexSearch: true));
-        } else {
-          emit(Empty());
-        }
+        emit(WaitingForSearchInput());
         return;
       }
 
@@ -35,7 +31,7 @@ class HomepageBloc extends Bloc<HomepageEvent, HomepageState> {
     on<SearchFinished>((event, emit) {
       final logs = event.logs;
       if (logs.isEmpty) {
-        emit(NoSearchResults());
+        emit(HavingNoSearchResults());
       } else {
         emit(ShowingLogs(logs));
       }
@@ -49,7 +45,7 @@ abstract class HomepageState extends Equatable {
   const HomepageState();
 }
 
-class Empty extends HomepageState {
+class WaitingForSearchInput extends HomepageState {
   final String id = const Uuid().v4();
 
   @override
@@ -73,7 +69,7 @@ class ShowingLogs extends HomepageState {
   List<Object> get props => [id];
 }
 
-class NoSearchResults extends HomepageState {
+class HavingNoSearchResults extends HomepageState {
   final String id = const Uuid().v4();
 
   @override
