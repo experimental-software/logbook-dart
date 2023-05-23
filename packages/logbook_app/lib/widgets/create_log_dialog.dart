@@ -20,6 +20,7 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
 
   bool shouldOpenDetails = true;
   bool shouldCopyToClipboard = false;
+  bool shouldOpenEditor = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,8 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
   }
 
   Widget _buildButtons() {
+    var textEditor = LogbookConfig().textEditor;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -93,6 +96,20 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                 const Text('Copy to clipboard'),
               ],
             ),
+            if (textEditor != null)
+              Row(
+                children: [
+                  Checkbox(
+                    value: shouldOpenEditor,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        shouldOpenEditor = value!;
+                      });
+                    },
+                  ),
+                  const Text('Open in editor'),
+                ],
+              ),
           ],
         ),
         Row(
@@ -134,6 +151,13 @@ class _CreateLogDialogState extends State<CreateLogDialog> {
                           originalLogEntry: logEntry,
                         ),
                       ),
+                    );
+                  }
+
+                  if (shouldOpenEditor) {
+                    System.openInTextEditor(
+                      textEditor!,
+                      logEntry.directory,
                     );
                   }
                 });
