@@ -1,6 +1,4 @@
-# Logbook
-
-[![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
+# Logbook [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
 The Logbook project provides a desktop and command-line application for chronological note taking.
 
