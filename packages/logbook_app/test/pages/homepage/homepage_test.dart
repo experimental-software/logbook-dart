@@ -79,7 +79,7 @@ void givenSystemService() {
 }
 
 void givenSmallTextScale(WidgetTester tester) {
-  tester.binding.window.platformDispatcher.textScaleFactorTestValue = 0.2;
+  tester.platformDispatcher.textScaleFactorTestValue = 0.2;
 }
 
 void givenSearchResults() {

@@ -82,7 +82,7 @@ class _EditLogEntryDialogState extends State<EditLogEntryDialog> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(),
+        const Row(), // Makes the rest move to the right side
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

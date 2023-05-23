@@ -17,7 +17,7 @@ void main() {
   });
 
   testWidgets('render log entry details page', (tester) async {
-    tester.binding.window.platformDispatcher.textScaleFactorTestValue = 0.2;
+    tester.platformDispatcher.textScaleFactorTestValue = 0.2;
     var logEntry = LogEntry(
       dateTime: DateTime.now(),
       title: 'Example log entry',
