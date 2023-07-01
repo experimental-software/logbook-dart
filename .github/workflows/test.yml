@@ -10,7 +10,7 @@ jobs:
   dart-test:
     name: Run tests
     runs-on: ubuntu-latest
-    if: github.event.pull_request.draft == false
+    if: "!startsWith(github.event.head_commit.message, 'docs') and github.event.pull_request.draft == false"
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2

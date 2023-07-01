@@ -2,6 +2,10 @@
 
 The Logbook project provides a desktop and command-line application for chronological note taking.
 
+## Screenshot
+
+![screenshot showing example logs](./docs/screenshot.png)
+
 ## Setup
 
 ### Desktop app
