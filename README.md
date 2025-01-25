@@ -23,14 +23,13 @@ Those steps may be done automatically by executing the [install_linux.sh](./pack
 ### Command-line interface
 
 To use the command-line interface of the Logbook app, the [Dart SDK](https://dart.dev/get-dart) needs to be installed, first.
-Then one can clone the Git repository and globally activate the Logbook package.
 
 ```sh
-git clone git@github.com:experimental-software/logbook.git
+dart pub global activate --source git https://github.com/experimental-software/logbook.git --git-path packages/logbook_cli
+```
 
-cd logbook/packages/logbook_cli
-dart pub get
-dart pub global activate --source path .
+```sh
+dart pub global deactivate logbook_cli
 ```
 
 ⚠️ Currently only **Linux** and **macOS** are supported.
