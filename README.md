@@ -105,3 +105,4 @@ Given `lcov` has been install via Homebrew or Apt, the test coverage report can 
 - [Notion](https://www.notion.so/product)
 - [Obsidian](https://obsidian.md/)
 - [Joplin](https://joplinapp.org/)
+- [Zettelkasten](https://zettelkasten.de/)
